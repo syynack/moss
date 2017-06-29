@@ -5,3 +5,6 @@ from .get_ipv6_ospf_interfaces import get_ipv6_ospf_interfaces
 from .get_ipv6_ospf_neighbors_brief import get_ipv6_ospf_neighbors_brief
 from .get_ipv6_ospf_neighbors_detail import get_ipv6_ospf_neighbors_detail
 from .get_interfaces_description import get_interfaces_description
+from .get_bgp_memory_usage import get_bgp_memory_usage
+from .get_bgp_summary import get_bgp_summary
+from .get_bgp_neighbors import get_bgp_neighbors

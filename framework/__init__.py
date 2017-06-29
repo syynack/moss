@@ -9,6 +9,10 @@ from .linux_get_system_uptime import linux_get_system_uptime
 # BGP
 from .quagga_get_ipv6_bgp_routes import quagga_get_ipv6_bgp_routes
 from .quagga_get_ipv6_bgp_route import quagga_get_ipv6_bgp_route
+from .quagga_get_bgp_memory_usage import quagga_get_bgp_memory_usage
+from .quagga_get_bgp_summary import quagga_get_bgp_summary
+from .quagga_get_bgp_neighbors import quagga_get_bgp_neighbors
+from .quagga_get_bgp_neighbor import quagga_get_bgp_neighbor
 
 # OSPFv3
 from .quagga_get_ipv6_ospf_routes import quagga_get_ipv6_ospf_routes
