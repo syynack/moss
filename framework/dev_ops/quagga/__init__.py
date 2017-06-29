@@ -4,3 +4,4 @@ from .get_ipv6_rib_routes import get_ipv6_rib_routes
 from .get_ipv6_ospf_interfaces import get_ipv6_ospf_interfaces
 from .get_ipv6_ospf_neighbors_brief import get_ipv6_ospf_neighbors_brief
 from .get_ipv6_ospf_neighbors_detail import get_ipv6_ospf_neighbors_detail
+from .get_interfaces_description import get_interfaces_description

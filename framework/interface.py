@@ -12,10 +12,6 @@ def get_interface_detail(connection):
     pass
 
 
-def get_interfaces_detail(connection):
-    pass
-
-
 def get_interface_descriptions(connection):
     pass
 

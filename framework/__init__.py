@@ -38,3 +38,9 @@ from .linux_get_lldp_interface import linux_get_lldp_interface
 
 # IPv6
 from .linux_get_ipv6_addresses import linux_get_ipv6_addresses
+
+# Interfaces
+from .linux_get_interfaces_statistics import linux_get_interfaces_statistics
+from .linux_get_interface_statistics import linux_get_interface_statistics
+from .quagga_get_interfaces_description import quagga_get_interfaces_description
+from .quagga_get_interface_description import quagga_get_interface_description
