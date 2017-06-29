@@ -35,3 +35,6 @@ from .linux_get_interfaces_mac_address import linux_get_interfaces_mac_address
 # LLDP
 from .linux_get_lldp_neighbors import linux_get_lldp_neighbors
 from .linux_get_lldp_interface import linux_get_lldp_interface
+
+# IPv6
+from .linux_get_ipv6_addresses import linux_get_ipv6_addresses
