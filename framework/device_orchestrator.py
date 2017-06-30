@@ -3,7 +3,7 @@
 import sys
 from netmiko import ConnectHandler
 
-class DeviceOrchestrator(object):
+class MossDeviceOrchestrator(object):
 
     '''
     Summary:
