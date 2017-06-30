@@ -1,29 +1,24 @@
 #!/usr/bin/env python
 
-from dev_ops.linux import get_interfaces_statistics
-from dev_ops.linux import get_interfaces_mac_address
-from dev_ops.linux import get_ipv6_addresses
-from dev_ops.linux import get_lldp_neighbors
-from dev_ops.linux import get_ndp_table
-from dev_ops.linux import get_system_info
-from dev_ops.linux import get_system_uptime
-
+from dev_ops.linux import get_interfaces_statistics, get_interfaces_mac_address, \
+                          get_ipv6_addresses, get_lldp_neighbors, \
+                          get_ndp_table, get_system_info, get_system_uptime \
 
 def linux_get_interface_statistics():
+    '''
+    Summary:
+    Returns detailed statistics JSON formatted data for a specific Linux
+    interface.
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection, port_id):
-            '''
-            Summary:
-            Returns detailed statistics JSON formatted data for a specific Linux
-            interface.
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'interface',
                 'task': 'get_interface_statistics',
@@ -53,19 +48,19 @@ def linux_get_interface_statistics():
 
 
 def linux_get_interfaces_mac_address():
+    '''
+    Summary:
+    Returns the MAC address of recognised Linux Kernel interfaces.
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection):
-            '''
-            Summary:
-            Returns the MAC address of recognised Linux Kernel interfaces.
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'mac',
                 'task': 'get_interfaces_mac_address',
@@ -83,19 +78,19 @@ def linux_get_interfaces_mac_address():
 
 
 def linux_get_interfaces_statistics():
+    '''
+    Summary:
+    Returns detailed statistics JSON formatted data for Linux interfaces
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection):
-            '''
-            Summary:
-            Returns detailed statistics JSON formatted data for Linux interfaces
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'interface',
                 'task': 'get_interfaces_statistics',
@@ -113,20 +108,20 @@ def linux_get_interfaces_statistics():
 
 
 def linux_get_ipv6_addresses():
+    '''
+    Summary:
+    Return a JSON formatted output of ifconfig containing interface
+    IPv6 link local and global addresses.
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection):
-            '''
-            Summary:
-            Return a JSON formatted output of ifconfig containing interface
-            IPv6 link local and global addresses.
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'ipv6',
                 'task': 'get_ipv6_addresses',
@@ -144,21 +139,21 @@ def linux_get_ipv6_addresses():
 
 
 def linux_get_lldp_interface():
+    '''
+    Summary:
+    Return JSON formatted output of the Linux LLDP implementation
+    lldpd, for a specific interface
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+    port_id:            string, interface port ID
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection, port_id):
-            '''
-            Summary:
-            Return JSON formatted output of the Linux LLDP implementation
-            lldpd, for a specific interface
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-            port_id:            string, interface port ID
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'lldp',
                 'task': 'get_lldp_interface',
@@ -188,19 +183,19 @@ def linux_get_lldp_interface():
 
 
 def linux_get_lldp_neighbors():
+    '''
+    Summary:
+    Returns JSON formatted output of the lldpd daemon on Linux.
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection):
-            '''
-            Summary:
-            Returns JSON formatted output of the lldpd daemon on Linux.
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'lldp',
                 'task': 'get_lldp_neighbors',
@@ -218,20 +213,20 @@ def linux_get_lldp_neighbors():
 
 
 def linux_get_ndp_table_reachable_entries():
+    '''
+    Summary:
+    Returns the IPv6 Neighbor Discovery Protocol table in a JSON format
+    and parses the output for reachable entries.
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection):
-            '''
-            Summary:
-            Returns the IPv6 Neighbor Discovery Protocol table in a JSON format
-            and parses the output for reachable entries.
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'ndp',
                 'task': 'get_ndp_table_reachable_entries',
@@ -261,20 +256,20 @@ def linux_get_ndp_table_reachable_entries():
 
 
 def linux_get_ndp_table_stale_entries():
+    '''
+    Summary:
+    Returns the IPv6 Neighbor Discovery Protocol table in a JSON format
+    and parses the output for stale entries.
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection):
-            '''
-            Summary:
-            Returns the IPv6 Neighbor Discovery Protocol table in a JSON format
-            and parses the output for stale entries.
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'ndp',
                 'task': 'get_ndp_table_stale_entries',
@@ -304,19 +299,19 @@ def linux_get_ndp_table_stale_entries():
 
 
 def linux_get_ndp_table():
+    '''
+    Summary:
+    Returns the IPv6 Neighbor Discovery Protocol table in a JSON format.
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection):
-            '''
-            Summary:
-            Returns the IPv6 Neighbor Discovery Protocol table in a JSON format.
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'ndp',
                 'task': 'get_ndp_table',
@@ -334,21 +329,21 @@ def linux_get_ndp_table():
 
 
 def linux_get_system_info():
+    '''
+    Summary:
+    Runs 'uname' with additional on a linux box to return the system
+    information: kernel name, hostname, kernel release, architecture,
+    processor, hardware_platform, operating_system
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection):
-            '''
-            Summary:
-            Runs 'uname' with additional on a linux box to return the system
-            information: kernel name, hostname, kernel release, architecture,
-            processor, hardware_platform, operating_system
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'system',
                 'task': 'get_system_info',
@@ -366,19 +361,20 @@ def linux_get_system_info():
 
 
 def linux_get_system_uptime():
+    '''
+    Summary:
+    Runs 'uptime' on a linux box to return the uptime status as well
+    as CPU load, users, and current time
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection):
-            '''
-            Summary:
-            Runs 'uptime' on a linux box to return the uptime status as well
-            as CPU load, users, and current time
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-
-            Returns:
-            dict
-            '''
             task_info = {
                 'namespace': 'system',
                 'task': 'get_system_uptime',
