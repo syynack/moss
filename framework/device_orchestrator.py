@@ -20,7 +20,7 @@ class MossDeviceOrchestrator(object):
     session_timeout:    int, timeout for parallel requests
 
     Returns:
-    Netmiko SSH object
+    MossDeviceOrchestrator object
 
     '''
 
