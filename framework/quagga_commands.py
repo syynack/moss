@@ -1,32 +1,26 @@
 #!/usr/bin/env python
 
-from dev_ops.quagga import get_bgp_memory_usage
-from dev_ops.quagga import get_bgp_neighbors
-from dev_ops.quagga import get_bgp_summary
-from dev_ops.quagga import get_interfaces_description
-from dev_ops.quagga import get_ipv6_bgp_routes
-from dev_ops.quagga import get_ipv6_ospf_interfaces
-from dev_ops.quagga import get_ipv6_ospf_neighbors_brief
-from dev_ops.quagga import get_ipv6_ospf_neighbors_detail
-from dev_ops.quagga import get_ipv6_ospf_routes
-from dev_ops.quagga import get_ipv6_rib_routes
-
+from dev_ops.quagga import get_bgp_memory_usage, get_bgp_neighbors, get_bgp_summary, \
+                           get_interfaces_description, get_ipv6_bgp_routes, \
+                           get_ipv6_ospf_interfaces, get_ipv6_ospf_neighbors_brief, \
+                           get_ipv6_ospf_neighbors_detail, get_ipv6_ospf_routes, \
+                           get_ipv6_rib_routes
 
 def quagga_get_bgp_memory_usage():
+    '''
+    Summary:
+    Returns current memory usage consumed by the Quagga
+    BGP daemon bgpd.
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection):
-            '''
-            Summary:
-            Returns current memory usage consumed by the Quagga
-            BGP daemon bgpd.
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'bgp',
                 'task': 'get_bgp_memory_usage',
@@ -44,20 +38,20 @@ def quagga_get_bgp_memory_usage():
 
 
 def quagga_get_bgp_neighbor():
+    '''
+    Summary:
+    Return information for a BGP neighbor in JSON
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+    neighbor_address:   string, IP address of neighbor
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection, neighbor_address):
-            '''
-            Summary:
-            Return information for a BGP neighbor in JSON
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-            neighbor_address:   string, IP address of neighbor
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'bgp',
                 'task': 'get_bgp_neighbor',
@@ -86,19 +80,19 @@ def quagga_get_bgp_neighbor():
 
 
 def quagga_get_bgp_neighbors():
+    '''
+    Summary:
+    Return BGP neighbor information in JSON.
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection):
-            '''
-            Summary:
-            Return BGP neighbor information in JSON.
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'bgp',
                 'task': 'get_bgp_neighbors',
@@ -116,19 +110,19 @@ def quagga_get_bgp_neighbors():
 
 
 def quagga_get_bgp_summary():
+    '''
+    Summary:
+    Return summary of BGP peers in JSON.
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection):
-            '''
-            Summary:
-            Return summary of BGP peers in JSON.
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'bgp',
                 'task': 'get_bgp_summary',
@@ -146,20 +140,20 @@ def quagga_get_bgp_summary():
 
 
 def quagga_get_interface_description():
+    '''
+    Summary:
+    Returns JSON formatted data for a Quagga interface.
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+    port_id:            string, interface port ID
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection, port_id):
-            '''
-            Summary:
-            Returns JSON formatted data for a Quagga interface.
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-            port_id:            string, interface port ID
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'interface',
                 'task': 'get_interface_description',
@@ -188,19 +182,19 @@ def quagga_get_interface_description():
 
 
 def quagga_get_interfaces_description():
+    '''
+    Summary:
+    Returns JSON formatted data for Quagga interfaces.
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection):
-            '''
-            Summary:
-            Returns JSON formatted data for Quagga interfaces.
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'interface',
                 'task': 'get_interfaces_description',
@@ -218,23 +212,23 @@ def quagga_get_interfaces_description():
 
 
 def quagga_get_ipv6_bgp_route():
+    '''
+    Summary:
+    Runs vtysh -c "show ipv6 route json" to interact with quagga
+    to retrieve the current IPv6 route table in JSON. Only routes
+    recieved through protocol 'bgp' are returned. Interates through
+    returned JSON to find entries that match the prefix.
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+    prefix              string, prefix
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection, prefix):
-            '''
-            Summary:
-            Runs vtysh -c "show ipv6 route json" to interact with quagga
-            to retrieve the current IPv6 route table in JSON. Only routes
-            recieved through protocol 'bgp' are returned. Interates through
-            returned JSON to find entries that match the prefix.
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-            prefix              string, prefix
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'bgp',
                 'task': 'get_ipv6_bgp_route',
@@ -265,21 +259,21 @@ def quagga_get_ipv6_bgp_route():
 
 
 def quagga_get_ipv6_bgp_routes():
+    '''
+    Summary:
+    Runs vtysh -c "show ipv6 route json" to interact with quagga
+    to retrieve the current IPv6 route table in JSON. Only routes
+    recieved through protocol 'bgp' are returned.
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection):
-            '''
-            Summary:
-            Runs vtysh -c "show ipv6 route json" to interact with quagga
-            to retrieve the current IPv6 route table in JSON. Only routes
-            recieved through protocol 'bgp' are returned.
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'bgp',
                 'task': 'get_ipv6_bgp_routes',
@@ -297,21 +291,21 @@ def quagga_get_ipv6_bgp_routes():
 
 
 def quagga_get_ipv6_ospf_interface():
+    '''
+    Summary:
+    Returns JSON data for all IPv6 OSPFv3 interfaces and parses
+    to find specific interface.
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+    port_id:            string, target interface
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection, port_id):
-            '''
-            Summary:
-            Returns JSON data for all IPv6 OSPFv3 interfaces and parses
-            to find specific interface.
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-            port_id:            string, target interface
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'ospf',
                 'task': 'get_ipv6_ospf_interface',
@@ -341,19 +335,19 @@ def quagga_get_ipv6_ospf_interface():
 
 
 def quagga_get_ipv6_ospf_interfaces():
+    '''
+    Summary:
+    Returns JSON data for all IPv6 OSPFv3 interfaces.
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection):
-            '''
-            Summary:
-            Returns JSON data for all IPv6 OSPFv3 interfaces.
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'ospf',
                 'task': 'get_ipv6_ospf_interfaces',
@@ -371,20 +365,20 @@ def quagga_get_ipv6_ospf_interfaces():
 
 
 def quagga_get_ipv6_ospf_neighbor_brief():
+    '''
+    Summary:
+    Return JSON data for a specific OSPFv3 neighbor in a brief format.
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+    neighbor_rid:       string, OSPFv3 neighbor Router ID
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection, neighbor_rid):
-            '''
-            Summary:
-            Return JSON data for a specific OSPFv3 neighbor in a brief format.
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-            neighbor_rid:       string, OSPFv3 neighbor Router ID
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'ospf',
                 'task': 'get_ipv6_ospf_neighbor_brief',
@@ -413,20 +407,20 @@ def quagga_get_ipv6_ospf_neighbor_brief():
 
 
 def quagga_get_ipv6_ospf_neighbor_detail():
+    '''
+    Summary:
+    Return JSON data for a specific OSPFv3 neighbor in a detailed format.
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+    neighbor_rid:       string, OSPFv3 neighbor Router ID
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection, neighbor_rid):
-            '''
-            Summary:
-            Return JSON data for a specific OSPFv3 neighbor in a detailed format.
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-            neighbor_rid:       string, OSPFv3 neighbor Router ID
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'ospf',
                 'task': 'get_ipv6_ospf_neighbor_detail',
@@ -456,19 +450,19 @@ def quagga_get_ipv6_ospf_neighbor_detail():
 
 
 def quagga_get_ipv6_ospf_neighbors_brief():
+    '''
+    Summary:
+    Returns JSON data for all IPv6 OSPFv3 neighbors in a brief format.
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection):
-            '''
-            Summary:
-            Returns JSON data for all IPv6 OSPFv3 neighbors in a brief format.
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'ospf',
                 'task': 'get_ipv6_ospf_neighbors_brief',
@@ -486,19 +480,19 @@ def quagga_get_ipv6_ospf_neighbors_brief():
 
 
 def quagga_get_ipv6_ospf_neighbors_detail():
+    '''
+    Summary:
+    Returns JSON data for all IPv6 OSPFv3 neighbors in a detailed format.
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection):
-            '''
-            Summary:
-            Returns JSON data for all IPv6 OSPFv3 neighbors in a detailed format.
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'ospf',
                 'task': 'get_ipv6_ospf_neighbors_detail',
@@ -516,23 +510,23 @@ def quagga_get_ipv6_ospf_neighbors_detail():
 
 
 def quagga_get_ipv6_ospf_route():
+    '''
+    Summary:
+    Runs vtysh -c "show ipv6 route json" to interact with quagga
+    to retrieve the current IPv6 route table in JSON. Only routes
+    recieved through protocol 'ospf6' are returned. Interates through
+    returned JSON to find entries that match the prefix.
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+    prefix              string, prefix
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection, prefix):
-            '''
-            Summary:
-            Runs vtysh -c "show ipv6 route json" to interact with quagga
-            to retrieve the current IPv6 route table in JSON. Only routes
-            recieved through protocol 'ospf6' are returned. Interates through
-            returned JSON to find entries that match the prefix.
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-            prefix              string, prefix
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'ospf',
                 'task': 'get_ipv6_ospf_route',
@@ -563,21 +557,21 @@ def quagga_get_ipv6_ospf_route():
 
 
 def quagga_get_ipv6_ospf_routes():
+    '''
+    Summary:
+    Runs vtysh -c "show ipv6 route json" to interact with quagga
+    to retrieve the current IPv6 route table in JSON. Only routes
+    recieved through protocol 'ospf6' are returned.
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection):
-            '''
-            Summary:
-            Runs vtysh -c "show ipv6 route json" to interact with quagga
-            to retrieve the current IPv6 route table in JSON. Only routes
-            recieved through protocol 'ospf6' are returned.
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'ospf',
                 'task': 'get_ipv6_ospf_routes',
@@ -595,20 +589,20 @@ def quagga_get_ipv6_ospf_routes():
 
 
 def quagga_get_ipv6_rib_route():
+    '''
+    Summary:
+    Runs vtysh -c "show ipv6 route json" to interact with quagga
+    to retrieve the current IPv6 route table in JSON.
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection, prefix):
-            '''
-            Summary:
-            Runs vtysh -c "show ipv6 route json" to interact with quagga
-            to retrieve the current IPv6 route table in JSON.
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'rib',
                 'task': 'get_ipv6_rib_route',
@@ -639,20 +633,20 @@ def quagga_get_ipv6_rib_route():
 
 
 def quagga_get_ipv6_rib_routes():
+    '''
+    Summary:
+    Runs vtysh -c "show ipv6 route json" to interact with quagga
+    to retrieve the current IPv6 route table in JSON.
+
+    Arguments:
+    connection:         object, MossDeviceOrchestrator
+
+    Returns:
+    dict
+    '''
+
     def decorator(connection):
         def wrapper(connection):
-            '''
-            Summary:
-            Runs vtysh -c "show ipv6 route json" to interact with quagga
-            to retrieve the current IPv6 route table in JSON.
-
-            Arguments:
-            connection:         object, MossDeviceOrchestrator
-
-            Returns:
-            dict
-            '''
-
             task_info = {
                 'namespace': 'rib',
                 'task': 'get_ipv6_rib_routes',
