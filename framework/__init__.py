@@ -3,48 +3,48 @@
 # Linux operations
 
 # System
-from .linux_get_system_info import linux_get_system_info
-from .linux_get_system_uptime import linux_get_system_uptime
+from .linux_commands import linux_get_system_info
+from .linux_commands import linux_get_system_uptime
 
 # BGP
-from .quagga_get_ipv6_bgp_routes import quagga_get_ipv6_bgp_routes
-from .quagga_get_ipv6_bgp_route import quagga_get_ipv6_bgp_route
-from .quagga_get_bgp_memory_usage import quagga_get_bgp_memory_usage
-from .quagga_get_bgp_summary import quagga_get_bgp_summary
-from .quagga_get_bgp_neighbors import quagga_get_bgp_neighbors
-from .quagga_get_bgp_neighbor import quagga_get_bgp_neighbor
+from .quagga_commands import quagga_get_ipv6_bgp_routes
+from .quagga_commands import quagga_get_ipv6_bgp_route
+from .quagga_commands import quagga_get_bgp_memory_usage
+from .quagga_commands import quagga_get_bgp_summary
+from .quagga_commands import quagga_get_bgp_neighbors
+from .quagga_commands import quagga_get_bgp_neighbor
 
 # OSPFv3
-from .quagga_get_ipv6_ospf_routes import quagga_get_ipv6_ospf_routes
-from .quagga_get_ipv6_ospf_route import quagga_get_ipv6_ospf_route
-from .quagga_get_ipv6_ospf_interface import quagga_get_ipv6_ospf_interface
-from .quagga_get_ipv6_ospf_interfaces import quagga_get_ipv6_ospf_interfaces
-from .quagga_get_ipv6_ospf_neighbor_brief import quagga_get_ipv6_ospf_neighbor_brief
-from .quagga_get_ipv6_ospf_neighbors_brief import quagga_get_ipv6_ospf_neighbors_brief
-from .quagga_get_ipv6_ospf_neighbor_detail import quagga_get_ipv6_ospf_neighbor_detail
-from .quagga_get_ipv6_ospf_neighbors_detail import quagga_get_ipv6_ospf_neighbors_detail
+from .quagga_commands import quagga_get_ipv6_ospf_routes
+from .quagga_commands import quagga_get_ipv6_ospf_route
+from .quagga_commands import quagga_get_ipv6_ospf_interface
+from .quagga_commands import quagga_get_ipv6_ospf_interfaces
+from .quagga_commands import quagga_get_ipv6_ospf_neighbor_brief
+from .quagga_commands import quagga_get_ipv6_ospf_neighbors_brief
+from .quagga_commands import quagga_get_ipv6_ospf_neighbor_detail
+from .quagga_commands import quagga_get_ipv6_ospf_neighbors_detail
 
 # RIB
-from .quagga_get_ipv6_rib_routes import quagga_get_ipv6_rib_routes
-from .quagga_get_ipv6_rib_route import quagga_get_ipv6_rib_route
+from .quagga_commands import quagga_get_ipv6_rib_routes
+from .quagga_commands import quagga_get_ipv6_rib_route
 
 # NDP
-from .linux_get_ndp_table import linux_get_ndp_table
-from .linux_get_ndp_table_stale_entries import linux_get_ndp_table_stale_entries
-from .linux_get_ndp_table_reachable_entries import linux_get_ndp_table_reachable_entries
+from .linux_commands import linux_get_ndp_table
+from .linux_commands import linux_get_ndp_table_stale_entries
+from .linux_commands import linux_get_ndp_table_reachable_entries
 
 # MAC
-from .linux_get_interfaces_mac_address import linux_get_interfaces_mac_address
+from .linux_commands import linux_get_interfaces_mac_address
 
 # LLDP
-from .linux_get_lldp_neighbors import linux_get_lldp_neighbors
-from .linux_get_lldp_interface import linux_get_lldp_interface
+from .linux_commands import linux_get_lldp_neighbors
+from .linux_commands import linux_get_lldp_interface
 
 # IPv6
-from .linux_get_ipv6_addresses import linux_get_ipv6_addresses
+from .linux_commands import linux_get_ipv6_addresses
 
 # Interfaces
-from .linux_get_interfaces_statistics import linux_get_interfaces_statistics
-from .linux_get_interface_statistics import linux_get_interface_statistics
-from .quagga_get_interfaces_description import quagga_get_interfaces_description
-from .quagga_get_interface_description import quagga_get_interface_description
+from .linux_commands import linux_get_interfaces_statistics
+from .linux_commands import linux_get_interface_statistics
+from .quagga_commands import quagga_get_interfaces_description
+from .quagga_commands import quagga_get_interface_description
