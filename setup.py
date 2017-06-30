@@ -4,7 +4,7 @@ from codecs import open
 from setuptools import setup, find_packages
 
 setup(
-	name='moss-naf',
+	name='moss',
 
 	# Versions should comply with PEP440.  For a discussion on single-sourcing
 	# the version across setup.py and the project code, see
@@ -15,7 +15,7 @@ setup(
 	long_description='An open source network device automation framework to perform operations and retrieve information from networking devices',
 
 	# The project's main homepage.
-	url='https://github.com/syynack/moss-naf',
+	url='https://github.com/syynack/moss',
 
 	# Author details
 	author='Matthew Lovatt',
