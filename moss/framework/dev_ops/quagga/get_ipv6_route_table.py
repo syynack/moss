@@ -2,7 +2,7 @@
 
 import json
 
-def get_ipv6_bgp_routes(connection):
+def get_ipv6_route_table(connection):
     command = 'vtysh -c "show ipv6 route json"'
     output = connection.send_command(command)
 
@@ -12,14 +12,7 @@ def get_ipv6_bgp_routes(connection):
             'stdout': output
         }
 
-    stdout = {}
-    subroute_count = 0
-    output = json.loads(output)
-
-    for route in output:
-        for subroute in output[route]:
-            if output[route][subroute_count]['protocol'] == 'bgp':
-                stdout[route] = output[route]
+    stdout = json.loads(output)
 
     return {
         'result': 'success',

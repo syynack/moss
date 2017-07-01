@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 
 from dev_ops.quagga import get_bgp_memory_usage, get_bgp_neighbors, get_bgp_summary, \
-                           get_interfaces_description, get_ipv6_bgp_routes, \
-                           get_ipv6_ospf_interfaces, get_ipv6_ospf_neighbors_brief, \
-                           get_ipv6_ospf_neighbors_detail, get_ipv6_ospf_routes, \
-                           get_ipv6_rib_routes
+                           get_interfaces_description, get_ipv6_ospf_interfaces, \
+                           get_ipv6_ospf_neighbors_brief, get_ipv6_ospf_neighbors_detail, \
+                           get_ipv6_route_table
 
 def quagga_get_bgp_memory_usage():
     '''
@@ -203,85 +202,6 @@ def quagga_get_interfaces_description():
             }
 
             output_dict = get_interfaces_description(connection)
-            output_dict.update(task_info)
-
-            return output_dict
-
-        return wrapper
-    return decorator
-
-
-def quagga_get_ipv6_bgp_route():
-    '''
-    Summary:
-    Runs vtysh -c "show ipv6 route json" to interact with quagga
-    to retrieve the current IPv6 route table in JSON. Only routes
-    recieved through protocol 'bgp' are returned. Interates through
-    returned JSON to find entries that match the prefix.
-
-    Arguments:
-    connection:         object, MossDeviceOrchestrator
-    prefix              string, prefix
-
-    Returns:
-    dict
-    '''
-
-    def decorator(connection):
-        def wrapper(connection, prefix):
-            task_info = {
-                'namespace': 'bgp',
-                'task': 'get_ipv6_bgp_route',
-                'platform': 'linux',
-                'subtool': 'quagga'
-            }
-
-            output_dict = get_ipv6_bgp_routes(connection)
-
-            if output_dict['result'] == 'fail':
-                output_dict.update(task_info)
-                return output_dict
-
-            route_dict = {}
-            subroute_count = 0
-
-            for route in output_dict['stdout']:
-                for subroute in output_dict['stdout'][route]:
-                    if prefix in route:
-                        route_dict[route] = output_dict['stdout'][route]
-
-            output_dict['stdout'] = route_dict
-            output_dict.update(task_info)
-            return output_dict
-
-        return wrapper
-    return decorator
-
-
-def quagga_get_ipv6_bgp_routes():
-    '''
-    Summary:
-    Runs vtysh -c "show ipv6 route json" to interact with quagga
-    to retrieve the current IPv6 route table in JSON. Only routes
-    recieved through protocol 'bgp' are returned.
-
-    Arguments:
-    connection:         object, MossDeviceOrchestrator
-
-    Returns:
-    dict
-    '''
-
-    def decorator(connection):
-        def wrapper(connection):
-            task_info = {
-                'namespace': 'bgp',
-                'task': 'get_ipv6_bgp_routes',
-                'platform': 'linux',
-                'subtool': 'quagga'
-            }
-
-            output_dict = get_ipv6_bgp_routes(connection)
             output_dict.update(task_info)
 
             return output_dict
@@ -509,130 +429,7 @@ def quagga_get_ipv6_ospf_neighbors_detail():
     return decorator
 
 
-def quagga_get_ipv6_ospf_route():
-    '''
-    Summary:
-    Runs vtysh -c "show ipv6 route json" to interact with quagga
-    to retrieve the current IPv6 route table in JSON. Only routes
-    recieved through protocol 'ospf6' are returned. Interates through
-    returned JSON to find entries that match the prefix.
-
-    Arguments:
-    connection:         object, MossDeviceOrchestrator
-    prefix              string, prefix
-
-    Returns:
-    dict
-    '''
-
-    def decorator(connection):
-        def wrapper(connection, prefix):
-            task_info = {
-                'namespace': 'ospf',
-                'task': 'get_ipv6_ospf_route',
-                'platform': 'linux',
-                'subtool': 'quagga'
-            }
-
-            output_dict = get_ipv6_ospf_routes(connection)
-
-            if output_dict['result'] == 'fail':
-                output_dict.update(task_info)
-                return output_dict
-
-            route_dict = {}
-            subroute_count = 0
-
-            for route in output_dict['stdout']:
-                for subroute in output_dict['stdout'][route]:
-                    if prefix in route:
-                        route_dict[route] = output_dict['stdout'][route]
-
-            output_dict['stdout'] = route_dict
-            output_dict.update(task_info)
-            return output_dict
-
-        return wrapper
-    return decorator
-
-
-def quagga_get_ipv6_ospf_routes():
-    '''
-    Summary:
-    Runs vtysh -c "show ipv6 route json" to interact with quagga
-    to retrieve the current IPv6 route table in JSON. Only routes
-    recieved through protocol 'ospf6' are returned.
-
-    Arguments:
-    connection:         object, MossDeviceOrchestrator
-
-    Returns:
-    dict
-    '''
-
-    def decorator(connection):
-        def wrapper(connection):
-            task_info = {
-                'namespace': 'ospf',
-                'task': 'get_ipv6_ospf_routes',
-                'platform': 'linux',
-                'subtool': 'quagga'
-            }
-
-            output_dict = get_ipv6_ospf_routes(connection)
-            output_dict.update(task_info)
-
-            return output_dict
-
-        return wrapper
-    return decorator
-
-
-def quagga_get_ipv6_rib_route():
-    '''
-    Summary:
-    Runs vtysh -c "show ipv6 route json" to interact with quagga
-    to retrieve the current IPv6 route table in JSON.
-
-    Arguments:
-    connection:         object, MossDeviceOrchestrator
-
-    Returns:
-    dict
-    '''
-
-    def decorator(connection):
-        def wrapper(connection, prefix):
-            task_info = {
-                'namespace': 'rib',
-                'task': 'get_ipv6_rib_route',
-                'platform': 'linux',
-                'subtool': 'quagga'
-            }
-
-            output_dict = get_ipv6_rib_routes(connection)
-
-            if output_dict['result'] == 'fail':
-                output_dict.update(task_info)
-                return output_dict
-
-            route_dict = {}
-            subroute_count = 0
-
-            for route in output_dict['stdout']:
-                for subroute in output_dict['stdout'][route]:
-                    if prefix in route:
-                        route_dict[route] = output_dict['stdout'][route]
-
-            output_dict['stdout'] = route_dict
-            output_dict.update(task_info)
-            return output_dict
-
-        return wrapper
-    return decorator
-
-
-def quagga_get_ipv6_rib_routes():
+def quagga_get_ipv6_route_table():
     '''
     Summary:
     Runs vtysh -c "show ipv6 route json" to interact with quagga

@@ -1,6 +1,4 @@
-from .get_ipv6_bgp_routes import get_ipv6_bgp_routes
-from .get_ipv6_ospf_routes import get_ipv6_ospf_routes
-from .get_ipv6_rib_routes import get_ipv6_rib_routes
+from .get_ipv6_route_table import get_ipv6_route_table
 from .get_ipv6_ospf_interfaces import get_ipv6_ospf_interfaces
 from .get_ipv6_ospf_neighbors_brief import get_ipv6_ospf_neighbors_brief
 from .get_ipv6_ospf_neighbors_detail import get_ipv6_ospf_neighbors_detail
