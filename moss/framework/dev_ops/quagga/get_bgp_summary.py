@@ -20,7 +20,7 @@ def get_bgp_summary(connection):
         'Peers\s(?P<total_peers>[^,]+),\susing\s(?P<peer_memory_usage>.*)\sof\smemory',
         'Peer\sgroups\s(?P<total_peer_groups>[^,]),\susing\s(?P<peer_group_memory_usage>.*)\sof\smemory'
     ]
-    
+
     neighbor_regex = '(?P<neighbor_ip>.*)\s\s(?P<version>4)[\s]+(?P<as>[^\s]+)[\s]+(?P<msg_recv>[^\s]+)[\s]+' \
                      '(?P<msg_sent>[^\s]+)[\s]+(?P<table_ver>[^\s]+)[\s]+(?P<inq>[^\s]+)[\s]+' \
                      '(?P<outq>[^\s]+)[\s]+(?P<up_down>[^\s]+)[\s]+(?P<state_pfx_recv>[^\s]+)'
