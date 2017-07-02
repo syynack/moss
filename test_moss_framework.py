@@ -7,7 +7,7 @@ from moss import MossDeviceOrchestrator
 
 neighbor_ip = 'fd35:1:1:2::8'
 
-@moss.framework.linux_get_system_info()
+@moss.framework.quagga_get_bgp_summary()
 def test_function(connection):
     pass
 
