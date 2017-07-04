@@ -6,8 +6,9 @@ import moss
 from moss import MossDeviceOrchestrator
 
 neighbor_ip = 'fd35:1:1:2::8'
+port_id = 'eth0'
 
-@moss.framework.quagga_get_bgp_summary()
+@moss.framework.get_ipv6_route_table()
 def test_function(connection):
     pass
 
@@ -20,22 +21,7 @@ def main():
         password = 'moss-test',
     )
 
-    # Getting results from task
-    # task = TaskOrchestrator(
-    #     task_order = [
-    #         'get_system_uptime',
-    #         'get_system_info'
-    #     ],
-    #     device = device
-    # )
-    #
-    # output = task.run()
-    #
-    # print json.dumps(output, sort_keys=True, indent=4)
-
-    # Getting results from decorator
     connection = device.get_connection()
-
     output = test_function(connection)
 
     print json.dumps(output, sort_keys=True, indent=4)
