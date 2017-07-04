@@ -451,7 +451,7 @@ def quagga_get_ipv6_route_table():
                 'subtool': 'quagga'
             }
 
-            output_dict = get_ipv6_rib_routes(connection)
+            output_dict = get_ipv6_route_table(connection)
             output_dict.update(task_info)
 
             return output_dict
