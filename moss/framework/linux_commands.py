@@ -114,7 +114,11 @@ def linux_get_ipv6_addresses(connection):
     return output_dict
 
 
+<<<<<<< HEAD
 def linux_get_lldp_interface(connection, port_id):
+=======
+def linux_get_lldp_interface(connection):
+>>>>>>> 99871641558178efcc7ca47908586379a9900f6a
     '''
     Summary:
     Return JSON formatted output of the Linux LLDP implementation
