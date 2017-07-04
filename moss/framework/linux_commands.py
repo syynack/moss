@@ -4,7 +4,7 @@ from dev_ops.linux import get_interfaces_statistics, get_interfaces_mac_address,
                           get_ipv6_addresses, get_lldp_neighbors, \
                           get_ndp_table, get_system_info, get_system_uptime \
 
-def linux_get_interface_statistics():
+def linux_get_interface_statistics(connection):
     '''
     Summary:
     Returns detailed statistics JSON formatted data for a specific Linux
@@ -17,37 +17,31 @@ def linux_get_interface_statistics():
     dict
     '''
 
-    def decorator(connection):
-        def wrapper(connection, port_id):
-            task_info = {
-                'namespace': 'interface',
-                'task': 'get_interface_statistics',
-                'platform': 'linux',
-                'subtool': 'native'
-            }
+    task_info = {
+        'namespace': 'interface',
+        'task': 'get_interface_statistics',
+        'platform': 'linux',
+        'subtool': 'native'
+    }
 
-            output_dict = get_interfaces_statistics(connection)
+    output_dict = get_interfaces_statistics(connection)
 
-            if output_dict['result'] == 'fail':
-                output_dict.update(task_info)
-                return output_dict
+    if output_dict['result'] == 'fail':
+        output_dict.update(task_info)
+        return output_dict
 
-            interfaces_dict = {}
+    interfaces_dict = {}
 
-            for interface in output_dict['stdout']:
-                if interface == port_id:
-                    interfaces_dict[interface] = output_dict['stdout'][interface]
+    for interface in output_dict['stdout']:
+        if interface == port_id:
+            interfaces_dict[interface] = output_dict['stdout'][interface]
 
-            output_dict['stdout'] = interfaces_dict
-            output_dict.update(task_info)
-
-            return output_dict
-
-        return wrapper
-    return decorator
+    output_dict['stdout'] = interfaces_dict
+    output_dict.update(task_info)
+    return output_dict
 
 
-def linux_get_interfaces_mac_address():
+def linux_get_interfaces_mac_address(connection):
     '''
     Summary:
     Returns the MAC address of recognised Linux Kernel interfaces.
@@ -59,25 +53,19 @@ def linux_get_interfaces_mac_address():
     dict
     '''
 
-    def decorator(connection):
-        def wrapper(connection):
-            task_info = {
-                'namespace': 'mac',
-                'task': 'get_interfaces_mac_address',
-                'platform': 'linux',
-                'subtool': 'native'
-            }
+    task_info = {
+        'namespace': 'mac',
+        'task': 'get_interfaces_mac_address',
+        'platform': 'linux',
+        'subtool': 'native'
+    }
 
-            output_dict = get_interfaces_mac_address(connection)
-            output_dict.update(task_info)
-
-            return output_dict
-
-        return wrapper
-    return decorator
+    output_dict = get_interfaces_mac_address(connection)
+    output_dict.update(task_info)
+    return output_dict
 
 
-def linux_get_interfaces_statistics():
+def linux_get_interfaces_statistics(connection):
     '''
     Summary:
     Returns detailed statistics JSON formatted data for Linux interfaces
@@ -89,25 +77,19 @@ def linux_get_interfaces_statistics():
     dict
     '''
 
-    def decorator(connection):
-        def wrapper(connection):
-            task_info = {
-                'namespace': 'interface',
-                'task': 'get_interfaces_statistics',
-                'platform': 'linux',
-                'subtool': 'native'
-            }
+    task_info = {
+        'namespace': 'interface',
+        'task': 'get_interfaces_statistics',
+        'platform': 'linux',
+        'subtool': 'native'
+    }
 
-            output_dict = get_interfaces_statistics(connection)
-            output_dict.update(task_info)
-
-            return output_dict
-
-        return wrapper
-    return decorator
+    output_dict = get_interfaces_statistics(connection)
+    output_dict.update(task_info)
+    return output_dict
 
 
-def linux_get_ipv6_addresses():
+def linux_get_ipv6_addresses(connection):
     '''
     Summary:
     Return a JSON formatted output of ifconfig containing interface
@@ -120,25 +102,19 @@ def linux_get_ipv6_addresses():
     dict
     '''
 
-    def decorator(connection):
-        def wrapper(connection):
-            task_info = {
-                'namespace': 'ipv6',
-                'task': 'get_ipv6_addresses',
-                'platform': 'linux',
-                'subtool': 'native'
-            }
+    task_info = {
+        'namespace': 'ipv6',
+        'task': 'get_ipv6_addresses',
+        'platform': 'linux',
+        'subtool': 'native'
+    }
 
-            output_dict = get_ipv6_addresses(connection)
-            output_dict.update(task_info)
-
-            return output_dict
-
-        return wrapper
-    return decorator
+    output_dict = get_ipv6_addresses(connection)
+    output_dict.update(task_info)
+    return output_dict
 
 
-def linux_get_lldp_interface():
+def linux_get_lldp_interface(connection):
     '''
     Summary:
     Return JSON formatted output of the Linux LLDP implementation
@@ -152,37 +128,31 @@ def linux_get_lldp_interface():
     dict
     '''
 
-    def decorator(connection):
-        def wrapper(connection, port_id):
-            task_info = {
-                'namespace': 'lldp',
-                'task': 'get_lldp_interface',
-                'platform': 'linux',
-                'subtool': 'lldpd'
-            }
+    task_info = {
+        'namespace': 'lldp',
+        'task': 'get_lldp_interface',
+        'platform': 'linux',
+        'subtool': 'lldpd'
+    }
 
-            output_dict = get_lldp_neighbors(connection)
+    output_dict = get_lldp_neighbors(connection)
 
-            if output_dict['result'] == 'fail':
-                output_dict.update(task_info)
-                return output_dict
+    if output_dict['result'] == 'fail':
+        output_dict.update(task_info)
+        return output_dict
 
-            interfaces_dict = {}
+    interfaces_dict = {}
 
-            for interface in output_dict['stdout']:
-                if interface == port_id:
-                    interfaces_dict[interface] = output_dict['stdout'][interface]
+    for interface in output_dict['stdout']:
+        if interface == port_id:
+            interfaces_dict[interface] = output_dict['stdout'][interface]
 
-            output_dict['stdout'] = interfaces_dict
-            output_dict.update(task_info)
-
-            return output_dict
-
-        return wrapper
-    return decorator
+    output_dict['stdout'] = interfaces_dict
+    output_dict.update(task_info)
+    return output_dict
 
 
-def linux_get_lldp_neighbors():
+def linux_get_lldp_neighbors(connection):
     '''
     Summary:
     Returns JSON formatted output of the lldpd daemon on Linux.
@@ -194,25 +164,19 @@ def linux_get_lldp_neighbors():
     dict
     '''
 
-    def decorator(connection):
-        def wrapper(connection):
-            task_info = {
-                'namespace': 'lldp',
-                'task': 'get_lldp_neighbors',
-                'platform': 'linux',
-                'subtool': 'lldpd'
-            }
+    task_info = {
+        'namespace': 'lldp',
+        'task': 'get_lldp_neighbors',
+        'platform': 'linux',
+        'subtool': 'lldpd'
+    }
 
-            output_dict = get_lldp_neighbors(connection)
-            output_dict.update(task_info)
-
-            return output_dict
-
-        return wrapper
-    return decorator
+    output_dict = get_lldp_neighbors(connection)
+    output_dict.update(task_info)
+    return output_dict
 
 
-def linux_get_ndp_table_reachable_entries():
+def linux_get_ndp_table_reachable_entries(connection):
     '''
     Summary:
     Returns the IPv6 Neighbor Discovery Protocol table in a JSON format
@@ -225,37 +189,31 @@ def linux_get_ndp_table_reachable_entries():
     dict
     '''
 
-    def decorator(connection):
-        def wrapper(connection):
-            task_info = {
-                'namespace': 'ndp',
-                'task': 'get_ndp_table_reachable_entries',
-                'platform': 'linux',
-                'subtool': 'native'
-            }
+    task_info = {
+        'namespace': 'ndp',
+        'task': 'get_ndp_table_reachable_entries',
+        'platform': 'linux',
+        'subtool': 'native'
+    }
 
-            output_dict = get_ndp_table(connection)
+    output_dict = get_ndp_table(connection)
 
-            if output_dict['result'] == 'fail':
-                output_dict.update(task_info)
-                return output_dict
+    if output_dict['result'] == 'fail':
+        output_dict.update(task_info)
+        return output_dict
 
-            stale_entries_dict = {}
+    stale_entries_dict = {}
 
-            for entry in output_dict['stdout']:
-                if entry['state'] == 'REACHABLE':
-                    stale_entries_dict.update(entry)
+    for entry in output_dict['stdout']:
+        if entry['state'] == 'REACHABLE':
+            stale_entries_dict.update(entry)
 
-            output_dict['stdout'] = stale_entries_dict
-            output_dict.update(task_info)
-
-            return output_dict
-
-        return wrapper
-    return decorator
+    output_dict['stdout'] = stale_entries_dict
+    output_dict.update(task_info)
+    return output_dict
 
 
-def linux_get_ndp_table_stale_entries():
+def linux_get_ndp_table_stale_entries(connection):
     '''
     Summary:
     Returns the IPv6 Neighbor Discovery Protocol table in a JSON format
@@ -268,37 +226,31 @@ def linux_get_ndp_table_stale_entries():
     dict
     '''
 
-    def decorator(connection):
-        def wrapper(connection):
-            task_info = {
-                'namespace': 'ndp',
-                'task': 'get_ndp_table_stale_entries',
-                'platform': 'linux',
-                'subtool': 'native'
-            }
+    task_info = {
+        'namespace': 'ndp',
+        'task': 'get_ndp_table_stale_entries',
+        'platform': 'linux',
+        'subtool': 'native'
+    }
 
-            output_dict = get_ndp_table(connection)
+    output_dict = get_ndp_table(connection)
 
-            if output_dict['result'] == 'fail':
-                output_dict.update(task_info)
-                return output_dict
+    if output_dict['result'] == 'fail':
+        output_dict.update(task_info)
+        return output_dict
 
-            stale_entries_dict = {}
+    stale_entries_dict = {}
 
-            for entry in output_dict['stdout']:
-                if entry['state'] == 'STALE':
-                    stale_entries_dict.update(entry)
+    for entry in output_dict['stdout']:
+        if entry['state'] == 'STALE':
+            stale_entries_dict.update(entry)
 
-            output_dict['stdout'] = stale_entries_dict
-            output_dict.update(task_info)
-
-            return output_dict
-
-        return wrapper
-    return decorator
+    output_dict['stdout'] = stale_entries_dict
+    output_dict.update(task_info)
+    return output_dict
 
 
-def linux_get_ndp_table():
+def linux_get_ndp_table(connection):
     '''
     Summary:
     Returns the IPv6 Neighbor Discovery Protocol table in a JSON format.
@@ -310,25 +262,19 @@ def linux_get_ndp_table():
     dict
     '''
 
-    def decorator(connection):
-        def wrapper(connection):
-            task_info = {
-                'namespace': 'ndp',
-                'task': 'get_ndp_table',
-                'platform': 'linux',
-                'subtool': 'native'
-            }
+    task_info = {
+        'namespace': 'ndp',
+        'task': 'get_ndp_table',
+        'platform': 'linux',
+        'subtool': 'native'
+    }
 
-            output_dict = get_ndp_table(connection)
-            output_dict.update(task_info)
-
-            return output_dict
-
-        return wrapper
-    return decorator
+    output_dict = get_ndp_table(connection)
+    output_dict.update(task_info)
+    return output_dict
 
 
-def linux_get_system_info():
+def linux_get_system_info(connection):
     '''
     Summary:
     Runs 'uname' with additional on a linux box to return the system
@@ -342,25 +288,19 @@ def linux_get_system_info():
     dict
     '''
 
-    def decorator(connection):
-        def wrapper(connection):
-            task_info = {
-                'namespace': 'system',
-                'task': 'get_system_info',
-                'platform': 'linux',
-                'subtool': 'native'
-            }
+    task_info = {
+        'namespace': 'system',
+        'task': 'get_system_info',
+        'platform': 'linux',
+        'subtool': 'native'
+    }
 
-            output_dict = get_system_info(connection)
-            output_dict.update(task_info)
-
-            return output_dict
-
-        return wrapper
-    return decorator
+    output_dict = get_system_info(connection)
+    output_dict.update(task_info)
+    return output_dict
 
 
-def linux_get_system_uptime():
+def linux_get_system_uptime(connection):
     '''
     Summary:
     Runs 'uptime' on a linux box to return the uptime status as well
@@ -373,19 +313,13 @@ def linux_get_system_uptime():
     dict
     '''
 
-    def decorator(connection):
-        def wrapper(connection):
-            task_info = {
-                'namespace': 'system',
-                'task': 'get_system_uptime',
-                'platform': 'linux',
-                'subtool': 'native'
-            }
+    task_info = {
+        'namespace': 'system',
+        'task': 'get_system_uptime',
+        'platform': 'linux',
+        'subtool': 'native'
+    }
 
-            output_dict = get_system_uptime(connection)
-            output_dict.update(task_info)
-
-            return output_dict
-
-        return wrapper
-    return decorator
+    output_dict = get_system_uptime(connection)
+    output_dict.update(task_info)
+    return output_dict
