@@ -4,7 +4,7 @@ from dev_ops.linux import get_interfaces_statistics, get_interfaces_mac_address,
                           get_ipv6_addresses, get_lldp_neighbors, \
                           get_ndp_table, get_system_info, get_system_uptime \
 
-def linux_get_interface_statistics(connection):
+def linux_get_interface_statistics(connection, port_id):
     '''
     Summary:
     Returns detailed statistics JSON formatted data for a specific Linux
@@ -12,6 +12,7 @@ def linux_get_interface_statistics(connection):
 
     Arguments:
     connection:         object, MossDeviceOrchestrator
+    port_id:            string, interface port ID
 
     Returns:
     dict
@@ -114,11 +115,7 @@ def linux_get_ipv6_addresses(connection):
     return output_dict
 
 
-<<<<<<< HEAD
 def linux_get_lldp_interface(connection, port_id):
-=======
-def linux_get_lldp_interface(connection):
->>>>>>> 99871641558178efcc7ca47908586379a9900f6a
     '''
     Summary:
     Return JSON formatted output of the Linux LLDP implementation

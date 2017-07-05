@@ -29,11 +29,7 @@ def quagga_get_bgp_memory_usage(connection):
     return output_dict
 
 
-<<<<<<< HEAD
 def quagga_get_bgp_neighbor(connection, neighbor_address):
-=======
-def quagga_get_bgp_neighbor(connection):
->>>>>>> 99871641558178efcc7ca47908586379a9900f6a
     '''
     Summary:
     Return information for a BGP neighbor in JSON
@@ -118,11 +114,7 @@ def quagga_get_bgp_summary(connection):
     return output_dict
 
 
-<<<<<<< HEAD
 def quagga_get_interface_description(connection, port_id):
-=======
-def quagga_get_interface_description(connection):
->>>>>>> 99871641558178efcc7ca47908586379a9900f6a
     '''
     Summary:
     Returns JSON formatted data for a Quagga interface.
@@ -183,11 +175,7 @@ def quagga_get_interfaces_description(connection):
     return output_dict
 
 
-<<<<<<< HEAD
 def quagga_get_ipv6_ospf_interface(connection, port_id):
-=======
-def quagga_get_ipv6_ospf_interface(connection):
->>>>>>> 99871641558178efcc7ca47908586379a9900f6a
     '''
     Summary:
     Returns JSON data for all IPv6 OSPFv3 interfaces and parses
@@ -250,11 +238,7 @@ def quagga_get_ipv6_ospf_interfaces(connection):
     return output_dict
 
 
-<<<<<<< HEAD
 def quagga_get_ipv6_ospf_neighbor_brief(connection, neighbor_rid):
-=======
-def quagga_get_ipv6_ospf_neighbor_brief(connection):
->>>>>>> 99871641558178efcc7ca47908586379a9900f6a
     '''
     Summary:
     Return JSON data for a specific OSPFv3 neighbor in a brief format.
@@ -291,11 +275,7 @@ def quagga_get_ipv6_ospf_neighbor_brief(connection):
     return output_dict
 
 
-<<<<<<< HEAD
 def quagga_get_ipv6_ospf_neighbor_detail(connection, neighbor_rid):
-=======
-def quagga_get_ipv6_ospf_neighbor_detail(connection):
->>>>>>> 99871641558178efcc7ca47908586379a9900f6a
     '''
     Summary:
     Return JSON data for a specific OSPFv3 neighbor in a detailed format.
