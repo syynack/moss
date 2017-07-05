@@ -4,6 +4,8 @@ import json
 import moss
 
 from moss import MossDeviceOrchestrator
+from moss import MossTaskOrchestrator
+from moss.utils import pretty_print
 
 neighbor_ip = 'fd35:1:1:2::8'
 port_id = 'eth0'
@@ -16,15 +18,24 @@ def test_function(connection):
 def main():
     device = MossDeviceOrchestrator(
         device_type = 'linux',
-        ip = 'localhost',
+        ip = '127.0.0.1',
         username = 'root',
         password = 'moss-test',
     )
 
-    connection = device.get_connection()
-    output = test_function(connection)
+    task = MossTaskOrchestrator(
+        device = device
+    )
 
-    print json.dumps(output, sort_keys=True, indent=4)
+    task.add_task(task_name = 'get_system_uptime')
+    task.add_task(task_name = 'get_system_info')
+    task.add_task(task_name = 'get_interface_description', argument = 'eth0')
+    task.add_task(task_name = 'get_interface_statistics', argument = 'eth0')
+    task.add_task(task_name = 'get_ipv6_addresses')
 
+    #print task.show_steps()
+
+    result = task.run()
+    #pretty_print(result)
 
 main()
