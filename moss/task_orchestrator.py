@@ -4,7 +4,7 @@ import json
 import sys
 
 from utils import *
-from framework.decorators import *
+from core import *
 
 
 class MossTaskOrchestrator(object):
@@ -28,25 +28,24 @@ class MossTaskOrchestrator(object):
         self.task = {"task_order": []}
 
 
-    def add_task(self, task_name=None, argument=None, success_outcome='success', success_next_task=None, failure_next_task=None, log=True):
+    def add_task(self, task_name=None, argument=None, success_outcome='success', final=False, failure_next_task=None, log=True):
         '''
         Summary:
         Constructs a task for the overall TaskOrchestrator
 
         Arguments:
         task_name           string, name of the task to be executed e.g. get_system_uptime
-        Arguments           string, argument for task that relies on parsing output
+        argument            string, argument for task that relies on parsing output
         success_outcome     string, success or fail, which outcome of the task is the expected outcome
-        success_next_task   string, next task to be executed if there is an expected outcome (default: next task)
+        final               bool, mark the task as the final task
         failure_next_task   string, next task to be executed if there is an unexpected outcome
-        print               bool, print the progress of the task
         '''
 
         task_data = {
             "task_name": task_name,
             "argument": argument,
             "success_outcome": success_outcome,
-            "success_next_task": success_next_task,
+            "final": final,
             "failure_next_task": failure_next_task,
             "logging": log
         }
@@ -61,70 +60,40 @@ class MossTaskOrchestrator(object):
     def run(self):
         connection = self.device.get_connection()
 
-        start_banner('Task Start')
+        start_banner()
         start_header(self.task)
 
+        task_order = update_task_list(self.task['task_order'])
         result_dict = {'tasks': []}
-        total_tasks_ran = 0
-        overall_start_time = timer()
+        start_time = timer()
 
-        for task in self.task['task_order']:
-            task_start_time = timer()
-            task_start_header(task['task_name'])
-            try:
-                result = globals()[task['task_name']]()
-            except KeyError as e:
-                print colour('Unable to find function "{}".'.format(task), 'red', bold=True)
-                sys.exit()
+        next_task = task_order[0]
 
-            decorator = result(connection)
+        while next_task != 'end':
+            result = run_task(connection, next_task)
+            result_dict['tasks'].append(result)
 
-            if task['argument']:
-                result = decorator(connection, task['argument'])
+            if next_task['final']:
+                break
+
+            next_task_name = result['next_task']
+
+            if next_task_name != 'end':
+                task_index = [index for index, task in enumerate(task_order) if next_task_name in task['task_name']]
+                next_task = task_order[task_index[0]]
             else:
-                result = decorator(connection)
+                next_task = next_task_name
 
-            task_end_header(result['result'])
-            task_end_time = timer()
-            task_run_time = task_end_time - task_start_time
-            total_tasks_ran += 1
-
-            task_result_dict = {
-                'task_namespace': result['namespace'],
-                'task_id': result['task'],
-                'result': result['result'],
-                'stdout': result['stdout'],
-                'start_time': task_start_time,
-                'end_time': task_end_time,
-                'run_time': task_run_time
-            }
-
-            if self.verbose:
-                pretty_print(task_result_dict)
-
-            result_dict['tasks'].append(task_result_dict)
-
-        overall_end_time = timer()
-        overall_run_time = overall_end_time - overall_start_time
+        end_time = timer()
+        run_time = runtime(start_time, end_time)
 
         result_dict.update({
-            'task_start_time':overall_start_time,
-            'task_end_time': task_end_time,
-            'task_run_time': overall_run_time,
-            'tasks_ran': total_tasks_ran
+            'start_time': start_time,
+            'end_time': end_time,
+            'run_time': run_time
         })
 
-        task_failure = False
-
-        for task in result_dict['tasks']:
-            if task['result'] == 'fail':
-                task_failure = True
-
-        if task_failure:
-            end_banner('fail')
-        else:
-            end_banner('success')
-
+        end_banner(result_dict['tasks'][-1]['result'])
         return result_dict
 
 

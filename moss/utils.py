@@ -27,9 +27,9 @@ def get_terminal_width():
     return int(w)
 
 
-def start_banner(header):
+def start_banner():
     terminal_width = get_terminal_width()
-    header = '[ {} ]'.format(header)
+    header = '[ Task Start ]'
     banner = '=' * ((terminal_width - len(header)) / 2) + header + '=' * ((terminal_width - len(header)) / 2)
 
     print colour(banner, 'white', bold=True)
@@ -69,6 +69,10 @@ def end_banner(result):
 
 def timer():
     return time.time()
+
+
+def runtime(start, end):
+    return end - start
 
 
 def pretty_print(data):
