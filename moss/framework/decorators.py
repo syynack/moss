@@ -1,19 +1,25 @@
 #!/usr/bin/env python
 
-from .quagga_commands import quagga_get_bgp_memory_usage, quagga_get_bgp_neighbor, \
-                             quagga_get_bgp_neighbors, quagga_get_bgp_summary, \
-                             quagga_get_interface_description, quagga_get_interfaces_description, \
-                             quagga_get_ipv6_ospf_interface, quagga_get_ipv6_ospf_interfaces, \
-                             quagga_get_ipv6_ospf_neighbor_brief, quagga_get_ipv6_ospf_neighbor_detail, \
-                             quagga_get_ipv6_ospf_neighbors_brief, quagga_get_ipv6_ospf_neighbors_detail, \
-                             quagga_get_ipv6_route_table
+from .quagga import quagga_get_bgp_memory_usage, quagga_get_bgp_neighbor, \
+                    quagga_get_bgp_neighbors, quagga_get_bgp_summary, \
+                    quagga_get_interface_description, quagga_get_interfaces_description, \
+                    quagga_get_ipv6_ospf_interface, quagga_get_ipv6_ospf_interfaces, \
+                    quagga_get_ipv6_ospf_neighbor_brief, quagga_get_ipv6_ospf_neighbor_detail, \
+                    quagga_get_ipv6_ospf_neighbors_brief, quagga_get_ipv6_ospf_neighbors_detail, \
+                    quagga_get_ipv6_route_table
 
 
-from .linux_commands import linux_get_interface_statistics, linux_get_interfaces_mac_address, \
-                            linux_get_interfaces_statistics, linux_get_ipv6_addresses, \
-                            linux_get_lldp_interface, linux_get_lldp_neighbors, linux_get_ndp_table_reachable_entries, \
-                            linux_get_ndp_table_stale_entries, linux_get_ndp_table, linux_get_system_info, \
-                            linux_get_system_uptime
+from .linux import linux_get_interface_statistics, linux_get_interfaces_mac_address, \
+                   linux_get_interfaces_statistics, linux_get_ipv6_addresses, \
+                   linux_get_lldp_interface, linux_get_lldp_neighbors, linux_get_ndp_table_reachable_entries, \
+                   linux_get_ndp_table_stale_entries, linux_get_ndp_table, linux_get_system_info, \
+                   linux_get_system_uptime
+
+'''
+target_mod = __import__(device_type)
+target_func = getattr(target_mod, sys._getframe().f_code.co_name)
+return target_func()
+'''
 
 
 def get_bgp_memory_usage():
