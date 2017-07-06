@@ -58,6 +58,17 @@ class MossTaskOrchestrator(object):
 
 
     def run(self):
+        '''
+        Summary:
+        Runs tasks that were defined through .add_task in a structured way.
+
+        Arguments:
+        self
+
+        Returns:
+        dict
+        '''
+
         connection = self.device.get_connection()
 
         start_banner()
@@ -98,4 +109,15 @@ class MossTaskOrchestrator(object):
 
 
     def show_steps(self):
+        '''
+        Summary:
+        Returns all steps that have been defined
+
+        Arguments:
+        self
+
+        Returns:
+        list
+        '''
+
         return self.task['task_order']

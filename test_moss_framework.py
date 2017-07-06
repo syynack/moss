@@ -30,13 +30,11 @@ def main():
     task.add_task(task_name = 'get_system_uptime')
     task.add_task(task_name = 'get_system_info')
     task.add_task(task_name = 'get_interface_description', argument = 'eth0')
-    task.add_task(task_name = 'get_interface_statistics', argument = 'eth0', success_outcome = 'fail')
-    task.add_task(task_name = 'get_ipv6_addresses', success_outcome = 'fail')
+    task.add_task(task_name = 'get_interface_statistics', argument = 'eth0', failure_next_task = 'get_bgp_memory_usage')
+    task.add_task(task_name = 'get_ipv6_addresses')
     task.add_task(task_name = 'get_bgp_memory_usage')
 
-    #print task.show_steps()
-
     result = task.run()
-    #pretty_print(result)
+
 
 main()

@@ -12,6 +12,7 @@ def colour(text, colour, bold=False):
         "white": '\033[0;97m',
         "green": '\033[0;92m',
         "red": '\033[0;31m',
+        "magenta": '\033[0;35m',
         "reset": '\033[0;39m',
         "bold": '\033[0;1m'
     }
@@ -51,9 +52,13 @@ def task_start_header(task):
 
 def task_end_header(result):
     if result == 'success':
-        print colour(result, 'green', bold=True)
+        print colour(result, 'green', bold=True),
     else:
-        print colour(result, 'red', bold=True)
+        print colour(result, 'red', bold=True),
+
+
+def task_branch_header(next_step):
+    print colour(' ( ', 'white') + colour('branch to {}'.format(next_step), 'magenta') + colour(' )', 'white'),
 
 
 def end_banner(result):
