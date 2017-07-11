@@ -2,7 +2,7 @@
 
 import re
 
-def get_lldp_neighbors(connection):
+def linux_get_lldp_neighbors(connection):
     '''
     Utilises the Linux implementation of IEEE 802.1ab (LLDP) protocol to
     return link layer discovery information in an XML format.

@@ -2,7 +2,7 @@
 
 import re
 
-def get_interfaces_mac_address(connection):
+def linux_get_interfaces_mac_address(connection):
     '''
     Summary:
     Runs ifconfig on a Linux box to retrieve interface information, this

@@ -2,7 +2,7 @@
 
 import re
 
-def get_ipv6_route_table(connection):
+def linux_get_ipv6_route_table(connection):
     command = 'vtysh -c "show ipv6 route"'
     output = connection.send_command(command)
 

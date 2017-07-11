@@ -2,7 +2,7 @@
 
 import re
 
-def get_ipv6_ospf_neighbors_brief(connection):
+def linux_get_ipv6_ospf_neighbors_brief(connection):
     command = 'vtysh -c "show ipv6 ospf6 neighbor" | tail -n +2'
     output = connection.send_command(command)
 

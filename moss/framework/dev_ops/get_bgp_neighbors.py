@@ -2,7 +2,7 @@
 
 import re
 
-def get_bgp_neighbors(connection):
+def linux_get_bgp_neighbors(connection):
     command = 'vtysh -c "show bgp neighbors"'
     output = connection.send_command(command)
 

@@ -2,7 +2,7 @@
 
 import re
 
-def get_ipv6_ospf_interfaces(connection):
+def linux_get_ipv6_ospf_interfaces(connection):
     command = 'vtysh -c "show ipv6 ospf6 interface"'
     output = connection.send_command(command)
 

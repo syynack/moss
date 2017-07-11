@@ -2,7 +2,7 @@
 
 import re
 
-def get_bgp_summary(connection):
+def linux_get_bgp_summary(connection):
     command = 'vtysh -c "show bgp summary"'
     output = connection.send_command(command)
 

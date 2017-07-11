@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-def get_ndp_table(connection):
+def linux_get_ndp_table(connection):
     '''
     Summary:
     Runs ip -6 neighbor show on a Linux box to retrieve the IPv6 Neighbor

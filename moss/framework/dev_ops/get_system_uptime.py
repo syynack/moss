@@ -2,7 +2,7 @@
 
 import re
 
-def get_system_uptime(connection):
+def linux_get_system_uptime(connection):
     '''
     Summary:
     Runs uptime on a Linux box to retrieve information regarding the uptime,

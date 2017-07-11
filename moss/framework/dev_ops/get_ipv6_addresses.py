@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-def get_ipv6_addresses(connection):
+def linux_get_ipv6_addresses(connection):
     '''
     Summary:
     Runs ifconfig on a Linux box grepping for link encapsulation and

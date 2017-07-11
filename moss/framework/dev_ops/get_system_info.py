@@ -2,7 +2,7 @@
 
 import re
 
-def get_system_info(connection):
+def linux_get_system_info(connection):
     '''
     Summary:
     Runs uname with optional flags to obtain detailed system information.

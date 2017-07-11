@@ -2,7 +2,7 @@
 
 import re
 
-def get_interfaces_statistics(connection):
+def linux_get_interfaces_statistics(connection):
     '''
     Summary:
     Runs ifconfig -a on a Linux box to retrieve information for all interfaces
