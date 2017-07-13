@@ -3,7 +3,7 @@
 import sys
 from netmiko import ConnectHandler
 
-class MossDeviceOrchestrator(object):
+class Device(object):
 
     '''
     Summary:
@@ -24,7 +24,7 @@ class MossDeviceOrchestrator(object):
 
     '''
 
-    def __init__(self, device_type='', ip='', username='', password='', port=22, timeout=8, session_timeout=60):
+    def __init__(self, device_type='', ip='', username='', password='', port=22, timeout=20, session_timeout=60):
         self.device_type = device_type
         self.ip = ip
         self.username = username
@@ -36,7 +36,7 @@ class MossDeviceOrchestrator(object):
 
     def get_connection(self):
         try:
-            return ConnectHandler(
+            connection = ConnectHandler(
                 device_type = self.device_type,
                 ip = self.ip,
                 username = self.username,
@@ -49,6 +49,5 @@ class MossDeviceOrchestrator(object):
             print '\n{} is not a currently supported device. Currently supported devices are: \n{}' \
                 .format(self.device_type, ', '.join(str(e).split()[6:]))
             sys.exit()
-        except:
-            print 'Unable to connect to {} on port {}'.format(self.ip, self.port)
-            sys.exit()
+
+        return connection
