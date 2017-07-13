@@ -13,6 +13,3 @@ def main():
 
 main.add_command(init.init, name = 'init')
 main.add_command(run.run, name = 'run')
-
-# REMOVE
-main()
