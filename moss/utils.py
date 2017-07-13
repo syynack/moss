@@ -36,28 +36,28 @@ def start_banner():
     print colour(banner, 'white', bold=True)
 
 
-def start_header(task):
-    first_task = task['task_order'][0]['task_name']
-    print colour(' :: Tasks to be executed: ', 'white', bold=True)
+def start_header(module_order):
+    first_module = module_order[0]['module']
+    print colour(' :: Modules to be executed: ', 'white', bold=True)
 
-    for task in task['task_order']:
-        print colour('\t{}'.format(task['task_name']), 'white')
+    for module in module_order:
+        print colour('\t{}'.format(module['module']), 'white')
 
-    print colour('\n :: First task: {}\n'.format(first_task), 'white', bold=True)
+    print colour('\n :: First module: {}\n'.format(first_module), 'white', bold=True)
 
 
-def task_start_header(task):
+def module_start_header(task):
     print colour(' :: {}'.format(task), 'white'),
 
 
-def task_end_header(result):
+def module_end_header(result):
     if result == 'success':
         print colour(result, 'green', bold=True),
     else:
         print colour(result, 'red', bold=True),
 
 
-def task_branch_header(next_step):
+def module_branch_header(next_step):
     print colour(' ( ', 'white') + colour('branch to {}'.format(next_step), 'magenta') + colour(' )', 'white'),
 
 

@@ -5,101 +5,101 @@ import sys
 from utils import *
 from framework.decorators import *
 
-def run_task(connection, task_data):
+def run_module(connection, module_data):
     '''
     Summary:
     I know, you're thinking "what on earth has he done here?". Me too, let me
-    explain. This works by looking at the task names in task_data (just the string),
+    explain. This works by looking at the task names in module_data (just the string),
     it will then call that actual function based off the string. It will then
     have to call the subfunctions as well as they are from decorators.py
     The result data will then be returned.
 
     Arguments:
     connection          Netmiko SSH object
-    task_data           list, from task_orchestrator
+    module_data           list, from task_orchestrator
 
     Returns:
     dict
     '''
 
-    task_start_time = timer()
-    task_start_header(task_data['task_name'])
+    module_start_time = timer()
+    module_start_header(module_data['module'])
 
     try:
         # See if we can get the function from decorators.py with the same name
-        result = globals()[task_data['task_name']]()
+        result = globals()[module_data['module']]()
     except KeyError as e:
-        print colour('Unable to find function "{}".'.format(task_data['task_name']), 'red', bold=True)
+        print colour('Unable to find module "{}".'.format(module_data['module']), 'red', bold=True)
         sys.exit()
 
     # Call the decorating function
     decorator = result(connection)
 
     # Check if we need to pass an arg, there's a nicer way to do this
-    if task_data['argument']:
-        result = decorator(connection, task_data['argument'])
+    if module_data['argument']:
+        result = decorator(connection, module_data['argument'])
     else:
         result = decorator(connection)
 
-    task_end_header(result['result'])
-    task_end_time = timer()
-    task_run_time = runtime(task_start_time, task_end_time)
+    module_end_header(result['result'])
+    module_end_time = timer()
+    module_run_time = runtime(module_start_time, module_end_time)
 
-    task_result = 'success'
-    next_task = task_data['next_task']
+    module_result = 'success'
+    next_module = module_data['next_module']
 
     # Check if we got the result we wanted
-    if result['result'] != task_data['success_outcome']:
-        task_result = 'fail'
-        if task_data['failure_next_task'] == None:
+    if result['result'] != module_data['success_outcome']:
+        module_result = 'fail'
+        if module_data['failure_next_module'] == None:
             end_banner(result['result'])
             print colour(' :: No failure_next_task specified and success_outcome is not failure for {}. Exiting.\n' \
-                .format(task_data['task_name']), 'red'
+                .format(module_data['module']), 'red'
             )
 
             sys.exit()
 
-        next_task = task_data['failure_next_task']
-        task_branch_header(next_task)
+        next_module = module_data['failure_next_module']
+        task_branch_header(next_module)
 
     print ''
 
     # Make some new data
-    task_result_dict = {
-        'task': {
+    module_result_dict = {
+        'module': {
             'namespace': result['namespace'],
             'name': result['task'],
-            'result': task_result
+            'result': module_result
         },
         'result': result['result'],
         'stdout': result['stdout'],
-        'start_time': task_start_time,
-        'end_time': task_end_time,
-        'run_time': task_run_time,
-        'next_task': next_task
+        'start_time': module_start_time,
+        'end_time': module_end_time,
+        'run_time': module_run_time,
+        'next_module': next_module
     }
 
-    return task_result_dict
+    return module_result_dict
 
 
-def update_task_list(task_data):
+def update_module_order(module_order):
     '''
     Summary:
     Goes through the current task list and adds the next task for each one
 
     Arguments:
-    task_data           list, from task_orchestrator
+    module_data           list, from task_orchestrator
 
     Returns:
     list
     '''
 
-    for index, task in enumerate(task_data[:-1]):
-        if not task['final']:
-            task['next_task'] = task_data[index + 1]['task_name']
+    for index, module in enumerate(module_order[:-1]):
+        if not module['final']:
+            module['next_module'] = module_order[index + 1]['module']
         else:
-            task['next_task'] = 'end'
+            module['next_module'] = 'end'
 
-    task_data[-1]['next_task'] = 'end'
+    module_order[-1]['next_module'] = 'end'
 
-    return task_data
+    return module_order

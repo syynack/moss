@@ -1,4 +1,3 @@
 import framework
 
-from device_orchestrator import MossDeviceOrchestrator
-from task_orchestrator import MossTaskOrchestrator
+from device import Device

@@ -30,7 +30,7 @@ setup(
 		#   3 - Alpha
 		#   4 - Beta
 		#   5 - Production/Stable
-		'Development Status :: 3 - Alpha',
+		'Development Status :: 2 - Pre-Alpha',
 
 		# Indicate who your project is intended for
 		'Intended Audience :: Developers',
@@ -50,12 +50,13 @@ setup(
 	# You can just specify the packages manually here if your project is
 	# simple. Or you can use find_packages().
 	packages=['.'] + find_packages(),
+	include_package_data=True,
 
 	# List run-time dependencies here.  These will be installed by pip when
 	# your project is installed. For an analysis of "install_requires" vs pip's
 	# requirements files see:
 	# https://packaging.python.org/en/latest/requirements.html
-	install_requires=['netmiko>=1.4.1'],
+	install_requires=['netmiko>=1.4.1', 'click>=6.7'],
 
 
 	# List additional groups of dependencies here (e.g. development
@@ -81,5 +82,8 @@ setup(
 	# To provide executable scripts, use entry points in preference to the
 	# "scripts" keyword. Entry points provide cross-platform support and allow
 	# pip to create the appropriate form of executable for the target platform.
-	entry_points={}
+	scripts=['moss/bin/moss-ctrl.py'],
+	entry_points={'console_scripts': [
+		'moss-ctrl = moss.cli:main'
+	]}
 )

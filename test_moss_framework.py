@@ -23,21 +23,6 @@ def main():
         password = 'moss-test',
     )
 
-    '''
-    task = MossTaskOrchestrator(
-        device = device
-    )
-
-    task.add_task(task_name = 'get_system_uptime')
-    task.add_task(task_name = 'get_system_info')
-    task.add_task(task_name = 'get_interface_description', argument = 'eth0')
-    task.add_task(task_name = 'get_interface_statistics', argument = 'eth0', failure_next_task = 'get_bgp_memory_usage')
-    task.add_task(task_name = 'get_ipv6_addresses')
-    task.add_task(task_name = 'get_bgp_memory_usage')
-
-    result = task.run()
-    '''
-
     print test_function(device.get_connection())
 
 main()
