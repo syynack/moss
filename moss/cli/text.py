@@ -42,8 +42,12 @@ TASK_BASE_TEXT = '''# This file is used to define task stages to be executed wit
 #                           an outcome not matching the success_outcome is returned.
 #
 #   - focus                 Define an element of stdout from the module to focus on.
-#                           For example, focus = 'neighbor_rid': 'fd35:1:1:2::8' will
-#                           check if there is an occurrence of fd35:1:1:2::8 in stdout,
+#                           For example:
+#
+#                           focus:
+#                               neighbor_rid: 'fd35:1:1:2::8'
+#
+#                           will check if there is an occurrence of fd35:1:1:2::8 in stdout,
 #                           if there is a match focus_outcome will be marked as True.
 #
 #   - focus_outcome         Influence the result of the stage from the results of focus.
