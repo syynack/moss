@@ -80,7 +80,12 @@ def runtime(start, end):
     return end - start
 
 
-def pretty_print(data):
-    print ''
+def print_data_in_json(data):
+    print 'JSON OUTPUT STARTS NOW'
     print json.dumps(data, sort_keys=True, indent=4, separators=(',', ': '))
-    print ''
+    print '\nJSON OUTPUT ENDS NOW'
+
+
+def write_json_to_file(data, filename):
+    with open(filename, 'a+') as json_file:
+        json_file.write(json.dumps(data, sort_keys=True, indent=4, separators=(',', ': ')))
