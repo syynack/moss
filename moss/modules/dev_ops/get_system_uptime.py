@@ -39,15 +39,22 @@ def linux_get_system_uptime(connection):
         }
 
     stdout = {}
-    regex = '\s(?P<current_time>[0-9]{2}:[0-9]{2}:[0-9]{2})\sup\s(?P<uptime>[^\s]+\s[^,]+).*' \
-            '(?P<users>[0-9])\suser.*load\saverage:\s(?P<avg_1_min_load>[0-100].[0-9]{2}),' \
-            '\s(?P<avg_5_min_load>[0-100].[0-9]{2}),\s(?P<avg_15_min_load>[0-100].[0-9]{2})'
+    regexes = [
+        '\s(?P<current_time>[0-9]{2}:[0-9]{2}:[0-9]{2})\sup',
+        '\sup(?P<uptime>[^,]+)',
+        ',(?P<users>.*)user.*load\saverage:',
+        'load\saverage:(?P<avg_1_min_load>[^,]+),(?P<avg_5_min_load>[^,]+),(?P<avg_15_min_load>[^\n]+)'
+    ]
 
     for line in output.splitlines():
-        data = re.search(regex, line, re.MULTILINE)
+        for regex in regexes:
+            data = re.search(regex, line, re.MULTILINE)
 
-        if data is not None:
-            stdout.update(data.groupdict())
+            if data is not None:
+                stdout.update(data.groupdict())
+
+    for key, element in stdout.iteritems():
+        stdout[key] = element.strip()
 
     return {
         'result': 'success',
