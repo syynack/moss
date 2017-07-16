@@ -62,6 +62,6 @@ class Device(object):
             sys.exit(1)
 
         try:
-            connection.send_command('exit')
+            connection.disconnect()
         except:
             raise
