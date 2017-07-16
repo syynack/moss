@@ -39,8 +39,8 @@ def _construct_task_order(task_data):
             'success_outcome': 'success' if not task.get('success_outcome') else task.get('success_outcome'),
             'failure_next_module': task.get('failure_next_module'),
             'focus': task.get('focus'),
-            'focus_outcome': task.get('focus_outcome'),
-            'final': task.get('final')
+            'focus_next_module': task.get('focus_next_module'),
+            'final': False if not task.get('final') else task.get('final')
         })
 
     return task_order
