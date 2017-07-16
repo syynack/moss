@@ -2,8 +2,38 @@
 
 import sys
 
-from utils import runtime, timer, module_start_header, module_end_header, end_banner, module_branch_header, colour
+from utils import runtime, timer, module_start_header, module_end_header, end_banner, module_branch_header, colour, module_focus_match_banner
 from datetime import datetime
+
+def _check_focus(focus, stdout):
+    focus_matches = []
+    focus_key = next(iter(focus))
+
+    if isinstance(stdout, list):
+        for entry in stdout:
+            if isinstance(entry, dict):
+                results = _check_focus(focus, entry)
+                for result in results:
+                    focus_matches.append(result)
+    elif isinstance(stdout, dict):
+        for key, value in stdout.iteritems():
+            if key == focus_key:
+                if stdout[key] == focus[focus_key]:
+                    focus_matches.append({key: value})
+            elif isinstance(value, dict):
+                results = _check_focus(focus, value)
+                for result in results:
+                    focus_matches.append(result)
+            elif isinstance(value, list):
+                results = _check_focus(focus, value)
+                for result in results:
+                    focus_matches.append(result)
+    else:
+        if focus_key in stdout:
+            focus_matches.append(stdout[focus])
+
+    return focus_matches
+
 
 def run_module(connection, module_data):
     '''
@@ -34,6 +64,12 @@ def run_module(connection, module_data):
     except TypeError as e:
         print str(e)
 
+    if module_data.get('focus'):
+        focus_result = _check_focus(module_data['focus'], result['stdout'])
+        if focus_result:
+            result['focus_outcome'] = True
+            result['focus_result'] = focus_result
+
     module_end_header(result['result'])
     module_end_timer = timer()
     module_end_time = str(datetime.now())
@@ -41,6 +77,16 @@ def run_module(connection, module_data):
 
     module_result = 'success'
     next_module = module_data.get('next_module')
+
+    if result.get('focus_outcome'):
+        result['result'] = module_data['success_outcome']
+
+        if module_data.get('focus_next_module'):
+            next_module = module_data['focus_next_module']
+            module_focus_match_banner(next_module)
+        else:
+            module_focus_match_banner(None)
+
 
     # Check if we got the result we wanted
     if result['result'] != module_data['success_outcome']:
@@ -66,6 +112,7 @@ def run_module(connection, module_data):
             'result': module_result
         },
         'result': result['result'],
+        'focus_result': result.get('focus_result'),
         'stdout': result['stdout'],
         'start_time': module_start_time,
         'end_time': module_end_time,

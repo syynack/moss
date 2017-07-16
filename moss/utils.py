@@ -14,7 +14,8 @@ def colour(text, colour, bold=False):
         "red": '\033[0;31m',
         "magenta": '\033[0;35m',
         "reset": '\033[0;39m',
-        "bold": '\033[0;1m'
+        "bold": '\033[0;1m',
+        "blue": '\033[0;36m'
     }
 
     if bold:
@@ -61,6 +62,13 @@ def module_branch_header(next_step):
     print colour(' ( ', 'white') + colour('branch to {}'.format(next_step), 'magenta') + colour(' )', 'white'),
 
 
+def module_focus_match_banner(next_module):
+    if not next_module:
+        print colour(' ( ', 'white') + colour('focus match', 'blue') + colour(' )', 'white'),
+    else:
+        print colour(' ( ', 'white') + colour('focus match branching to {}'.format(next_module), 'blue') + colour(' )', 'white'),
+
+
 def end_banner(result):
     terminal_width = get_terminal_width()
     header = header = '[ Task {} ]'.format(result)
@@ -81,9 +89,7 @@ def runtime(start, end):
 
 
 def print_data_in_json(data):
-    print 'JSON OUTPUT STARTS NOW'
     print json.dumps(data, sort_keys=True, indent=4, separators=(',', ': '))
-    print '\nJSON OUTPUT ENDS NOW'
 
 
 def write_json_to_file(data, filename):

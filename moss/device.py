@@ -56,10 +56,10 @@ class Device(object):
 
 
     def close(self, connection):
-        # See https://github.com/ktbyers/netmiko/issues/492
         if connection.username == 'root' and connection.device_type == 'linux':
-            print colour(' :: Disconnecting from a Linux box with user root is currently not supported\n', 'red')
-            sys.exit(1)
+            # Disconnecting from a Linux box with user root is currently not supported, see https://github.com/ktbyers/netmiko/issues/492
+            # if the issue is closed, matt was lazy. Please update this.
+            return
 
         try:
             connection.disconnect()
