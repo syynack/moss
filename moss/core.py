@@ -3,7 +3,7 @@
 import sys
 
 from utils import *
-from framework.decorators import *
+from modules.decorators import *
 
 def run_module(connection, module_data):
     '''
@@ -25,21 +25,13 @@ def run_module(connection, module_data):
     module_start_time = timer()
     module_start_header(module_data['module'])
 
+    target_mod = __import__('modules.' + connection.device_type, globals(), locals(), ['object'], -1)
+    target_func = getattr(target_mod, module_data['module'])
+
     try:
-        # See if we can get the function from decorators.py with the same name
-        result = globals()[module_data['module']]()
-    except KeyError as e:
-        print colour('Unable to find module "{}".'.format(module_data['module']), 'red', bold=True)
-        sys.exit()
-
-    # Call the decorating function
-    decorator = result(connection)
-
-    # Check if we need to pass an arg, there's a nicer way to do this
-    if module_data['argument']:
-        result = decorator(connection, module_data['argument'])
-    else:
-        result = decorator(connection)
+        result = target_func(connection)
+    except TypeError as e:
+        print str(e)
 
     module_end_header(result['result'])
     module_end_time = timer()
