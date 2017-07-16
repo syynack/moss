@@ -1,6 +1,8 @@
 #! /usr/bin/env python
 
 import sys
+
+from utils import colour
 from netmiko import ConnectHandler
 
 class Device(object):
@@ -51,3 +53,15 @@ class Device(object):
             sys.exit()
 
         return connection
+
+
+    def close(self, connection):
+        # See https://github.com/ktbyers/netmiko/issues/492
+        if connection.username == 'root' and connection.device_type == 'linux':
+            print colour(' :: Disconnecting from a Linux box with user root is currently not supported\n', 'red')
+            sys.exit(1)
+
+        try:
+            connection.send_command('exit')
+        except:
+            raise
