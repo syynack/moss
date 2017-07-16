@@ -4,20 +4,27 @@ import click
 import yaml
 import sys
 import getpass
+import socket
 
 from moss.device import Device
 from moss.task import run_task
+from moss.utils import print_data_in_json, write_json_to_file
 
 
 def _parse_yaml_data_to_dict(*args):
     yaml_data = []
 
     for target_file in args:
-        with open(target_file, 'r') as yaml_file:
-            try:
-                yaml_data.append(yaml.load(yaml_file))
-            except yaml.YAMLError as e:
-                print e
+        try:
+            with open(target_file, 'r') as yaml_file:
+                try:
+                    yaml_data.append(yaml.load(yaml_file))
+                except yaml.YAMLError as e:
+                    print e
+        except IOError as e:
+            error = str(e)
+            print 'Cannot find file {}'.format(str(error.split('directory')[1][4:-1]))
+            sys.exit(1)
 
     return yaml_data
 
@@ -56,17 +63,27 @@ def _construct_endpoint(endpoint, endpoint_data):
         session_timeout = 60 if endpoint.get('session_timeout') is None else endpoint['session_timeout']
     )
 
-    connection = device.get_connection()
-    return connection
+    return device
 
 
 @click.command(short_help = 'Run a task from predefined files')
 @click.option('-e', '--endpoints', default='endpoints', help='File containing endpoint information (default: endpoints)')
+@click.option('-o', '--output-file', default='', help='Write the output of the task to a file')
+@click.option('-p', '--print-output', is_flag=True, help='Print the JSON output of the task to the screen')
 @click.option('-t', '--task', default='task', help='File containing task information (default: task)')
-def run(endpoints, task):
+def run(endpoints, output_file, print_output, task):
     endpoint_data, task_data = _parse_yaml_data_to_dict(endpoints, task)
     module_order = _construct_task_order(task_data['task'])
 
     for endpoint in endpoint_data['endpoints']:
-        endpoint_connection = _construct_endpoint(endpoint, endpoint_data)
+        endpoint_obj = _construct_endpoint(endpoint, endpoint_data)
+        endpoint_connection = endpoint_obj.get_connection()
         result = run_task(endpoint_connection, module_order)
+
+        endpoint_obj.close(endpoint_connection)
+
+        if print_output:
+            print_data_in_json(result)
+
+        if output_file:
+            write_json_to_file(result, output_file)
