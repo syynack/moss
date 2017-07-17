@@ -5,7 +5,7 @@ import sys
 def _run_operation(connection, func_name, *arg):
     device_type = connection.device_type
 
-    target_mod = __import__(device_type, globals(), level = 1)
+    target_mod = __import__('modules.' + device_type, globals(), locals(), ['object'], -1)
     target_func = getattr(target_mod, func_name)
     return target_func(connection, *arg)
 
