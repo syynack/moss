@@ -5,6 +5,9 @@ import fcntl
 import termios
 import time
 import json
+import sys
+import os
+import subprocess
 
 
 def colour(text, colour, bold=False):
@@ -95,3 +98,10 @@ def print_data_in_json(data):
 def write_json_to_file(data, filename):
     with open(filename, 'a+') as json_file:
         json_file.write(json.dumps(data, sort_keys=True, indent=4, separators=(',', ': ')))
+
+
+def edit_file(filename):
+    editor = os.environ.get('EDITOR', 'vim')
+
+    with open(filename, 'a') as edit_file:
+        subprocess.call([editor, filename])

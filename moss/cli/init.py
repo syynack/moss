@@ -1,8 +1,8 @@
 #! /usr/bin/env python
 
 import click
-import utils
 
+from moss.utils import edit_file
 from text import ENDPOINTS_BASE_TEXT, TASK_BASE_TEXT
 
 
@@ -16,10 +16,10 @@ def init(directory):
         endpoints.write(ENDPOINTS_BASE_TEXT)
 
     if click.confirm('Edit endpoints now?'):
-        utils.edit_file(endpoints_file)
+        edit_file(endpoints_file)
 
     with open(task_file, 'w+') as task:
         task.write(TASK_BASE_TEXT)
 
     if click.confirm('Edit task now?'):
-        utils.edit_file(task_file)
+        edit_file(task_file)
