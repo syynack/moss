@@ -2,14 +2,12 @@
 
 REGISTER = {}
 
-def register(func):
-    platform_name = func.__module__
-    platform_name = platform_name.split('.')[-1]
+def register(platform):
+    def decorator(func):
+        if platform:
+            if not REGISTER.get(platform):
+                REGISTER[platform] = {}
 
-    if platform_name not in REGISTER:
-        REGISTER[platform_name] = []
-        REGISTER[platform_name].append(func.__name__)
-    else:
-        REGISTER[platform_name].append(func.__name__)
-        
-    return func
+            REGISTER[platform].update({func.__name__: func})
+        return func
+    return decorator

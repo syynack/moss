@@ -10,7 +10,7 @@ from dev_ops import linux_get_bgp_memory_usage, linux_get_bgp_neighbors, linux_g
                     linux_get_system_uptime
 
 
-@register
+@register(platform = 'linux')
 def get_interface_statistics(connection, port_id):
     '''
     Summary:
@@ -49,7 +49,7 @@ def get_interface_statistics(connection, port_id):
     return output_dict
 
 
-@register
+@register(platform = 'linux')
 def get_interfaces_mac_address(connection):
     '''
     Summary:
@@ -74,7 +74,7 @@ def get_interfaces_mac_address(connection):
     return output_dict
 
 
-@register
+@register(platform = 'linux')
 def get_interfaces_statistics(connection):
     '''
     Summary:
@@ -99,7 +99,7 @@ def get_interfaces_statistics(connection):
     return output_dict
 
 
-@register
+@register(platform = 'linux')
 def get_ipv6_addresses(connection):
     '''
     Summary:
@@ -125,7 +125,7 @@ def get_ipv6_addresses(connection):
     return output_dict
 
 
-@register
+@register(platform = 'linux')
 def get_lldp_interface(connection, port_id):
     '''
     Summary:
@@ -164,7 +164,7 @@ def get_lldp_interface(connection, port_id):
     return output_dict
 
 
-@register
+@register(platform = 'linux')
 def get_lldp_neighbors(connection):
     '''
     Summary:
@@ -189,7 +189,7 @@ def get_lldp_neighbors(connection):
     return output_dict
 
 
-@register
+@register(platform = 'linux')
 def get_ndp_table_reachable_entries(connection):
     '''
     Summary:
@@ -227,7 +227,7 @@ def get_ndp_table_reachable_entries(connection):
     return output_dict
 
 
-@register
+@register(platform = 'linux')
 def get_ndp_table_stale_entries(connection):
     '''
     Summary:
@@ -265,7 +265,7 @@ def get_ndp_table_stale_entries(connection):
     return output_dict
 
 
-@register
+@register(platform = 'linux')
 def get_ndp_table(connection):
     '''
     Summary:
@@ -290,7 +290,7 @@ def get_ndp_table(connection):
     return output_dict
 
 
-@register
+@register(platform = 'linux')
 def get_system_info(connection):
     '''
     Summary:
@@ -317,7 +317,7 @@ def get_system_info(connection):
     return output_dict
 
 
-@register
+@register(platform = 'linux')
 def get_system_uptime(connection):
     '''
     Summary:
@@ -343,7 +343,7 @@ def get_system_uptime(connection):
     return output_dict
 
 
-@register
+@register(platform = 'linux')
 def get_bgp_memory_usage(connection):
     '''
     Summary:
@@ -368,7 +368,7 @@ def get_bgp_memory_usage(connection):
     return output_dict
 
 
-@register
+@register(platform = 'linux')
 def get_bgp_neighbor(connection, neighbor_address):
     '''
     Summary:
@@ -406,7 +406,7 @@ def get_bgp_neighbor(connection, neighbor_address):
     return output_dict
 
 
-@register
+@register(platform = 'linux')
 def get_bgp_neighbors(connection):
     '''
     Summary:
@@ -431,7 +431,7 @@ def get_bgp_neighbors(connection):
     return output_dict
 
 
-@register
+@register(platform = 'linux')
 def get_bgp_summary(connection):
     '''
     Summary:
@@ -456,7 +456,7 @@ def get_bgp_summary(connection):
     return output_dict
 
 
-@register
+@register(platform = 'linux')
 def get_interface_description(connection, port_id):
     '''
     Summary:
@@ -494,7 +494,7 @@ def get_interface_description(connection, port_id):
     return output_dict
 
 
-@register
+@register(platform = 'linux')
 def get_interfaces_description(connection):
     '''
     Summary:
@@ -519,7 +519,7 @@ def get_interfaces_description(connection):
     return output_dict
 
 
-@register
+@register(platform = 'linux')
 def get_ipv6_ospf_interface(connection, port_id):
     '''
     Summary:
@@ -559,7 +559,7 @@ def get_ipv6_ospf_interface(connection, port_id):
     return output_dict
 
 
-@register
+@register(platform = 'linux')
 def get_ipv6_ospf_interfaces(connection):
     '''
     Summary:
@@ -584,7 +584,7 @@ def get_ipv6_ospf_interfaces(connection):
     return output_dict
 
 
-@register
+@register(platform = 'linux')
 def get_ipv6_ospf_neighbor_brief(connection, neighbor_rid):
     '''
     Summary:
@@ -622,7 +622,7 @@ def get_ipv6_ospf_neighbor_brief(connection, neighbor_rid):
     return output_dict
 
 
-@register
+@register(platform = 'linux')
 def get_ipv6_ospf_neighbor_detail(connection, neighbor_rid):
     '''
     Summary:
@@ -661,7 +661,7 @@ def get_ipv6_ospf_neighbor_detail(connection, neighbor_rid):
     return output_dict
 
 
-@register
+@register(platform = 'linux')
 def get_ipv6_ospf_neighbors_brief(connection):
     '''
     Summary:
@@ -686,7 +686,7 @@ def get_ipv6_ospf_neighbors_brief(connection):
     return output_dict
 
 
-@register
+@register(platform = 'linux')
 def get_ipv6_ospf_neighbors_detail(connection):
     '''
     Summary:
@@ -711,7 +711,7 @@ def get_ipv6_ospf_neighbors_detail(connection):
     return output_dict
 
 
-@register
+@register(platform = 'linux')
 def get_ipv6_route_table(connection):
     '''
     Summary:

@@ -2,6 +2,12 @@
 
 import modules
 
+from .register import REGISTER
+
+__all__ = [
+    REGISTER
+]
+
 from .device import Device
 
 # BGP

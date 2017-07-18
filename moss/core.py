@@ -2,7 +2,8 @@
 
 import sys
 
-from utils import runtime, timer, module_start_header, module_end_header, end_banner, module_branch_header, colour, module_focus_match_banner
+from moss.register import REGISTER as register
+from moss.utils import runtime, timer, module_start_header, module_end_header, end_banner, module_branch_header, colour, module_focus_match_banner
 from datetime import datetime
 
 def _check_focus(focus, stdout):
@@ -56,13 +57,13 @@ def run_module(connection, module_data):
     module_start_time = str(datetime.now())
     module_start_header(module_data['module'])
 
-    target_mod = __import__('modules.' + connection.device_type, globals(), locals(), ['object'], -1)
-    target_func = getattr(target_mod, module_data['module'])
+    if not register.get(connection.device_type).get(module_data['module']):
+        print ''
+        end_banner('fail')
+        print colour(' :: Could not find {}. Is it registered?\n'.format(module_data['module']), 'white')
+        sys.exit(1)
 
-    try:
-        result = target_func(connection)
-    except TypeError as e:
-        print str(e)
+    result = register[connection.device_type][module_data['module']](connection)
 
     if module_data.get('focus'):
         focus_result = _check_focus(module_data['focus'], result['stdout'])
