@@ -5,7 +5,7 @@ import sys
 from utils import colour
 from netmiko import ConnectHandler
 
-class Device(object):
+class Endpoint(object):
 
     '''
     Summary:
@@ -22,7 +22,7 @@ class Device(object):
     session_timeout:    int, timeout for parallel requests
 
     Returns:
-    MossDeviceOrchestrator object
+    Endpoint object
 
     '''
 
@@ -37,6 +37,14 @@ class Device(object):
 
 
     def get_connection(self):
+        '''
+        Summary:
+        Creates a netmiko SSH object from self data
+
+        Returns:
+        netmiko SSH object
+        '''
+
         try:
             connection = ConnectHandler(
                 device_type = self.device_type,
@@ -56,6 +64,12 @@ class Device(object):
 
 
     def close(self, connection):
+        '''
+        Summary:
+        Function to close connection due to root connections to linux boxes not closing correctly
+        
+        '''
+
         if connection.username == 'root' and connection.device_type == 'linux':
             # Disconnecting from a Linux box with user root is currently not supported, see https://github.com/ktbyers/netmiko/issues/492
             # if the issue is closed, matt was lazy. Please update this.

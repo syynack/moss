@@ -2,7 +2,7 @@
 
 import click
 
-from moss.task import parse_yaml_data_to_dict, construct_task_order, construct_endpoint, run_task
+from moss.task import task_control
 
 @click.command(short_help = 'Run a task from predefined files')
 @click.option('-e', '--endpoints', default='endpoints', help='File containing endpoint information (default: endpoints)')
@@ -10,18 +10,4 @@ from moss.task import parse_yaml_data_to_dict, construct_task_order, construct_e
 @click.option('-p', '--print-output', is_flag=True, help='Print the JSON output of the task to the screen')
 @click.option('-t', '--task', default='task', help='File containing task information (default: task)')
 def run(endpoints, output_file, print_output, task):
-    endpoint_data, task_data = parse_yaml_data_to_dict(endpoints, task)
-    module_order = construct_task_order(task_data['task'])
-
-    for endpoint in endpoint_data['endpoints']:
-        endpoint_obj = construct_endpoint(endpoint, endpoint_data)
-        endpoint_connection = endpoint_obj.get_connection()
-        result = run_task(endpoint_connection, module_order)
-
-        endpoint_obj.close(endpoint_connection)
-
-        if print_output:
-            print_data_in_json(result)
-
-        if output_file:
-            write_json_to_file(result, output_file)
+    task_control(endpoints, output_file, print_output, task)

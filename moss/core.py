@@ -1,12 +1,26 @@
 #! /usr/bin/env python
 
 import sys
+import inspect
 
 from moss.register import REGISTER as register
 from moss.utils import runtime, timer, module_start_header, module_end_header, end_banner, module_branch_header, colour, module_focus_match_banner
 from datetime import datetime
 
 def _check_focus(focus, stdout):
+    '''
+    Summary:
+    Iterates through stdout and uses recursion to find a match for focus. Matches
+    are appended to focus_matches and returned in a list.
+
+    Arguments:
+    focus            dict, key value pair to be matched
+    stdout           dict or list, result of the module
+
+    Returns:
+    list
+    '''
+
     focus_matches = []
     focus_key = next(iter(focus))
 
@@ -39,15 +53,12 @@ def _check_focus(focus, stdout):
 def run_module(connection, module_data):
     '''
     Summary:
-    I know, you're thinking "what on earth has he done here?". Me too, let me
-    explain. This works by looking at the task names in module_data (just the string),
-    it will then call that actual function based off the string. It will then
-    have to call the subfunctions as well as they are from decorators.py
-    The result data will then be returned.
+    Queries register for the module it needs to run, executes it, parses the output
+    for focus or for success_outcome. Returns along with module run data.
 
     Arguments:
     connection          Netmiko SSH object
-    module_data           list, from task_orchestrator
+    module_data         list, from task_orchestrator
 
     Returns:
     dict
@@ -63,7 +74,21 @@ def run_module(connection, module_data):
         print colour(' :: Could not find {}. Is it registered?\n'.format(module_data['module']), 'white')
         sys.exit(1)
 
-    result = register[connection.device_type][module_data['module']](connection)
+    kwargs = {'connection': connection}
+
+    try:
+        kwargs.update(module_data.get('arguments'))
+    except TypeError as e:
+        pass
+
+    try:
+        result = register[connection.device_type][module_data['module']](**kwargs)
+    except TypeError as e:
+        print ''
+        end_banner('fail')
+        print colour(' :: {} takes {}\n'.format(module_data.get('module'), \
+            ', '.join(inspect.getargspec(register[connection.device_type][module_data['module']])[0][1:])), 'white')
+        sys.exit(1)
 
     if module_data.get('focus'):
         focus_result = _check_focus(module_data['focus'], result['stdout'])
@@ -88,25 +113,22 @@ def run_module(connection, module_data):
         else:
             module_focus_match_banner(None)
 
-
-    # Check if we got the result we wanted
     if result['result'] != module_data['success_outcome']:
         module_result = 'fail'
         if module_data['failure_next_module'] == None:
             print ''
             end_banner(module_result)
-            print colour(' :: No failure_next_task specified and success_outcome is not failure for {}. Exiting.\n' \
+            print colour(' :: No failure_next_task specified and success_outcome is not failure for {}.\n' \
                 .format(module_data['module']), 'white'
             )
-            sys.exit()
+            sys.exit(1)
 
         next_module = module_data['failure_next_module']
         module_branch_header(next_module)
 
     print ''
 
-    # Make some new data
-    module_result_dict = {
+    return {
         'module': {
             'namespace': result['namespace'],
             'name': result['task'],
@@ -121,8 +143,6 @@ def run_module(connection, module_data):
         'next_module': next_module
     }
 
-    return module_result_dict
-
 
 def update_module_order(module_order):
     '''
@@ -130,7 +150,7 @@ def update_module_order(module_order):
     Goes through the current task list and adds the next task for each one
 
     Arguments:
-    module_data           list, from task_orchestrator
+    module_data           list, from moss.task
 
     Returns:
     list

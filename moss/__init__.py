@@ -8,7 +8,7 @@ __all__ = [
     REGISTER
 ]
 
-from .device import Device
+from .endpoint import Endpoint
 
 # BGP
 from .decorators import get_bgp_memory_usage, get_bgp_neighbor, get_bgp_neighbors, get_bgp_summary

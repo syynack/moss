@@ -16,10 +16,28 @@ from moss.utils import timer, runtime
 class MossCrypt():
 
     def generate_aes_encryption_key(self):
+        '''
+        Summary:
+        returns random 16 byte hex encoded string
+        '''
+
         return os.urandom(16).encode('hex')
 
 
     def encrypt_file(self, key, in_file, chunksize = 64*8192):
+        '''
+        Summary:
+        Handles file encryption with AES 256 and returns related information
+
+        Arguments:
+        key             string, to be used for encryption
+        in_file         string, target file to be encrypted
+        chunksize       int, size of chunks to be encrypted
+
+        Returns:
+        dict
+        '''
+
         start_run_time = timer()
         start_date_time = str(datetime.now())
         initialisation_vector = ''.join(chr(random.randint(0, 0xFF)) for i in range(16))
@@ -73,6 +91,19 @@ class MossCrypt():
 
 
     def decrypt_file(self, key, in_file, chunksize = 64*8192):
+        '''
+        Summary:
+        Handles file decryption with AES 256 and returns related information
+
+        Arguments:
+        key             string, to be used for decryption
+        in_file         string, target file to be decrypted
+        chunksize       int, size of chunks to be decrypted
+
+        Returns:
+        dict
+        '''
+
         start_run_time = timer()
         start_date_time = str(datetime.now())
 
@@ -132,6 +163,20 @@ class MossCrypt():
 
 
     def edit_encrypted_file(self, key, filename, chunksize = 64*8192):
+        '''
+        Summary:
+        Handles file decryption, dumps decrypted contents into a temp file, opens
+        vim on the temp file, dumps back into encrypted file. 
+
+        Arguments:
+        key             string, to be used for encryption and decryption
+        filename        string, target file to be edited
+        chunksize       int, size of chunks to be used for encryption and decryption
+
+        Returns:
+        dict
+        '''
+
         if filename.split('.')[-1] != 'crypt':
             return {
                 'result': 'fail',

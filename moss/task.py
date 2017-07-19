@@ -8,13 +8,24 @@ import getpass
 
 from moss.utils import start_banner, start_header, timer, runtime, end_banner, print_data_in_json, write_json_to_file
 from moss.core import update_module_order, run_module
-from moss.device import Device
+from moss.endpoint import Endpoint
 
 from datetime import datetime
 from getpass import getuser
 
 
-def parse_yaml_data_to_dict(*args):
+def parse_yaml_data(*args):
+    '''
+    Summary:
+    Takes YAML data from endpoint and task files and returns as list of dicts
+
+    Arguments:
+    *args           filenames to be parsed
+
+    Returns:
+    list
+    '''
+
     yaml_data = []
 
     for target_file in args:
@@ -33,12 +44,23 @@ def parse_yaml_data_to_dict(*args):
 
 
 def construct_task_order(task_data):
+    '''
+    Summary:
+    Constructs the correct task order for the task with default outcomes.
+
+    Arguments:
+    task_data           list, task_data['task'] returned from parse_yaml_data
+
+    Returns:
+    list
+    '''
+
     task_order = []
 
     for task in task_data:
         task_order.append({
             'module': task.get('module'),
-            'argument': task.get('argument'),
+            'arguments': task.get('arguments'),
             'success_outcome': 'success' if not task.get('success_outcome') else task.get('success_outcome'),
             'failure_next_module': task.get('failure_next_module'),
             'focus': task.get('focus'),
@@ -50,6 +72,17 @@ def construct_task_order(task_data):
 
 
 def construct_endpoint(endpoint, endpoint_data):
+    '''
+    Parses dict from endpoints file to construct an endpoints obj with the correct information.
+
+    Arguments:
+    endpoint        dict, data from the endpoints file containing connection information
+    endpoint_data   dict, entire endpoint data
+
+    Return:
+    moss Device object containing netmiko SSH object
+    '''
+
     username_sources = [endpoint['username'], endpoint_data['global_username'], getpass.getuser()]
     password_sources = [endpoint['password'], endpoint_data['global_password']]
 
@@ -72,10 +105,13 @@ def construct_endpoint(endpoint, endpoint_data):
 def run_task(connection, module_order):
     '''
     Summary:
-    Runs tasks that were defined through .add_task in a structured way.
+    Runs tasks that were defined in the input from the cli. Controls the correct next
+    module for each module by parsing the return output which depends on a number of
+    different values. Returns consolidated task info in JSON.
 
     Arguments:
-    connection
+    connection          Netmiko SSH object
+    module_order        list, order for modules to be executed and their next modules
 
     Returns:
     dict
@@ -126,3 +162,36 @@ def run_task(connection, module_order):
 
     end_banner(result_dict['modules'][-1]['result'])
     return result_dict
+
+
+def task_control(endpoints, output_file, print_output, task):
+    '''
+    Summary:
+    Controlling for the overall execution of the task, controls running each
+    module for each endpoints
+
+    Arguments:
+    endpoints           file, containing endpoint information
+    output_file         file, optional output file
+    print_output        option, print the output in JSON
+    task                file, containing task information
+
+    Returns:
+    file or JSON output
+    '''
+
+    endpoint_data, task_data = parse_yaml_data(endpoints, task)
+    module_order = construct_task_order(task_data['task'])
+
+    for endpoint in endpoint_data['endpoints']:
+        endpoint_obj = construct_endpoint(endpoint, endpoint_data)
+        endpoint_connection = endpoint_obj.get_connection()
+        result = run_task(endpoint_connection, module_order)
+
+        endpoint_obj.close(endpoint_connection)
+
+        if print_output:
+            print_data_in_json(result)
+
+        if output_file:
+            write_json_to_file(result, output_file)

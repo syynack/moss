@@ -10,6 +10,16 @@ from moss.cli import run
 
 @click.group()
 def main():
+    '''\b
+                  ___  ________ _____ _____
+                  |  \/  |  _  /  ___/  ___|
+                  | .  . | | | \ `--.\ `--.
+                  | |\/| | | | |`--. \`--. \ \b
+                  | |  | \ \_/ /\__/ /\__/ /
+                  \_|  |_/\___/\____/\____/
+
+    Welcome to \033[1;32mmoss-ctrl\033[0m, the CLI tool for controlling MOSS.
+    '''
     pass
 
 

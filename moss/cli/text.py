@@ -32,8 +32,8 @@ TASK_BASE_TEXT = '''# This file is used to define task stages to be executed wit
 #   - module                The name of the task module to be executed in this stage
 #                           (all task modules can be viewed by doing cli.py list-modules).
 #
-#   - argument              To be used when the task module requires an argument, for
-#                           example get_bgp_neighbor requires to neighbor_ip argument.
+#   - arguments             To be used when the task module requires arguments. Pass as a dict
+#                           ommitting the -- for options. Eg: {'port_id': 'eth0'}
 #
 #   - success_outcome       Define either 'success' or 'failure' as the success_outcome, the
 #                           default option is 'success'.
@@ -44,8 +44,7 @@ TASK_BASE_TEXT = '''# This file is used to define task stages to be executed wit
 #   - focus                 Define an element of stdout from the module to focus on.
 #                           For example:
 #
-#                           focus:
-#                               neighbor_rid: 'fd35:1:1:2::8'
+#                           focus: {'neighbor_rid': 'fd35:1:1:2::8'}
 #
 #                           will check if there is an occurrence of fd35:1:1:2::8 in stdout,
 #                           if there is a match focus_outcome will be marked as True.
