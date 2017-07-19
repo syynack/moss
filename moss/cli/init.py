@@ -3,7 +3,7 @@
 import click
 
 from moss.utils import edit_file
-from text import ENDPOINTS_BASE_TEXT, TASK_BASE_TEXT
+from moss.text import ENDPOINTS_BASE_TEXT, TASK_BASE_TEXT
 
 
 @click.command(short_help = 'Initialise a directory with base files')
