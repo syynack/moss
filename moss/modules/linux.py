@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
 from moss.register import register
-from dev_ops import linux_get_bgp_memory_usage, linux_get_bgp_neighbors, linux_get_bgp_summary, \
-                    linux_get_interfaces_description, linux_get_interfaces_mac_address, \
-                    linux_get_interfaces_statistics, linux_get_ipv6_addresses, \
-                    linux_get_ipv6_ospf_interfaces, linux_get_ipv6_ospf_neighbors_brief, \
-                    linux_get_ipv6_ospf_neighbors_detail, linux_get_ipv6_route_table, \
-                    linux_get_lldp_neighbors, linux_get_ndp_table, linux_get_system_info, \
-                    linux_get_system_uptime
+from moss.modules.dev_ops import linux_get_bgp_memory_usage, linux_get_bgp_neighbors, linux_get_bgp_summary, \
+                                 linux_get_interfaces_description, linux_get_interfaces_mac_address, \
+                                 linux_get_interfaces_statistics, linux_get_ipv6_addresses, \
+                                 linux_get_ipv6_ospf_interfaces, linux_get_ipv6_ospf_neighbors_brief, \
+                                 linux_get_ipv6_ospf_neighbors_detail, linux_get_ipv6_route_table, \
+                                 linux_get_lldp_neighbors, linux_get_ndp_table, linux_get_system_info, \
+                                 linux_get_system_uptime
 
 
 @register(platform = 'linux')
