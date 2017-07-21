@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
 import re
+from moss.register import register
 
+@register(platform = 'linux')
 def linux_get_lldp_neighbors(connection):
     '''
     Utilises the Linux implementation of IEEE 802.1ab (LLDP) protocol to

@@ -2,7 +2,7 @@
 
 import click
 
-from moss.register import REGISTER
+from moss.register import registered_operations
 from moss.utils import print_data_in_json
 
 
@@ -10,12 +10,15 @@ from moss.utils import print_data_in_json
 def ls():
     print_register = {}
 
-    for platform, funcs in REGISTER.iteritems():
-        if not print_register.get(platform):
-            print_register[platform] = []
+    for _type, item in registered_operations.iteritems():
+        if not print_register.get(_type):
+            print_register[_type] = {}
 
-        if isinstance(funcs, dict):
-            for func_name, func in funcs.iteritems():
-                print_register[platform].append(func_name)
+        for platform, func in item.iteritems():
+            if not print_register[_type].get(platform):
+                print_register[_type][platform] = []
+
+            for func, module in func.iteritems():
+                print_register[_type][platform].append(func)
 
     print_data_in_json(print_register)

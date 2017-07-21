@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 
 import re
+from moss.register import register
+
+@register(platform = 'linux')
 
 def linux_get_bgp_neighbors(connection):
     command = 'vtysh -c "show bgp neighbors"'

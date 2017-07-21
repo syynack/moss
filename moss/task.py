@@ -6,15 +6,40 @@ import click
 import yaml
 import getpass
 
-from moss.utils import start_banner, start_header, timer, runtime, end_banner, print_data_in_json, write_json_to_file
-from moss.core import update_module_order, run_module
 from moss.endpoint import Endpoint
-
+from moss.module import Module
+from moss.utils import start_banner, start_header, timer, end_banner, write_json_to_file
 from datetime import datetime
 from getpass import getuser
 
 
-def parse_yaml_data(*args):
+def _task_start_signals(module_order):
+    start_banner()
+    start_header(module_order)
+
+    return {
+        'results': {
+            'modules': []
+        },
+        'start_time': timer(),
+        'start_date_time': str(datetime.now()),
+        'start_user': getpass.getuser(),
+        'start_hostname': socket.gethostname()
+    }
+
+
+def _task_end_signals(start_data):
+    end_banner(start_data['results']['modules'][-1]['result'])
+    end_data = {
+        'end_time': timer(),
+        'end_date_time': str(datetime.now()),
+        'run_time': timer() - start_data['start_time']
+    }
+    end_data.update(start_data)
+    return end_data
+
+
+def _parse_yaml_data(*args):
     '''
     Summary:
     Takes YAML data from endpoint and task files and returns as list of dicts
@@ -43,7 +68,7 @@ def parse_yaml_data(*args):
     return yaml_data
 
 
-def construct_task_order(task_data):
+def _construct_task_order(task_data):
     '''
     Summary:
     Constructs the correct task order for the task with default outcomes.
@@ -55,23 +80,20 @@ def construct_task_order(task_data):
     list
     '''
 
-    task_order = []
+    module_order = []
 
-    for task in task_data:
-        task_order.append({
-            'module': task.get('module'),
-            'arguments': task.get('arguments'),
-            'success_outcome': 'success' if not task.get('success_outcome') else task.get('success_outcome'),
-            'failure_next_module': task.get('failure_next_module'),
-            'focus': task.get('focus'),
-            'focus_next_module': task.get('focus_next_module'),
-            'final': False if not task.get('final') else task.get('final')
-        })
+    for module in task_data:
+        module_order.append({'module': module})
 
-    return task_order
+    for index, module in enumerate(module_order[:-1]):
+        module['next_module'] = module_order[index + 1]['module']
+
+    module_order[-1]['next_module'] = ''
+
+    return module_order
 
 
-def construct_endpoint(endpoint, endpoint_data):
+def _construct_endpoint(endpoint, endpoint_data):
     '''
     Parses dict from endpoints file to construct an endpoints obj with the correct information.
 
@@ -102,66 +124,31 @@ def construct_endpoint(endpoint, endpoint_data):
     return device
 
 
-def run_task(connection, module_order):
-    '''
-    Summary:
-    Runs tasks that were defined in the input from the cli. Controls the correct next
-    module for each module by parsing the return output which depends on a number of
-    different values. Returns consolidated task info in JSON.
-
-    Arguments:
-    connection          Netmiko SSH object
-    module_order        list, order for modules to be executed and their next modules
-
-    Returns:
-    dict
-    '''
-
-    start_banner()
-    start_header(module_order)
-
-    result_dict = {'modules': []}
-    start_timer = timer()
-    start_time = str(datetime.now())
-    user = getuser()
-
-    final = False
-    module_order = update_module_order(module_order)
+def _run_task(connection, module_order):
     next_module = module_order[0]
+    start_data = _task_start_signals(module_order)
 
-    while not final:
-        result = run_module(connection, next_module)
-        result_dict['modules'].append(result)
+    while next_module != '':
+        module = Module(
+            connection = connection,
+            module = next_module['module'],
+            next_module = next_module['next_module']
+        )
 
-        next_module_name = result['next_module']
+        result = module.run()
+        next_module = result['next_module']
+        start_data['results']['modules'].append(result)
 
-        if next_module_name:
-            module_index = [index for index, module in enumerate(module_order) if next_module_name in module['module']]
-            next_module = module_order[module_index[0]]
-        else:
-            if next_module['final']:
-                final = True
+        if next_module != '':
+            module_index = [index for index, module in enumerate(module_order) if next_module == module['module']]
+
+            if not module_index:
+                next_module = ''
             else:
-                print ''
-                end_banner(module_result)
-                print colour(' :: Could not find next module or final data.\n', 'white')
+                next_module = module_order[module_index[0]]
 
-    end_timer = timer()
-    end_time = str(datetime.now())
-    run_time = runtime(start_timer, end_timer)
-
-    result_dict['task_info'] = {}
-
-    result_dict['task_info'].update({
-        'start_time': start_time,
-        'end_time': end_time,
-        'run_time': run_time,
-        'user': user,
-        'hostname': socket.gethostname()
-    })
-
-    end_banner(result_dict['modules'][-1]['result'])
-    return result_dict
+    end_data = _task_end_signals(start_data)
+    write_json_to_file(end_data, '.moss/task-{}.json'.format(str(datetime.now())))
 
 
 def task_control(endpoints, output_file, print_output, task):
@@ -180,13 +167,13 @@ def task_control(endpoints, output_file, print_output, task):
     file or JSON output
     '''
 
-    endpoint_data, task_data = parse_yaml_data(endpoints, task)
-    module_order = construct_task_order(task_data['task'])
+    endpoint_data, task_data = _parse_yaml_data(endpoints, task)
+    module_order = _construct_task_order(task_data['task'])
 
     for endpoint in endpoint_data['endpoints']:
-        endpoint_obj = construct_endpoint(endpoint, endpoint_data)
+        endpoint_obj = _construct_endpoint(endpoint, endpoint_data)
         endpoint_connection = endpoint_obj.get_connection()
-        result = run_task(endpoint_connection, module_order)
+        result = _run_task(endpoint_connection, module_order)
 
         endpoint_obj.close(endpoint_connection)
 

@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
 import re
+from moss.register import register
 
+@register(platform = 'linux')
 def linux_get_ipv6_ospf_neighbors_detail(connection):
     command = 'vtysh -c "show ipv6 ospf6 neighbor detail"'
     output = connection.send_command(command)

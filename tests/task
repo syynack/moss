@@ -1,0 +1,9 @@
+# This file is used to define task stages to be executed within the task.
+
+# Task
+task:
+
+# Example
+- 'test_module_bgp_memory_usage'
+- 'test_module_system_uptime'
+

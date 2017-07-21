@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
 import re
+from moss.register import register
 
+@register(platform = 'linux')
 def linux_get_system_uptime(connection):
     '''
     Summary:
@@ -55,6 +57,9 @@ def linux_get_system_uptime(connection):
 
     for key, element in stdout.iteritems():
         stdout[key] = element.strip()
+
+        if key == 'users':
+            stdout['users'] = int(element)
 
     return {
         'result': 'success',

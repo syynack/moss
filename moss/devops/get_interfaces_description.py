@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+from moss.register import register
+
+@register(platform = 'linux')
 def linux_get_interfaces_description(connection):
     command = 'vtysh -c "show interface description" | tail -n +2'
     output = connection.send_command(command)

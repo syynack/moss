@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-REGISTER = {}
+registered_operations = {'devops': {}, 'modules': {}}
 
 def register(platform):
     '''
@@ -18,11 +18,18 @@ def register(platform):
 
     def decorator(func):
         if isinstance(platform, str):
-            if not REGISTER.get(platform):
-                REGISTER[platform] = {}
-            try:
-                REGISTER[platform].update({func.__name__: func})
-            except:
-                pass
+            if 'moss.devops.' in str(func.__module__):
+                _register('devops', platform, func)
+            else:
+                _register('modules', platform, func)
         return func
     return decorator
+
+
+def _register(_type, platform, func):
+    if not registered_operations[_type].get(platform):
+        registered_operations[_type][platform] = {}
+    try:
+        registered_operations[_type][platform].update({func.__name__: func})
+    except:
+        pass

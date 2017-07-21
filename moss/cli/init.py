@@ -1,25 +1,26 @@
 #! /usr/bin/env python
 
 import click
+import os
 
 from moss.utils import edit_file
 from moss.text import ENDPOINTS_BASE_TEXT, TASK_BASE_TEXT
 
 
 @click.command(short_help = 'Initialise a directory with base files')
-@click.option('-d', '--directory', default='.', help='Target a specific directory (default: cwd)')
-def init(directory):
-    endpoints_file = directory + '/endpoints'
-    task_file = directory + '/task'
+def init():
+    files = ['endpoints', 'task']
+    text_mapping = {
+        'endpoints': ENDPOINTS_BASE_TEXT,
+        'task': TASK_BASE_TEXT
+    }
 
-    with open(endpoints_file, 'w+') as endpoints:
-        endpoints.write(ENDPOINTS_BASE_TEXT)
+    for filename in files:
+        if not os.path.isfile(filename):
+            with open(filename, 'w+') as template:
+                template.write(text_mapping[filename])
 
-    if click.confirm('Edit endpoints now?'):
-        edit_file(endpoints_file)
+            edit_file(filename)
 
-    with open(task_file, 'w+') as task:
-        task.write(TASK_BASE_TEXT)
-
-    if click.confirm('Edit task now?'):
-        edit_file(task_file)
+    if not os.path.exists('.moss'):
+        os.makedirs('.moss')

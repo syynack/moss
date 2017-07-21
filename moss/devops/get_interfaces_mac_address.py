@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
 import re
+from moss.register import register
 
+@register(platform = 'linux')
 def linux_get_interfaces_mac_address(connection):
     '''
     Summary:

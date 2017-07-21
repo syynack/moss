@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+from moss.register import register
+
+@register(platform = 'linux')
 def linux_get_bgp_memory_usage(connection):
     command = 'vtysh -c "show bgp memory"'
     output = connection.send_command(command)

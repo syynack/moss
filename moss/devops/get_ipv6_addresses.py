@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+from moss.register import register
+
+@register(platform = 'linux')
 def linux_get_ipv6_addresses(connection):
     '''
     Summary:

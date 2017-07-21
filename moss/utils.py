@@ -54,22 +54,20 @@ def module_start_header(task):
     print colour(' :: {}'.format(task), 'white'),
 
 
-def module_end_header(result):
-    if result == 'success':
-        print colour(result, 'green', bold=True),
-    else:
-        print colour(result, 'red', bold=True),
+def module_success():
+    print colour(' success', 'green')
 
 
-def module_branch_header(next_step):
-    print colour(' ( ', 'white') + colour('branch to {}'.format(next_step), 'magenta') + colour(' )', 'white'),
+def module_branch(next_module):
+    print colour(' branching to {}'.format(next_module), 'blue')
 
 
-def module_focus_match_banner(next_module):
-    if not next_module:
-        print colour(' ( ', 'white') + colour('focus match', 'blue') + colour(' )', 'white'),
-    else:
-        print colour(' ( ', 'white') + colour('focus match branching to {}'.format(next_module), 'blue') + colour(' )', 'white'),
+def module_abort():
+    print colour(' abort', 'red')
+
+
+def module_fail():
+    print colour(' fail', 'red')
 
 
 def end_banner(result):
@@ -103,5 +101,5 @@ def write_json_to_file(data, filename):
 def edit_file(filename):
     editor = os.environ.get('EDITOR', 'vim')
 
-    with open(filename, 'a') as edit_file:
+    with open(filename, 'a+') as edit_file:
         subprocess.call([editor, filename])
