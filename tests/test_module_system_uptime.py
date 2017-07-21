@@ -1,6 +1,12 @@
 #! /usr/bin/env python
 
+<<<<<<< HEAD
 from moss import ModuleResult, execute_device_operation, module, register
+=======
+from moss.module import ModuleResult, execute_device_operation
+from moss.register import register
+
+>>>>>>> ab66192... Significant changes to the way modules work and the way tasks use them to run
 
 @register(platform = 'linux')
 def test_module_system_uptime(connection):

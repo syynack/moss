@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 
 import click
+import os
 
 from moss.framework.management.init import init_cli_init_moss_working_directory
 

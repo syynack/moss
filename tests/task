@@ -5,4 +5,9 @@ task:
 
 # Example
 - 'test_module_bgp_memory_usage'
+<<<<<<< HEAD
 - 'test_module_system_uptime'             
+=======
+- 'test_module_system_uptime'
+
+>>>>>>> ab66192... Significant changes to the way modules work and the way tasks use them to run

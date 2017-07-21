@@ -6,9 +6,15 @@ import click
 import yaml
 import getpass
 
+<<<<<<< HEAD:moss/framework/core/task.py
 from moss.framework.core.endpoint import Endpoint
 from moss.framework.core.module import Module
 from moss.framework.utils import start_banner, start_header, timer, end_banner, write_json_to_file
+=======
+from moss.endpoint import Endpoint
+from moss.module import Module
+from moss.utils import start_banner, start_header, timer, end_banner, write_json_to_file
+>>>>>>> ab66192... Significant changes to the way modules work and the way tasks use them to run:moss/task.py
 from datetime import datetime
 from getpass import getuser
 
