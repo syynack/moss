@@ -1,49 +1,29 @@
 #! /usr/bin/env python
 
 import click
-import sys
 
-from moss.utils import edit_file
-from moss.text import TASK_BASE_TEXT, ENDPOINTS_BASE_TEXT
+from moss.framework.management.new import new_cli_create_endpoints_file, new_cli_create_module_file, new_cli_create_task_file
 
 
 @click.command(short_help = 'Create new endpoints template')
 @click.option('-e', '--edit', is_flag=True, help = 'Edit the template now')
-def endpoints(edit):
-    if edit:
-        with open('endpoints', 'w+') as template:
-            template.write(ENDPOINTS_BASE_TEXT)
-            edit_file(template)
-            sys.exit(0)
-
-    with open('endpoints', 'w+') as template:
-        template.write(ENDPOINTS_BASE_TEXT)
+@click.option('-o', '--output', default='endpoints', help = 'Filename for output file')
+def endpoints(edit, output):
+    new_cli_create_endpoints_file(edit, output)
 
 
 @click.command(short_help = 'Create new module template')
 @click.option('-e', '--edit', is_flag=True, help = 'Edit the template now')
-def module(edit):
-    if edit:
-        with open('module.py', 'w+') as template:
-            template.write(MODULE_BASE_TEXT)
-            edit_file(template)
-            sys.exit(0)
-
-    with open('module.py', 'w+') as template:
-        template.write(MODULE_BASE_TEXT)
+@click.option('-o', '--output', default='module', help = 'Filename for output file')
+def module(edit, output):
+    new_cli_create_module_file(edit, output)
 
 
 @click.command(short_help = 'Create new task template')
 @click.option('-e', '--edit', is_flag=True, help = 'Edit the template now')
-def task(edit):
-    if edit:
-        with open('task', 'w+') as template:
-            template.write(TASK_BASE_TEXT)
-            edit_file(template)
-            sys.exit(0)
-
-    with open('task', 'w+') as template:
-        template.write(TASK_BASE_TEXT)
+@click.option('-o', '--output', default='task', help = 'Filename for output file')
+def task(edit, output):
+    new_cli_create_task_file(edit, output)
 
 
 @click.group(short_help = 'Create new templates for endpoints, tasks, or custom modules')
