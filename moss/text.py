@@ -66,3 +66,17 @@ task:
 
 # Add more stages
 '''
+
+MODULE_BASE_TEXT = '''#! /usr/bin/env python
+
+# This file should be used as a template for any user created modules
+from moss.register import register
+
+PLATFORM = ''
+COMMAND = ''
+
+
+@register(platform = PLATFORM)
+def module_name(connection):
+    command = connection.send_command(COMMAND)
+'''

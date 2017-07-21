@@ -1,2 +1,3 @@
-from moss.main import main
-from moss.modules import linux
+
+from moss.cli.main import main
+import moss.modules

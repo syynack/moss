@@ -89,7 +89,7 @@ def construct_endpoint(endpoint, endpoint_data):
     username = next(username for username in username_sources if username is not '')
     password = next(password for password in password_sources if username is not '')
 
-    device = Device(
+    device = Endpoint(
         device_type = endpoint.get('os') if endpoint.get('os') else endpoint_data.get('global_os'),
         ip = endpoint.get('ip'),
         username = username,

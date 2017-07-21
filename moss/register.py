@@ -17,7 +17,7 @@ def register(platform):
     '''
 
     def decorator(func):
-        if platform:
+        if isinstance(platform, str):
             if not REGISTER.get(platform):
                 REGISTER[platform] = {}
             try:

@@ -71,7 +71,7 @@ def run_module(connection, module_data):
     if not register.get(connection.device_type).get(module_data['module']):
         print ''
         end_banner('fail')
-        print colour(' :: Could not find {}. Is it registered?\n'.format(module_data['module']), 'white')
+        print colour(' :: Could not find {}.\n'.format(module_data['module']), 'white')
         sys.exit(1)
 
     kwargs = {'connection': connection}
