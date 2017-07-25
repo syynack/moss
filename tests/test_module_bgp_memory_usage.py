@@ -1,6 +1,11 @@
 #! /usr/bin/env python
 
+<<<<<<< HEAD
 from moss import ModuleResult, execute_device_operation, module, register
+=======
+from moss.module import ModuleResult, execute_device_operation
+from moss.register import register
+>>>>>>> ab66192d9c3f61ae302e0d726ca94d413deaacbf
 
 @register(platform = 'linux')
 def test_module_bgp_memory_usage(connection):
