@@ -102,7 +102,7 @@ class Module():
             module_result = registered_operations['modules'][self.connection.device_type][self.module](self.connection)
         except:
             print 'Error: module could not be ran',
-            return {'result': 'fail'}
+            return self._module_result({'result': 'fail'})
 
         if isinstance(module_result, dict):
             return self._module_result(module_result)
