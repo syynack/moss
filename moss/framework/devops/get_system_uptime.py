@@ -43,8 +43,8 @@ def linux_get_system_uptime(connection):
     stdout = {}
     regexes = [
         '\s(?P<current_time>[0-9]{2}:[0-9]{2}:[0-9]{2})\sup',
-        '\sup(?P<uptime>[^,]+)',
-        ',(?P<users>.*)user.*load\saverage:',
+        '\sup(?P<uptime>[^,]+.+?),.*user',
+        '(?P<users>[^,]+)user.*load\saverage:',
         'load\saverage:(?P<avg_1_min_load>[^,]+),(?P<avg_5_min_load>[^,]+),(?P<avg_15_min_load>[^\n]+)'
     ]
 
@@ -60,6 +60,9 @@ def linux_get_system_uptime(connection):
 
         if key == 'users':
             stdout['users'] = int(element)
+
+        if 'load' in key:
+            stdout[key] = float(element)
 
     return {
         'result': 'success',

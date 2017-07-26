@@ -1,0 +1,31 @@
+{
+    "end_date_time": "2017-07-26 20:49:28.126557",
+    "end_time": 1501098568.126555,
+    "results": {
+        "modules": [
+            {
+                "end_date_time": "2017-07-26 20:49:27.518713",
+                "end_time": 1501098567.518707,
+                "next_module": "test_module_system_uptime",
+                "result": "branch",
+                "run_time": 0.6189899444580078,
+                "start_date_time": "2017-07-26 20:49:26.899725",
+                "start_time": 1501098566.899718
+            },
+            {
+                "end_date_time": "2017-07-26 20:49:28.126420",
+                "end_time": 1501098568.126412,
+                "next_module": "",
+                "result": "success",
+                "run_time": 0.6075761318206787,
+                "start_date_time": "2017-07-26 20:49:27.518840",
+                "start_time": 1501098567.518838
+            }
+        ]
+    },
+    "run_time": 1.2270801067352295,
+    "start_date_time": "2017-07-26 20:49:26.899501",
+    "start_hostname": "MacBook-Pro.home",
+    "start_time": 1501098566.899494,
+    "start_user": "matt"
+}

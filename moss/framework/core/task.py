@@ -6,21 +6,9 @@ import click
 import yaml
 import getpass
 
-<<<<<<< HEAD:moss/framework/core/task.py
-<<<<<<< HEAD:moss/framework/core/task.py
 from moss.framework.core.endpoint import Endpoint
 from moss.framework.core.module import Module
 from moss.framework.utils import start_banner, start_header, timer, end_banner, write_json_to_file
-=======
-from moss.endpoint import Endpoint
-from moss.module import Module
-from moss.utils import start_banner, start_header, timer, end_banner, write_json_to_file
->>>>>>> ab66192... Significant changes to the way modules work and the way tasks use them to run:moss/task.py
-=======
-from moss.framework.core.endpoint import Endpoint
-from moss.framework.core.module import Module
-from moss.framework.utils import start_banner, start_header, timer, end_banner, write_json_to_file
->>>>>>> 559edc5d7b79e9c511e33ca0f90ff179b5828872:moss/framework/core/task.py
 from datetime import datetime
 from getpass import getuser
 
@@ -107,6 +95,7 @@ def _construct_task_order(task_data):
 
 def _construct_endpoint(endpoint, endpoint_data):
     '''
+    Summary:
     Parses dict from endpoints file to construct an endpoints obj with the correct information.
 
     Arguments:
@@ -137,6 +126,15 @@ def _construct_endpoint(endpoint, endpoint_data):
 
 
 def _run_task(connection, module_order):
+    '''
+    Summary:
+    Function to run the actual task defined in the task file. Works by running modules
+    defined in the task file through the registry. Their outcome is then returned which,
+    as defined in moss.framework.core.module, will be either quit, branch, fail, or success.
+    moss.framework.core.module will parse that information, and return it to _run_task.
+    _run_task then decides if we need to continue with the task or fail out.
+    '''
+
     next_module = module_order[0]
     start_data = _task_start_signals(module_order)
 
