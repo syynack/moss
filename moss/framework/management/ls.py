@@ -4,6 +4,11 @@ from moss.framework.core.registry import registered_operations
 from moss.framework.utils import print_data_in_json
 
 def ls_cli_print_current_registered_modules():
+    '''
+    Summary:
+    Displays the contents of the registry to the user in JSON format.
+    '''
+
     print_register = {}
 
     for _type, item in registered_operations.iteritems():

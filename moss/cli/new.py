@@ -14,7 +14,7 @@ def endpoints(edit, output):
 
 @click.command(short_help = 'Create new module template')
 @click.option('-e', '--edit', is_flag=True, help = 'Edit the template now')
-@click.option('-o', '--output', default='module', help = 'Filename for output file')
+@click.option('-o', '--output', default='module.py', help = 'Filename for output file')
 def module(edit, output):
     new_cli_create_module_file(edit, output)
 

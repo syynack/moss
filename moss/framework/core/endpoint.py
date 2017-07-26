@@ -6,7 +6,6 @@ from moss.framework.utils import colour
 from netmiko import ConnectHandler
 
 class Endpoint(object):
-
     '''
     Summary:
     Returns netmiko SSH connection to device using variables as defined

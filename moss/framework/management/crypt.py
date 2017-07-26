@@ -6,6 +6,12 @@ from moss.framework.crypt import MossCrypt
 from moss.framework.utils import print_data_in_json
 
 def crypt_cli_edit_encrypted_file(json, key, crypt_file):
+    '''
+    Summary:
+    Controls editing of an encrypted file between the cli interface
+    and operations from MossCrypt.
+    '''
+
     if not key:
         print '-k/--key is a required argument.'
         sys.exit(1)
@@ -25,10 +31,21 @@ def crypt_cli_edit_encrypted_file(json, key, crypt_file):
 
 
 def crypt_cli_generate_key():
+    '''
+    Summary:
+    Returns a random key that can be used for encryption.
+    '''
+
     print MossCrypt().generate_aes_encryption_key()
 
 
 def crypt_cli_lock_plaintext_file(json, key, plaintext_file):
+    '''
+    Summary:
+    Controls decryption of an encrypted file between the cli interface
+    and operations from MossCrypt.
+    '''
+
     if not plaintext_file:
         print '-p/--plaintext-file is a required argument.'
         sys.exit(1)
@@ -48,6 +65,12 @@ def crypt_cli_lock_plaintext_file(json, key, plaintext_file):
 
 
 def crypt_cli_unlock_encrypted_file(json, key, crypt_file):
+    '''
+    Summary:
+    Controls encryption of a plaintext file between the cli interface
+    and operations from MossCrypt.
+    '''
+
     if not key:
         print '-k/--key is a required argument.'
         sys.exit(1)

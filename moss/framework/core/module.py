@@ -12,25 +12,49 @@ from moss.framework.core.registry import registered_operations
 from moss.framework.utils import timer, module_start_header, module_success, module_branch, module_abort, module_fail
 
 
-def execute_device_operation(operation, connection):
+def execute_device_operation(operation, connection, **kwargs):
+    '''
+    Summary:
+    Allows modules to run registeredd devops scripts from the module.
+
+    Arguments:
+    operation           string, name of the devops function
+    connection          netmiko SSH object, endpoint connection
+    **kwargs            dict, keyword arguments taken by the devops script
+
+    Returns:
+    dict
+    '''
+
     try:
-        return registered_operations['devops'][connection.device_type][operation](connection)
+        return registered_operations['devops'][connection.device_type][operation](connection, **kwargs)
     except:
-        raise
+        if 'takes exactly' in str(sys.exc_info()[1]):
+            func = registered_operations['devops'][connection.device_type][operation]
+            print 'Error: {} takes args: {}'.format(func.__name__, ', '.join(inspect.getargspec(func)[0])),
+
+        return {
+            'result': 'fail',
+            'reason': sys.exc_info()[0]
+        }
 
 
 class ModuleResult():
+    '''
+    Summary:
+    Return dict representing the outcome of the module.
 
-    def __init__(self):
-        pass
-
+    ModuleResult.quit           module will not be considered a failure, but will not continue
+    ModuleResult.branch         task will branch to module defined and continue from there
+    ModuleResult.fail           module will be marked as a failure and the task will not continue
+    ModuleResult.success        module will be marked as a success and the task will continue
+    '''
 
     @staticmethod
-    def abort():
+    def quit():
         return {
-            'result': 'abort'
+            'result': 'quit'
         }
-
 
     @staticmethod
     def branch(module):
@@ -39,13 +63,11 @@ class ModuleResult():
             'branching_module': module
         }
 
-
     @staticmethod
     def fail():
         return {
             'result': 'fail'
         }
-
 
     @staticmethod
     def success():
@@ -55,6 +77,11 @@ class ModuleResult():
 
 
 class Module():
+    '''
+    Summary:
+    Module object to be created when running a task. This class creates an object for a module
+    with the ability to run the module through the registry, and print information.
+    '''
 
     def __init__(self, connection = None, module = '', next_module = ''):
         self.connection = connection
@@ -63,16 +90,26 @@ class Module():
 
 
     def run(self):
+        '''
+        Summary:
+        Runs self.module through the registry. Run initiates the start signals which essentially
+        prints the running module name to the screen and collects data such as the start date time,
+        the initiating user, and the hostname of the device the module was run from.
+        '''
+
         self.module_start_data = self._module_start_signals(self.module)
         try:
             module_result = registered_operations['modules'][self.connection.device_type][self.module](self.connection)
         except:
-            raise
+            print 'Error: module could not be ran',
+            return {'result': 'fail'}
 
         if isinstance(module_result, dict):
             return self._module_result(module_result)
         elif callable(module_result):
             return self._module_result(module_result())
+        else:
+            return self._module_result({'result': 'success'})
 
 
     def _module_start_signals(self, module):
@@ -100,7 +137,7 @@ class Module():
         elif result == 'branch':
             result_dict.update({'next_module': module_result['branching_module']})
             module_branch(module_result['branching_module'])
-        elif result == 'abort':
+        elif result == 'quit':
             result_dict.update({'next_module': ''})
             module_abort()
         elif result == 'fail':

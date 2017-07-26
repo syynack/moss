@@ -1,0 +1,22 @@
+{
+    "end_date_time": "2017-07-26 19:48:03.237736",
+    "end_time": 1501094883.237734,
+    "results": {
+        "modules": [
+            {
+                "end_date_time": "2017-07-26 19:48:03.237585",
+                "end_time": 1501094883.23758,
+                "next_module": "",
+                "result": "fail",
+                "run_time": 0.00015997886657714844,
+                "start_date_time": "2017-07-26 19:48:03.237424",
+                "start_time": 1501094883.237421
+            }
+        ]
+    },
+    "run_time": 0.0005240440368652344,
+    "start_date_time": "2017-07-26 19:48:03.237235",
+    "start_hostname": "MacBook-Pro.home",
+    "start_time": 1501094883.237228,
+    "start_user": "matt"
+}
