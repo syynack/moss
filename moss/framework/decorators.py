@@ -2,7 +2,7 @@
 
 from moss.framework.core.registry import registry
 
-def register(platform):
+def register(platform = None, group = 'modules'):
     '''
     Summary:
     Takes modules registered with the @register decorator. Aim is to only allow
@@ -11,6 +11,7 @@ def register(platform):
 
     Arguments:
     platform        string, platform module is intended to be used for
+    group           string, group where the module should be stored in the registry
 
     Returns:
     func
@@ -21,16 +22,23 @@ def register(platform):
             if 'moss.framework.devops.' in str(func.__module__):
                 registry('devops', platform, func)
             else:
-                registry('modules', platform, func)
+                registry(group, platform, func)
+
+        elif isinstance(platform, list):
+            for element in platform:
+                if 'moss.framework.devops.' in str(func.__module__):
+                    registry('devops', element, func)
+                else:
+                    registry(group, element, func)
         return func
     return decorator
 
 
-def module(module_name, **kwargs):
+def run(module_name, **kwargs):
     '''
     Summary:
     Allows modules to be run through the use of decorators. For example the user
-    can write @moss.module('linux_get_system_uptime', connection) decorating a function
+    can write @moss.run('linux_get_system_uptime', connection) decorating a function
     to return the information.
     '''
 

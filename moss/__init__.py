@@ -3,7 +3,7 @@ import os
 
 from moss.framework.core.endpoint import Endpoint
 from moss.framework.core.module import ModuleResult, execute_device_operation
-from moss.framework.decorators import register, module
+from moss.framework.decorators import register, run
 from glob import glob
 
 sys.path.append(os.getcwd())
