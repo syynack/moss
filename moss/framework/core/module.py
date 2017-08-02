@@ -8,7 +8,7 @@ import inspect
 import moss.framework.devops
 
 from datetime import datetime
-from moss.framework.core.registry import registered_operations
+from moss.framework.core.registry import registered_operations, _run_registered_operation
 from moss.framework.utils import timer, module_start_header, module_success, module_branch, module_abort, module_fail
 
 
@@ -27,7 +27,7 @@ def execute_device_operation(operation, connection, **kwargs):
     '''
 
     try:
-        return registered_operations['devops'][connection.device_type][operation](connection, **kwargs)
+        return _run_registered_operation('devops', connection.device_type, operation, connection, **kwargs)
     except:
         if 'takes exactly' in str(sys.exc_info()[1]):
             func = registered_operations['devops'][connection.device_type][operation]
@@ -98,11 +98,11 @@ class Module():
         '''
 
         self.module_start_data = self._module_start_signals(self.module)
-        try:
-            module_result = registered_operations['modules'][self.connection.device_type][self.module](self.connection)
-        except:
-            print 'Error: module could not be ran',
-            return self._module_result({'result': 'fail'})
+        #try:
+        module_result = _run_registered_operation('modules', self.connection.device_type, self.module, self.connection)
+        #except:
+        #    print 'Error: module could not be ran',
+        #    return self._module_result({'result': 'fail'})
 
         if isinstance(module_result, dict):
             return self._module_result(module_result)

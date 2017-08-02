@@ -4,6 +4,7 @@ import sys
 
 from moss.framework.utils import colour
 from netmiko import ConnectHandler
+from netmiko.ssh_exception import NetMikoTimeoutException
 
 class Endpoint(object):
     '''
@@ -57,7 +58,10 @@ class Endpoint(object):
         except ValueError as e:
             print '\n{} is not a currently supported device. Currently supported devices are: \n{}' \
                 .format(self.device_type, ', '.join(str(e).split()[6:]))
-            sys.exit()
+            sys.exit(1)
+        except NetMikoTimeoutException as e:
+            print str(e)
+            sys.exit(1)
 
         return connection
 

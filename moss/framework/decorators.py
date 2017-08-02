@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-from moss.framework.core.registry import registry
+from moss.framework.core.registry import registry, _run_registered_operation
 
 def register(platform = None, group = 'modules'):
     '''
@@ -44,7 +44,6 @@ def run(module_name, **kwargs):
 
     def _decorator(func):
         def wrapper(connection):
-            device_type = connection.device_type
-            return registered_operations['modules'][device_type][module_name](connection, **kwargs)
+            return _run_registered_operation('modules', connection.device_type, module_name, connection, **kwargs)
         return wrapper
     return _decorator
