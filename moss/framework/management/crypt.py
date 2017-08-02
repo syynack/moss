@@ -2,7 +2,7 @@
 
 import sys
 
-from moss.framework.crypt import MossCrypt
+from moss.framework.core.crypt import MossCrypt
 from moss.framework.utils import print_data_in_json
 
 def crypt_cli_edit_encrypted_file(json, key, crypt_file):
