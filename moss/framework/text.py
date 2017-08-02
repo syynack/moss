@@ -43,7 +43,7 @@ MODULE_BASE_TEXT = '''#! /usr/bin/env python
 # Created by moss-ctrl.
 # This file should be used as a template for any user created modules.
 
-from moss import ModuleResult, execute_device_operation, module, register
+from moss import ModuleResult, execute_device_operation, run, register
 
 # ModuleResult can be used to influence the outcome of a task.
 #    return ModuleResult.quit                       module will not be considered a failure, but will not continue
@@ -68,7 +68,7 @@ from moss import ModuleResult, execute_device_operation, module, register
 #     pass
 #
 # devops arguments are treated in the same way as execute_device_operation e.g:
-# @module('linux_get_system_info', port_id = 'xe1')
+# @run('linux_get_system_info', port_id = 'xe1')
 # def get_system_info(connection):
 #     pass
 #
@@ -90,5 +90,5 @@ PLATFORM = ''
 def module_name(connection):
     return ModuleResult.success
 
-    
+
 '''

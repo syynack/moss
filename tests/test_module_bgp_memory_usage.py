@@ -3,7 +3,7 @@
 # Created by moss-ctrl.
 # This file should be used as a template for any user created modules.
 
-from moss import ModuleResult, execute_device_operation, module, register
+from moss import ModuleResult, execute_device_operation, run, register
 
 # ModuleResult can be used to influence the outcome of a task.
 #    return ModuleResult.quit                       module will not be considered a failure, but will not continue

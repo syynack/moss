@@ -4,7 +4,6 @@ import re
 from moss.framework.decorators import register
 
 @register(platform = 'linux')
-
 def linux_get_bgp_neighbors(connection):
     command = 'vtysh -c "show bgp neighbors"'
     output = connection.send_command(command)
