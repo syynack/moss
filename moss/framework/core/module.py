@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import uuid
 import sys
 import socket
 import os
@@ -129,7 +130,10 @@ class Module():
             'run_time': timer() - self.module_start_data['start_time'],
             'end_date_time': str(datetime.now())
         }
+
         result_dict.update(self.module_start_data)
+        result_dict.update({'module': self.module})
+        result_dict.update({'uuid': str(uuid.uuid4())})
 
         if result == 'success':
             result_dict.update({'next_module': self.next_module})
