@@ -4,5 +4,6 @@
 task:
 
 # Example
-- 'test_module_bgp_memory_usage'
-- 'test_module_system_uptime'
+- 'get_interfaces_descriptions'
+- 'get_system_uptime'
+

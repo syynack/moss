@@ -17,11 +17,11 @@ def linux_set_interface_admin_status(connection, status = 'down', interface = No
     '''
 
     commands = {
-        'down': 'vtysh -c "conf t" -c "interface {}" -c "shutdown"',
-        'up': 'vtysh -c "conf t" -c "interface {}" -c "no shutdown"'
+        'down': 'vtysh -c "conf t" -c "interface {}" -c "shutdown"'.format(interface),
+        'up': 'vtysh -c "conf t" -c "interface {}" -c "no shutdown"'.format(interface)
     }
 
-    if not interface:
+    if interface is None:
         return {
             'result': 'fail',
             'reason': 'No interface specified'

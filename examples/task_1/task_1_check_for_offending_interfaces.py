@@ -3,7 +3,7 @@
 # Created by moss-ctrl.
 # This file should be used as a template for any user created modules.
 
-from moss import ModuleResult, execute_device_operation, run, register
+from moss import ModuleResult, execute_device_operation, run, register, diagnose_interfaces
 
 # ModuleResult can be used to influence the outcome of a task.
 #    return ModuleResult.quit                       module will not be considered a failure, but will not continue
@@ -28,7 +28,7 @@ from moss import ModuleResult, execute_device_operation, run, register
 #     pass
 #
 # devops arguments are treated in the same way as execute_device_operation e.g:
-# @module('linux_get_system_info', port_id = 'xe1')
+# @run('linux_get_system_info', port_id = 'xe1')
 # def get_system_info(connection):
 #     pass
 #
@@ -40,6 +40,9 @@ from moss import ModuleResult, execute_device_operation, run, register
 #     pass
 #
 #
+# diagnose_interfaces can be used when executing get_interfaces_statistics to check if any interface is erroring or dicarding
+#
+#
 # Common standards:
 #       - the connection variable must be passed to each registered module.
 #       - each registered module must be decorated with @register with the target platform specified.
@@ -47,13 +50,17 @@ from moss import ModuleResult, execute_device_operation, run, register
 PLATFORM = 'linux'
 
 @register(platform = PLATFORM)
-def test_module_system_uptime(connection):
-    ''' Test module for testing the way for executing modules '''
+def task_1_check_for_offending_interfaces(connection):
+    ''' Example module to gather statistics for all interfaces on a Linux box. '''
 
-    result = execute_device_operation('linux_get_system_uptime', connection)
+    interfaces_statistics = execute_device_operation('linux_get_interfaces_statistics', connection)
 
-    if result['result'] == 'fail':
+    if interfaces_statistics['result'] == 'fail':
         return ModuleResult.fail
 
-    if result['stdout']['users'] > 1:
-        return ModuleResult.fail
+    diagnose_result = diagnose_interfaces(interfaces_statistics['stdout'])
+
+    if diagnose_result['offending_interfaces']:
+        return ModuleResult.branch('shut_offending_interface')
+
+    return ModuleResult.success
