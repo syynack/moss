@@ -27,7 +27,7 @@ def init_cli_init_moss_working_directory():
 
             edit_file(filename)
 
-    if not os.path.exists('.moss'):
-        os.makedirs('.moss')
-        log_file = open('.moss/module_run.log', 'w')
+    if not os.path.exists('output'):
+        os.makedirs('output')
+        log_file = open('output/messages.log', 'w')
         log_file.close()
