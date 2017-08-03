@@ -73,7 +73,6 @@ def linux_get_interfaces_statistics(connection):
     ]
 
     for line in output.splitlines():
-
         if 'Link encap' in line:
             split_line = line.split()
             port_id = split_line[0]
