@@ -51,7 +51,6 @@ coverage.xml
 *.pot
 
 # Django stuff:
-*.log
 local_settings.py
 
 # Flask stuff:
@@ -104,4 +103,4 @@ ENV/
 .DS_Store
 
 # Ignore .moss directories
-.moss/
+.moss/*
