@@ -2,8 +2,10 @@
 
 import os
 import json
+import uuid
+import inspect
 
-from moss.framework.core.log import Logger
+from moss.framework.core.log import log
 
 registered_operations = {}
 
@@ -44,9 +46,7 @@ def _run_registered_operation(group, platform, operation, connection, **kwargs):
     **kwargs        optional arguments the operation needs to run
     '''
 
-    destination_json_file = '.moss/module_output/' + operation + '.json.log'
-    logger = Logger()
-    logger.log('Attempting to run {}'.format(operation))
+    log('Attempting to run {}'.format(operation))
 
     result = registered_operations[group][platform][operation](connection, **kwargs)
 
@@ -57,13 +57,32 @@ def _run_registered_operation(group, platform, operation, connection, **kwargs):
     else:
         module_result = {'result': 'success'}
 
-    logger.log('Successfully ran {}'.format(operation))
+    log('Successfully ran {}'.format(operation))
+    module_result.update({'uuid': str(uuid.uuid4())})
 
-    if os.path.exists('.moss'):
-        if not os.path.exists('.moss/module_output'):
-            os.makedirs('.moss/module_output')
+    curframe = inspect.currentframe()
+    calframe = inspect.getouterframes(curframe, 2)
 
-        with open(destination_json_file, 'w') as temp_module_output:
-            temp_module_output.write(json.dumps(module_result, indent=4, sort_keys=True))
+    file_data = {}
+    file_data[operation] = {}
+    file_data[operation].update(module_result)
+
+    for key, index in registered_operations['modules'][platform].iteritems():
+        if calframe[2][3] in key:
+            with open('output/.links.json', 'r') as temp_links_file:
+                links_data = json.load(temp_links_file)
+
+            links_data['links'].update({calframe[2][3]: operation})
+
+            with open('output/.links.json', 'w') as temp_links_file:
+                json.dump(links_data, temp_links_file, indent = 4)
+
+    with open('output/.stdout.json', 'r') as temp_module_output:
+        module_data = json.load(temp_module_output)
+
+    module_data['module_results'].update(file_data)
+
+    with open('output/.stdout.json', 'w') as temp_module_output:
+        json.dump(module_data, temp_module_output, indent = 4)
 
     return result

@@ -1,14 +1,17 @@
 #! /usr/bin/env python
 
+import os
 import sys
 import socket
 import click
 import yaml
 import getpass
+import uuid
+import json
 
 from moss.framework.core.endpoint import Endpoint
 from moss.framework.core.module import Module
-from moss.framework.utils import start_banner, start_header, timer, end_banner, write_json_to_file
+from moss.framework.utils import start_banner, start_header, timer, end_banner, write_json_to_file, create_task_start_temp_file, create_task_links_temp_file
 from datetime import datetime
 from getpass import getuser
 
@@ -16,6 +19,8 @@ from getpass import getuser
 def _task_start_signals(module_order):
     start_banner()
     start_header(module_order)
+    create_task_start_temp_file()
+    create_task_links_temp_file()
 
     return {
         'results': {
@@ -157,8 +162,31 @@ def _run_task(connection, module_order):
             else:
                 next_module = module_order[module_index[0]]
 
+    with open('output/.stdout.json', 'r') as stdout:
+        stdout_data = json.load(stdout)
+
+    with open('output/.links.json', 'r') as links:
+        links_data = json.load(links)
+
+    links_keys = []
+
+    for item in links_data['links']:
+        links_keys.append(item)
+
+    for module_key, module_value in stdout_data['module_results'].iteritems():
+        if module_key in links_keys:
+            for index, module in enumerate(start_data['results']['modules']):
+                if module['module'] == module_key:
+                    golden_key = links_data['links'][module_key]
+                    start_data['results']['modules'][index][golden_key] = stdout_data['module_results'].get(golden_key)
+
     end_data = _task_end_signals(start_data)
-    write_json_to_file(end_data, '.moss/task-{}.json'.format(str(datetime.now())))
+    end_data.update({'uuid': str(uuid.uuid4())})
+    title = 'output/{}-{}-{}.json'.format(str(uuid.uuid4()), str(datetime.now()), getpass.getuser()).replace(' ', '-')
+    write_json_to_file(end_data, title)
+
+    os.remove('output/.stdout.json')
+    os.remove('output/.links.json')
 
 
 def task_control(endpoints, output_file, print_output, task):

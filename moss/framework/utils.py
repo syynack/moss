@@ -103,3 +103,18 @@ def edit_file(filename):
 
     with open(filename, 'a+') as edit_file:
         subprocess.call([editor, filename])
+
+
+def create_task_start_temp_file():
+    if not os.path.exists('output'):
+        os.makedirs('output')
+
+    with open('output/.stdout.json', 'w') as temp_output_file:
+        start_skeleton = {"module_results": {}}
+        temp_output_file.write(json.dumps(start_skeleton, indent = 4))
+
+
+def create_task_links_temp_file():
+    with open('output/.links.json', 'w') as temp_output_file:
+        start_skeleton = {"links": {}}
+        temp_output_file.write(json.dumps(start_skeleton, indent = 4))
