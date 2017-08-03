@@ -43,7 +43,7 @@ MODULE_BASE_TEXT = '''#! /usr/bin/env python
 # Created by moss-ctrl.
 # This file should be used as a template for any user created modules.
 
-from moss import ModuleResult, execute_device_operation, run, register
+from moss import ModuleResult, execute_device_operation, run, register, diagnose_interfaces
 
 # ModuleResult can be used to influence the outcome of a task.
 #    return ModuleResult.quit                       module will not be considered a failure, but will not continue
@@ -78,6 +78,9 @@ from moss import ModuleResult, execute_device_operation, run, register
 # @register(platform = 'cisco_ios')
 # def get_cisco_ios_version(connection):
 #     pass
+#
+#
+# diagnose_interfaces can be used when executing get_interfaces_statistics to check if any interface is erroring or dicarding
 #
 #
 # Common standards:
