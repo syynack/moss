@@ -46,10 +46,10 @@ MODULE_BASE_TEXT = '''#! /usr/bin/env python
 from moss import ModuleResult, execute_device_operation, run, register, diagnose_interfaces
 
 # ModuleResult can be used to influence the outcome of a task.
-#    return ModuleResult.quit                       module will not be considered a failure, but will not continue
-#    return ModuleResult.branch('module_name')      task will branch to module defined and continue from there
-#    return ModuleResult.fail                       module will be marked as a failure and the task will not continue
-#    return ModuleResult.success                    module will be marked as a success and the task will continue
+#    return ModuleResult.complete                   The module will complete successfully and the task will not proceed
+#    return ModuleResult.branch('module_name')      Task will branch to module defined and continue from there
+#    return ModuleResult.fail                       Module will be marked as a failure and the task will not continue
+#    return ModuleResult.success                    Module will be marked as a success and the task will continue
 # It is not required that a module result must be returned, by default the module will
 # be marked as a success if not specified otherwise.
 #
@@ -81,16 +81,11 @@ from moss import ModuleResult, execute_device_operation, run, register, diagnose
 #
 #
 # diagnose_interfaces can be used when executing get_interfaces_statistics to check if any interface is erroring or dicarding
-#
-#
-# Common standards:
-#       - the connection variable must be passed to each registered module.
-#       - each registered module must be decorated with @register with the target platform specified.
 
 PLATFORM = ''
 
 @register(platform = PLATFORM)
-def module_name(connection):
+def module_name(connection, context):
     return ModuleResult.success
 
 
