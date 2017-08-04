@@ -113,7 +113,7 @@ def _run_registered_module(platform, operation, connection, context):
     else:
         module_result = {'result': 'success'}
 
-    log('Successfully ran device operation {}'.format(operation))
+    log('Successfully ran module {}'.format(operation))
     module_result.update({'uuid': str(uuid.uuid4())})
     module_result.update({'context': context})
 
