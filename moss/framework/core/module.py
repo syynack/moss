@@ -9,8 +9,9 @@ import inspect
 import moss.framework.devops
 
 from datetime import datetime
-from moss.framework.core.registry import registered_operations, _run_registered_operation
-from moss.framework.utils import timer, module_start_header, module_success, module_branch, module_abort, module_fail
+from moss.framework.core.registry import registered_operations, _run_registered_module, _run_registered_device_operation
+from moss.framework.core.exceptions import ModuleResultError
+from moss.framework.utils import timer, module_start_header, module_success, module_branch, module_complete, module_fail
 
 
 def execute_device_operation(operation, connection, **kwargs):
@@ -28,7 +29,7 @@ def execute_device_operation(operation, connection, **kwargs):
     '''
 
     try:
-        return _run_registered_operation('devops', connection.device_type, operation, connection, **kwargs)
+        return _run_registered_device_operation(connection.device_type, operation, connection, **kwargs)
     except:
         if 'takes exactly' in str(sys.exc_info()[1]):
             func = registered_operations['devops'][connection.device_type][operation]
@@ -52,9 +53,9 @@ class ModuleResult():
     '''
 
     @staticmethod
-    def quit():
+    def complete():
         return {
-            'result': 'quit'
+            'result': 'complete'
         }
 
     @staticmethod
@@ -84,10 +85,11 @@ class Module():
     with the ability to run the module through the registry, and print information.
     '''
 
-    def __init__(self, connection = None, module = '', next_module = ''):
+    def __init__(self, connection = None, module = '', next_module = '', context = {}):
         self.connection = connection
         self.module = module
         self.next_module = next_module
+        self.context = context
 
 
     def run(self):
@@ -99,18 +101,13 @@ class Module():
         '''
 
         self.module_start_data = self._module_start_signals(self.module)
-        #try:
-        module_result = _run_registered_operation('modules', self.connection.device_type, self.module, self.connection)
-        #except:
-        #    print 'Error: module could not be ran',
-        #    return self._module_result({'result': 'fail'})
 
-        if isinstance(module_result, dict):
-            return self._module_result(module_result)
-        elif callable(module_result):
-            return self._module_result(module_result())
-        else:
-            return self._module_result({'result': 'success'})
+        try:
+            module_result = _run_registered_module(self.connection.device_type, self.module, self.connection, self.context)
+        except AttributeError as e:
+            raise ModuleResultError, e
+
+        return self._module_result(module_result)
 
 
     def _module_start_signals(self, module):
@@ -124,8 +121,11 @@ class Module():
 
     def _module_result(self, module_result):
         result = module_result['result']
+        context = module_result['context']
+
         result_dict = {
             'result': result,
+            'context': context,
             'end_time': timer(),
             'run_time': timer() - self.module_start_data['start_time'],
             'end_date_time': str(datetime.now())
@@ -141,9 +141,9 @@ class Module():
         elif result == 'branch':
             result_dict.update({'next_module': module_result['branching_module']})
             module_branch(module_result['branching_module'])
-        elif result == 'quit':
+        elif result == 'complete':
             result_dict.update({'next_module': ''})
-            module_abort()
+            module_complete()
         elif result == 'fail':
             module_fail()
             result_dict.update({'next_module': ''})

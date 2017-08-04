@@ -15,6 +15,8 @@ from moss.framework.utils import start_banner, start_header, timer, end_banner, 
 from datetime import datetime
 from getpass import getuser
 
+CONTEXT = {}
+
 
 def _task_start_signals(module_order):
     start_banner()
@@ -130,38 +132,7 @@ def _construct_endpoint(endpoint, endpoint_data):
     return device
 
 
-def _run_task(connection, module_order):
-    '''
-    Summary:
-    Function to run the actual task defined in the task file. Works by running modules
-    defined in the task file through the registry. Their outcome is then returned which,
-    as defined in moss.framework.core.module, will be either quit, branch, fail, or success.
-    moss.framework.core.module will parse that information, and return it to _run_task.
-    _run_task then decides if we need to continue with the task or fail out.
-    '''
-
-    next_module = module_order[0]
-    start_data = _task_start_signals(module_order)
-
-    while next_module != '':
-        module = Module(
-            connection = connection,
-            module = next_module['module'],
-            next_module = next_module['next_module']
-        )
-
-        result = module.run()
-        next_module = result['next_module']
-        start_data['results']['modules'].append(result)
-
-        if next_module != '':
-            module_index = [index for index, module in enumerate(module_order) if next_module == module['module']]
-
-            if not module_index:
-                next_module = ''
-            else:
-                next_module = module_order[module_index[0]]
-
+def _construct_stdout(start_data):
     with open('output/.stdout.json', 'r') as stdout:
         stdout_data = json.load(stdout)
 
@@ -187,6 +158,44 @@ def _run_task(connection, module_order):
 
     os.remove('output/.stdout.json')
     os.remove('output/.links.json')
+
+
+def _run_task(connection, module_order):
+    '''
+    Summary:
+    Function to run the actual task defined in the task file. Works by running modules
+    defined in the task file through the registry. Their outcome is then returned which,
+    as defined in moss.framework.core.module, will be either quit, branch, fail, or success.
+    moss.framework.core.module will parse that information, and return it to _run_task.
+    _run_task then decides if we need to continue with the task or fail out.
+    '''
+
+    next_module = module_order[0]
+    start_data = _task_start_signals(module_order)
+    context = CONTEXT
+
+    while next_module != '':
+        module = Module(
+            connection = connection,
+            module = next_module['module'],
+            next_module = next_module['next_module'],
+            context = context
+        )
+
+        result = module.run()
+        next_module = result['next_module']
+        context = result['context']
+        start_data['results']['modules'].append(result)
+
+        if next_module != '':
+            module_index = [index for index, module in enumerate(module_order) if next_module == module['module']]
+
+            if not module_index:
+                next_module = ''
+            else:
+                next_module = module_order[module_index[0]]
+
+    _construct_stdout(start_data)
 
 
 def task_control(endpoints, output_file, print_output, task):
