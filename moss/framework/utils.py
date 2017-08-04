@@ -55,19 +55,19 @@ def module_start_header(task):
 
 
 def module_success():
-    print colour(' success', 'green')
+    print colour('success', 'green')
 
 
 def module_branch(next_module):
-    print colour(' branching to {}'.format(next_module), 'blue')
+    print colour('branching to {}'.format(next_module), 'blue')
 
 
-def module_abort():
-    print colour(' abort', 'red')
+def module_complete():
+    print colour('complete', 'green')
 
 
 def module_fail():
-    print colour(' fail', 'red')
+    print colour('fail', 'red')
 
 
 def end_banner(result):
@@ -77,6 +77,8 @@ def end_banner(result):
 
     if result == 'success':
         print colour(banner + '\n', 'green', bold=True)
+    elif result == 'complete':
+        print colour(banner + '\n', 'magenta', bold=True)
     else:
         print colour(banner + '\n', 'red', bold=True)
 
