@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-from moss import register
+from moss.framework.decorators import register
 
 @register(platform = 'linux')
 def linux_set_interface_admin_status(connection, status = 'down', interface = None):
