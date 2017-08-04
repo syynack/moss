@@ -28,11 +28,11 @@ def diagnose_interfaces(stdout, offend_threshold=None):
         'tx_err': 'transmit errors'
     }
 
-    results = {}
+    result = {'interfaces': {}, 'offending_interfaces': []}
 
     if isinstance(stdout, dict):
         for interface in stdout:
-            if isinstance(interface, dict):
+            if isinstance(stdout[interface], dict):
                 for key in diagnose_elements:
                     interfaces_statistics = None
 
@@ -42,16 +42,21 @@ def diagnose_interfaces(stdout, offend_threshold=None):
                         pass
 
                     if interfaces_statistics is not None:
-                        results[interface] = {'increasing': []}
+                        result['interfaces'][interface] = {'increasing': []}
                         if offend_threshold is not None:
                             if int(interfaces_statistics) > int(offend_threshold):
-                                results[interface]['increasing'].append(diagnose_keys[key])
+                                result['interfaces'][interface]['increasing'].append(diagnose_keys[key])
                         else:
                             if int(interfaces_statistics) > 0:
-                                results[interface]['increasing'].append(diagnose_keys[key])
+                                result['interfaces'][interface]['increasing'].append(diagnose_keys[key])
 
-    for interface in result:
-        if result[interface]['increasing'] > 0:
-            results['offending_interfaces'] = True
+        for interface in result['interfaces']:
+            if len(result['interfaces'][interface]['increasing']) > 0:
+                result['offending_interfaces'].append(interface)
 
-    return results
+        if len(result['offending_interfaces']) > 0:
+            result['result'] = 'fail'
+        else:
+            result['result'] = 'success'
+            
+    return result
