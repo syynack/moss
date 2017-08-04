@@ -4,6 +4,5 @@
 task:
 
 # Example
-- 'get_interfaces_descriptions'
-- 'get_system_uptime'
-
+- 'check_for_offending_interfaces'
+- 'shut_offending_interface'

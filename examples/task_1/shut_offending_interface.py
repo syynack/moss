@@ -6,10 +6,10 @@
 from moss import ModuleResult, execute_device_operation, run, register, diagnose_interfaces
 
 # ModuleResult can be used to influence the outcome of a task.
-#    return ModuleResult.quit                       module will not be considered a failure, but will not continue
-#    return ModuleResult.branch('module_name')      task will branch to module defined and continue from there
-#    return ModuleResult.fail                       module will be marked as a failure and the task will not continue
-#    return ModuleResult.success                    module will be marked as a success and the task will continue
+#    return ModuleResult.complete                   The module will complete successfully and the task will not proceed
+#    return ModuleResult.branch('module_name')      Task will branch to module defined and continue from there
+#    return ModuleResult.fail                       Module will be marked as a failure and the task will not continue
+#    return ModuleResult.success                    Module will be marked as a success and the task will continue
 # It is not required that a module result must be returned, by default the module will
 # be marked as a success if not specified otherwise.
 #
@@ -50,17 +50,16 @@ from moss import ModuleResult, execute_device_operation, run, register, diagnose
 PLATFORM = 'linux'
 
 @register(platform = PLATFORM)
-def task_1_check_for_offending_interfaces(connection):
-    ''' Example module to gather statistics for all interfaces on a Linux box. '''
+def shut_offending_interface(connection, context):
+    ''' Example module to place an offending interface into an administrative down state in Quagga. '''
 
-    interfaces_statistics = execute_device_operation('linux_get_interfaces_statistics', connection)
+    for interface in context['offending_interfaces']:
+        shut_interface_result = execute_device_operation(
+            'linux_set_interface_admin_status',
+            connection,
+            status = 'down',
+            interface = interface
+        )
 
-    if interfaces_statistics['result'] == 'fail':
-        return ModuleResult.fail
-
-    diagnose_result = diagnose_interfaces(interfaces_statistics['stdout'])
-
-    if diagnose_result['offending_interfaces']:
-        return ModuleResult.branch('shut_offending_interface')
-
-    return ModuleResult.success
+        if shut_interface_result['result'] == 'fail':
+            return ModuleResult.fail
