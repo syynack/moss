@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-from moss.framework.core.registry import registry, _run_registered_operation
+from moss.framework.core.registry import registry, _run_registered_device_operation
 
 def register(platform = None, group = 'modules'):
     '''
@@ -34,7 +34,7 @@ def register(platform = None, group = 'modules'):
     return decorator
 
 
-def run(module_name, **kwargs):
+def run(device_operation, **kwargs):
     '''
     Summary:
     Allows modules to be run through the use of decorators. For example the user
@@ -44,6 +44,6 @@ def run(module_name, **kwargs):
 
     def _decorator(func):
         def wrapper(connection):
-            return _run_registered_operation('modules', connection.device_type, module_name, connection, **kwargs)
+            return _run_registered_device_operation(connection.device_type, device_operation, connection, **kwargs)
         return wrapper
     return _decorator
