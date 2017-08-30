@@ -1,0 +1,9 @@
+auto lo
+iface lo inet loopback
+
+{% for interface in interfaces|sort %}
+auto {{ interface }}
+iface {{ interface }} inet6 static
+	up ip link set mtu 9100
+
+{% endfor %}
