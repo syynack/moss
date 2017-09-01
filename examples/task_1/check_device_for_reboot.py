@@ -6,10 +6,11 @@
 from moss import ModuleResult, execute_device_operation, run, register, diagnose_interfaces
 
 # ModuleResult can be used to influence the outcome of a task.
-#    return ModuleResult.complete                   The module will complete successfully and the task will not proceed
-#    return ModuleResult.branch('module_name')      Task will branch to module defined and continue from there
-#    return ModuleResult.fail                       Module will be marked as a failure and the task will not continue
-#    return ModuleResult.success                    Module will be marked as a success and the task will continue
+#    ModuleResult.end                Module will be marked as successful but task will not continue
+#    ModuleResult.branch             Module will branch to another module
+#    ModuleResult.fail               Module will be marked as a failure and task will not continue
+#    ModuleResult.success            Module will be marked as a success and will continue (this is implicit)
+#    ModuleResult.retry              Module will be retried
 # It is not required that a module result must be returned, by default the module will
 # be marked as a success if not specified otherwise.
 #
@@ -40,26 +41,12 @@ from moss import ModuleResult, execute_device_operation, run, register, diagnose
 #     pass
 #
 #
-# diagnose_interfaces can be used when executing get_interfaces_statistics to check if any interface is erroring or dicarding
-#
-#
-# Common standards:
-#       - the connection variable must be passed to each registered module.
-#       - each registered module must be decorated with @register with the target platform specified.
+# diagnose_interfaces can be used when executing get_interfaces_statistics to check if any interface is erroring or discarding
 
 PLATFORM = 'linux'
 
 @register(platform = PLATFORM)
-def shut_offending_interface(connection, context):
-    ''' Example module to place an offending interface into an administrative down state in Quagga. '''
+def check_device_for_reboot(connection, context):
+    device_uptime = execute_device_operation('linux_get_system_uptime', connection)
 
-    for interface in context['offending_interfaces']:
-        shut_interface_result = execute_device_operation(
-            'linux_set_interface_admin_status',
-            connection,
-            status = 'down',
-            interface = interface
-        )
-
-        if shut_interface_result['result'] == 'fail':
-            return ModuleResult.fail
+    print float(device_uptime['stdout']['uptime'])

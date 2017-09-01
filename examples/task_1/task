@@ -4,5 +4,4 @@
 task:
 
 # Example
-- 'check_for_offending_interfaces'
-- 'shut_offending_interface'
+- 'check_device_for_reboot'

@@ -17,6 +17,8 @@ global_os: ''
 
 # Define endpoint information
 endpoints:
+
+# Example
 - os: 'linux'
   ip: '127.0.0.1'
   username: 'root'

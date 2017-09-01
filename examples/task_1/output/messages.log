@@ -1,4 +1,14 @@
-2017-08-04 18:32:09,643 moss INFO Attempting to run module check_for_offending_interfaces
-2017-08-04 18:32:09,643 moss INFO Attempting to run device operation linux_get_interfaces_statistics
-2017-08-04 18:32:10,263 moss INFO Successfully ran device operation linux_get_interfaces_statistics
-2017-08-04 18:32:10,289 moss INFO Successfully ran module check_for_offending_interfaces
+2017-09-01 20:38:19,809 moss INFO Attempting to run module check_device_for_reboot
+2017-09-01 20:38:19,809 moss INFO Attempting to run device operation linux_get_system_uptime
+2017-09-01 20:38:20,420 moss INFO Successfully ran device operation linux_get_system_uptime
+2017-09-01 20:38:20,447 moss INFO Successfully ran module check_device_for_reboot
+2017-09-01 20:38:48,278 moss INFO Attempting to run module check_device_for_reboot
+2017-09-01 20:38:48,278 moss INFO Attempting to run device operation linux_get_system_uptime
+2017-09-01 20:38:48,892 moss INFO Successfully ran device operation linux_get_system_uptime
+2017-09-01 20:38:48,922 moss INFO Successfully ran module check_device_for_reboot
+2017-09-01 20:39:47,167 moss INFO Attempting to run module check_device_for_reboot
+2017-09-01 20:39:47,168 moss INFO Attempting to run device operation linux_get_system_uptime
+2017-09-01 20:39:47,786 moss INFO Successfully ran device operation linux_get_system_uptime
+2017-09-01 20:39:59,312 moss INFO Attempting to run module check_device_for_reboot
+2017-09-01 20:39:59,312 moss INFO Attempting to run device operation linux_get_system_uptime
+2017-09-01 20:39:59,932 moss INFO Successfully ran device operation linux_get_system_uptime
