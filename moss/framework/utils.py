@@ -54,20 +54,42 @@ def module_start_header(task):
     print colour(' :: {}'.format(task), 'white'),
 
 
-def module_success():
-    print colour('success', 'green')
+def module_success(delay):
+    if delay > 0:
+        print colour('success', 'green'),
+        for i in range(0, delay - 1):
+            print '.',
+        print '.'
+    else:
+        print colour('success', 'green')
 
 
-def module_branch(next_module):
-    print colour('branching to {}'.format(next_module), 'blue')
+def module_branch(next_module, delay):
+    if delay > 0:
+        print colour('branching to {}'.format(next_module), 'blue'),
+        for i in range(0, delay - 1):
+            print '.',
+        print '.'
+    else:
+        print colour('branching to {}'.format(next_module), 'blue')
 
 
-def module_complete():
-    print colour('complete', 'green')
+def module_end():
+    print colour('end', 'green')
 
 
 def module_fail():
     print colour('fail', 'red')
+
+
+def module_retry(delay):
+    if delay > 0:
+        print colour('retry', 'magenta'),
+        for i in range(0, delay - 1):
+            print '.',
+        print '.'
+    else:
+        print colour('retry', 'magenta')
 
 
 def end_banner(result):
@@ -75,10 +97,8 @@ def end_banner(result):
     header = header = '[ Task {} ]'.format(result)
     banner = '=' * ((terminal_width - len(header)) / 2) + header + '=' * ((terminal_width - len(header)) / 2)
 
-    if result == 'success':
+    if result == 'success' or result == 'end':
         print colour(banner + '\n', 'green', bold=True)
-    elif result == 'complete':
-        print colour(banner + '\n', 'magenta', bold=True)
     else:
         print colour(banner + '\n', 'red', bold=True)
 

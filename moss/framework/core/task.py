@@ -153,7 +153,7 @@ def _construct_stdout(start_data):
 
     end_data = _task_end_signals(start_data)
     end_data.update({'uuid': str(uuid.uuid4())})
-    title = 'output/{}-{}.json'.format(str(uuid.uuid4()), str(datetime.now())).replace(' ', '-')
+    title = 'output/{}-{}-{}.json'.format(end_data['start_user'], end_data['uuid'], end_data['start_date_time']).replace(' ', '-')
     write_json_to_file(end_data, title)
 
     os.remove('output/.stdout.json')

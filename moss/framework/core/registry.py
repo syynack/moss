@@ -111,7 +111,7 @@ def _run_registered_module(platform, operation, connection, context):
     elif callable(module_result):
         module_result = module_result()
     else:
-        module_result = {'result': 'success'}
+        module_result = {'result': 'success', 'delay': 0}
 
     log('Successfully ran module {}'.format(operation))
     module_result.update({'uuid': str(uuid.uuid4())})

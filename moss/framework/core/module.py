@@ -6,12 +6,13 @@ import socket
 import os
 import getpass
 import inspect
+import time
 import moss.framework.devops
 
 from datetime import datetime
 from moss.framework.core.registry import registered_operations, _run_registered_module, _run_registered_device_operation
 from moss.framework.core.exceptions import ModuleResultError
-from moss.framework.utils import timer, module_start_header, module_success, module_branch, module_complete, module_fail
+from moss.framework.utils import timer, module_start_header, module_success, module_branch, module_end, module_fail
 
 
 def execute_device_operation(operation, connection, **kwargs):
@@ -46,23 +47,25 @@ class ModuleResult():
     Summary:
     Return dict representing the outcome of the module.
 
-    ModuleResult.quit           module will not be considered a failure, but will not continue
-    ModuleResult.branch         task will branch to module defined and continue from there
-    ModuleResult.fail           module will be marked as a failure and the task will not continue
-    ModuleResult.success        module will be marked as a success and the task will continue
+    ModuleResult.end                Module will be marked as successful but task will not continue
+    ModuleResult.branch             Module will branch to another module
+    ModuleResult.fail               Module will be marked as a failure and task will not continue
+    ModuleResult.success            Module will be marked as a success and will continue (this is implicit)
+    ModuleResult.retry              Module will be retried
     '''
 
     @staticmethod
-    def complete():
+    def end():
         return {
-            'result': 'complete'
+            'result': 'end'
         }
 
     @staticmethod
-    def branch(module):
+    def branch(module, delay = 0):
         return {
             'result': 'branch',
-            'branching_module': module
+            'branching_module': module,
+            'delay': delay
         }
 
     @staticmethod
@@ -72,9 +75,18 @@ class ModuleResult():
         }
 
     @staticmethod
-    def success():
+    def success(delay = 0):
         return {
-            'result': 'success'
+            'result': 'success',
+            'delay': delay
+        }
+
+    @staticmethod
+    def retry(delay = 5):
+        time.sleep(delay)
+        return {
+            'result': 'retry',
+            'delay': delay
         }
 
 
@@ -134,18 +146,21 @@ class Module():
         result_dict.update(self.module_start_data)
         result_dict.update({'module': self.module})
         result_dict.update({'uuid': str(uuid.uuid4())})
-
+        
         if result == 'success':
             result_dict.update({'next_module': self.next_module})
-            module_success()
+            module_success(module_result['delay'])
         elif result == 'branch':
             result_dict.update({'next_module': module_result['branching_module']})
-            module_branch(module_result['branching_module'])
-        elif result == 'complete':
+            module_branch(module_result['branching_module'], module_result['delay'])
+        elif result == 'end':
             result_dict.update({'next_module': ''})
-            module_complete()
+            module_end()
         elif result == 'fail':
             module_fail()
             result_dict.update({'next_module': ''})
+        elif result == 'retry':
+            module_retry(module_result['delay'])
+            result_dict.update({'next_module': self.module})
 
         return result_dict
