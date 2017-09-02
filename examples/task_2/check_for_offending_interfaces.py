@@ -54,7 +54,7 @@ def check_for_offending_interfaces(connection, context):
     if interfaces_statistics['result'] == 'fail':
         return ModuleResult.fail
 
-    diagnose_result = diagnose_interfaces(interfaces_statistics['stdout'])
+    diagnose_result = diagnose_interfaces(interfaces_statistics)
 
     if diagnose_result['result'] == 'fail':
         context['offending_interfaces'] = diagnose_result['offending_interfaces']
