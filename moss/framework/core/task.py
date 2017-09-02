@@ -11,7 +11,7 @@ import json
 
 from moss.framework.core.endpoint import Endpoint
 from moss.framework.core.module import Module
-from moss.framework.utils import start_banner, start_header, timer, end_banner, write_json_to_file, create_task_start_temp_file, create_task_links_temp_file
+from moss.framework.utils import start_banner, start_header, timer, end_banner, write_json_to_file, create_task_start_temp_file, create_task_links_temp_file, post_device
 from datetime import datetime
 from getpass import getuser
 
@@ -19,8 +19,6 @@ CONTEXT = {}
 
 
 def _task_start_signals(module_order):
-    start_banner()
-    start_header(module_order)
     create_task_start_temp_file()
     create_task_links_temp_file()
 
@@ -36,7 +34,6 @@ def _task_start_signals(module_order):
 
 
 def _task_end_signals(start_data):
-    end_banner(start_data['results']['modules'][-1]['result'])
     end_data = {
         'end_time': timer(),
         'end_date_time': str(datetime.now()),
@@ -153,7 +150,7 @@ def _construct_stdout(start_data):
 
     end_data = _task_end_signals(start_data)
     end_data.update({'uuid': str(uuid.uuid4())})
-    title = 'output/{}-{}-{}.json'.format(end_data['start_user'], end_data['uuid'], end_data['start_date_time']).replace(' ', '-')
+    title = 'output/{}-{}-{}-{}.json'.format(end_data['uuid'], end_data['start_date_time'], end_data['start_user'], end_data['endpoint']).replace(' ', '-')
     write_json_to_file(end_data, title)
 
     os.remove('output/.stdout.json')
@@ -186,6 +183,7 @@ def _run_task(connection, module_order):
         next_module = result['next_module']
         context = result['context']
         start_data['results']['modules'].append(result)
+        start_data['endpoint'] = connection.ip
 
         if next_module != '':
             module_index = [index for index, module in enumerate(module_order) if next_module == module['module']]
@@ -217,7 +215,11 @@ def task_control(endpoints, output_file, print_output, task):
     endpoint_data, task_data = _parse_yaml_data(endpoints, task)
     module_order = _construct_task_order(task_data['task'])
 
+    start_banner()
+    start_header(module_order)
+
     for endpoint in endpoint_data['endpoints']:
+        post_device(endpoint['ip'])
         endpoint_obj = _construct_endpoint(endpoint, endpoint_data)
         endpoint_connection = endpoint_obj.get_connection()
         result = _run_task(endpoint_connection, module_order)
@@ -229,3 +231,5 @@ def task_control(endpoints, output_file, print_output, task):
 
         if output_file:
             write_json_to_file(result, output_file)
+
+    end_banner()

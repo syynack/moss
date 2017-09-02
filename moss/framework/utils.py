@@ -47,31 +47,25 @@ def start_header(module_order):
     for module in module_order:
         print colour('\t{}'.format(module['module']), 'white')
 
-    print colour('\n :: First module: {}\n'.format(first_module), 'white', bold=True)
+    print colour('\n :: First module: {}'.format(first_module), 'white', bold=True)
+
+
+def post_device(name):
+    print colour('\n :: Endpoint: {}'.format(name), 'white', bold=True)
 
 
 def module_start_header(task):
-    print colour(' :: {}'.format(task), 'white'),
+    print colour('\t :: {}'.format(task), 'white'),
 
 
 def module_success(delay):
-    if delay > 0:
-        print colour('success', 'green'),
-        for i in range(0, delay - 1):
-            print '.',
-        print '.'
-    else:
-        print colour('success', 'green')
+    print colour('success', 'green')
+    time.sleep(delay)
 
 
 def module_branch(next_module, delay):
-    if delay > 0:
-        print colour('branching to {}'.format(next_module), 'blue'),
-        for i in range(0, delay - 1):
-            print '.',
-        print '.'
-    else:
-        print colour('branching to {}'.format(next_module), 'blue')
+    print colour('branching to {}'.format(next_module), 'blue')
+    time.sleep(delay)
 
 
 def module_end():
@@ -83,24 +77,15 @@ def module_fail():
 
 
 def module_retry(delay):
-    if delay > 0:
-        print colour('retry', 'magenta'),
-        for i in range(0, delay - 1):
-            print '.',
-        print '.'
-    else:
-        print colour('retry', 'magenta')
+    print colour('retry', 'magenta')
+    time.sleep(delay)
 
 
-def end_banner(result):
+def end_banner():
     terminal_width = get_terminal_width()
-    header = header = '[ Task {} ]'.format(result)
+    header = '[ Task End ]'
     banner = '=' * ((terminal_width - len(header)) / 2) + header + '=' * ((terminal_width - len(header)) / 2)
-
-    if result == 'success' or result == 'end':
-        print colour(banner + '\n', 'green', bold=True)
-    else:
-        print colour(banner + '\n', 'red', bold=True)
+    print colour(banner, 'white')
 
 
 def timer():

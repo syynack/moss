@@ -12,7 +12,7 @@ import moss.framework.devops
 from datetime import datetime
 from moss.framework.core.registry import registered_operations, _run_registered_module, _run_registered_device_operation
 from moss.framework.core.exceptions import ModuleResultError
-from moss.framework.utils import timer, module_start_header, module_success, module_branch, module_end, module_fail
+from moss.framework.utils import timer, module_start_header, module_success, module_branch, module_end, module_fail, module_retry
 
 
 def execute_device_operation(operation, connection, **kwargs):
@@ -83,7 +83,6 @@ class ModuleResult():
 
     @staticmethod
     def retry(delay = 5):
-        time.sleep(delay)
         return {
             'result': 'retry',
             'delay': delay
@@ -146,7 +145,7 @@ class Module():
         result_dict.update(self.module_start_data)
         result_dict.update({'module': self.module})
         result_dict.update({'uuid': str(uuid.uuid4())})
-        
+
         if result == 'success':
             result_dict.update({'next_module': self.next_module})
             module_success(module_result['delay'])
