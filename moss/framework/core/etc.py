@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-def diagnose_interfaces(stdout, offend_threshold=None):
+def diagnose_interfaces(stdout, offend_threshold=0):
     '''
     Summary:
     Written to work in tandem with get_interfaces_statistics devops script. Will inspect
@@ -29,34 +29,24 @@ def diagnose_interfaces(stdout, offend_threshold=None):
     }
 
     result = {'interfaces': {}, 'offending_interfaces': []}
+    stdout = stdout['stdout']
 
     if isinstance(stdout, dict):
         for interface in stdout:
             if isinstance(stdout[interface], dict):
-                for key in diagnose_elements:
-                    interfaces_statistics = None
+                for element in diagnose_elements:
+                    if int(stdout[interface][element]) > int(offend_threshold):
+                        if interface not in result['offending_interfaces']:
+                            result['offending_interfaces'].append(interface)
 
-                    try:
-                        interfaces_statistics = stdout[interface][key]
-                    except:
-                        pass
+                        if not result['interfaces'].get(interface):
+                            result['interfaces'][interface] = []
 
-                    if interfaces_statistics is not None:
-                        result['interfaces'][interface] = {'increasing': []}
-                        if offend_threshold is not None:
-                            if int(interfaces_statistics) > int(offend_threshold):
-                                result['interfaces'][interface]['increasing'].append(diagnose_keys[key])
-                        else:
-                            if int(interfaces_statistics) > 0:
-                                result['interfaces'][interface]['increasing'].append(diagnose_keys[key])
+                        result['interfaces'][interface].append(element)
 
-        for interface in result['interfaces']:
-            if len(result['interfaces'][interface]['increasing']) > 0:
-                result['offending_interfaces'].append(interface)
+    if len(result['offending_interfaces']) > 0:
+        result['result'] = 'fail'
+    else:
+        result['result'] = 'success'
 
-        if len(result['offending_interfaces']) > 0:
-            result['result'] = 'fail'
-        else:
-            result['result'] = 'success'
-            
     return result
