@@ -68,3 +68,29 @@ def linux_get_system_uptime(connection):
         'result': 'success',
         'stdout': stdout
     }
+
+
+@register(platform = 'cisco_ios')
+def cisco_ios_get_system_uptime(connection):
+    command = 'show version'
+    output = connection.send_command(command)
+
+    if output is None or '% Incomplete command.' in output:
+        return {
+            'result': 'fail',
+            'stdout': output
+        }
+
+    stdout = {}
+    regex = 'uptime\sis\s(?P<uptime>.+?)\sminutes'
+
+    for line in output.splitlines():
+        data = re.search(regex, line)
+        if data is not None:
+            data = data.groupdict()
+            stdout.update(data)
+
+    return {
+        'result': 'success',
+        'stdout': stdout
+    }
