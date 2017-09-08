@@ -1,20 +1,19 @@
-# Base Debian Jessie OS
 FROM debian:jessie
 
 RUN apt-get update
 RUN apt-get --assume-yes install quagga lldpd python python-pip git pkg-config bash-completion vim openssh-server net-tools
 
-# Create moss dir
 WORKDIR /etc/moss
 ADD run-services.sh /etc/moss/
 ADD debian.conf /etc/quagga/debian.conf
 ADD daemons /etc/quagga/daemons
 
-# Make Quagga daemon config files
 RUN touch /etc/quagga/bgpd.conf
 RUN touch /etc/quagga/ospf6d.conf
 RUN cp /usr/share/doc/quagga/examples/zebra.conf.sample /etc/quagga/zebra.conf
 RUN cp /usr/share/doc/quagga/examples/vtysh.conf.sample /etc/quagga/vtysh.conf
+RUN cp /usr/share/doc/quagga/examples/ospf6d.conf.sample /etc/quagga/ospf6d.conf
+RUN cp /usr/share/doc/quagga/examples/bgpd.conf.sample /etc/quagga/bgpd.conf
 
 RUN chown quagga.quaggavty /etc/quagga/*.conf
 RUN chmod 640 /etc/quagga/*.conf
