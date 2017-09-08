@@ -6,9 +6,9 @@ if [[ ! -n "$docker_image_present"  ]]; then
   echo "Building moss Docker image"
   sleep 2
 
-  cd ../tests/docker/
+  cd ../docker/
   docker build -t moss/moss-test-image:latest .
-  docker create -it --name moss moss/moss-test-image:latest
+  docker create -it --name moss --privileged --cap-add=ALL -p 22:22 moss/moss-test-image:latest
 fi
 
 docker_start_result=$(docker start moss)
