@@ -3,7 +3,7 @@
 from moss.framework.decorators import register
 
 @register(platform = 'juniper')
-def juniper_set_bgp_med(connection, group = None, policy_statement = None):
+def juniper_set_bgp_med(connection, group = None, policy_statement = None, delete = False):
     '''
     Summary:
     Sets the Border Gateway Protocol Multiple Exit Descriminator for a specific
@@ -12,6 +12,7 @@ def juniper_set_bgp_med(connection, group = None, policy_statement = None):
     Arguments:
     group                   str, name of BGP group to apply policy
     policy_statement        str, name of policy statement to apply to group
+    delete                  bool, delete the configuration statement rather than set
 
     Returns:
     dict
@@ -26,7 +27,11 @@ def juniper_set_bgp_med(connection, group = None, policy_statement = None):
     if not connection.check_config_mode():
         connection.config_mode()
 
-    command = 'set protocols bgp group {} export {}'.format(group, policy_statement)
+    if not delete:
+        command = 'set protocols bgp group {} export {}'.format(group, policy_statement)
+    else:
+        command = 'delete protocols bgp group {} export {}'.format(group, policy_statement)
+
     result = connection.send_command(command)
 
     if 'missing argument' in result:
