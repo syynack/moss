@@ -10,7 +10,7 @@ setup(
 	# the version across setup.py and the project code, see
 	# https://packaging.python.org/en/latest/single_source_version.html
 
-	version='0.0.1',
+	version='0.3',
 	description='An open source network device automation framework',
 	long_description='An open source network device automation framework to perform operations and retrieve information from networking devices',
 
