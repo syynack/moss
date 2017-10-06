@@ -11,6 +11,7 @@ import json
 
 from moss.framework.core.endpoint import Endpoint
 from moss.framework.core.module import Module
+from moss.framework.core.db import log_operation_to_redis_database
 from moss.framework.utils import start_banner, start_header, timer, end_banner, write_json_to_file, create_task_start_temp_file, create_task_links_temp_file, post_device
 from datetime import datetime
 from getpass import getuser
@@ -152,6 +153,8 @@ def _construct_stdout(start_data):
     end_data.update({'uuid': str(uuid.uuid4())})
     title = 'output/{}-{}-{}-{}.json'.format(end_data['uuid'], end_data['start_date_time'], end_data['start_user'], end_data['endpoint']).replace(' ', '-')
     write_json_to_file(end_data, title)
+
+    log_operation_to_redis_database(end_data['uuid'], end_data)
 
     os.remove('output/.stdout.json')
     os.remove('output/.links.json')
