@@ -47,4 +47,11 @@ PLATFORM = 'juniper'
 
 @register(platform = PLATFORM)
 def pre_check_uptime(connection, context):
+    ''' Module to precheck the target endpoint's uptime '''
+
+    current_uptime = execute_device_operation('juniper_get_system_uptime', connection)
+
+    if current_uptime['result'] != 'success' or int(last_boot_time.split(':')[1]) < 1:
+        return ModuleResult.fail
+
     return ModuleResult.success

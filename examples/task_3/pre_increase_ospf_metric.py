@@ -47,4 +47,11 @@ PLATFORM = 'juniper'
 
 @register(platform = PLATFORM)
 def pre_increase_ospf_metric(connection, context):
+    ''' Module to set OSPFv2 overload on a Juniper endpoint '''
+
+    set_ospf_overload_result = execute_device_operation('juniper_set_ospf_overload', connection)
+
+    if set_ospf_overload_result['result'] != 'success':
+        return ModuleResult.fail
+
     return ModuleResult.success

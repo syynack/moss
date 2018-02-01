@@ -11,7 +11,6 @@ import json
 
 from moss.framework.core.endpoint import Endpoint
 from moss.framework.core.module import Module
-from moss.framework.core.db import log_operation_to_redis_database
 from moss.framework.utils import start_banner, start_header, timer, end_banner, write_json_to_file, create_task_start_temp_file, create_task_links_temp_file, post_device
 from datetime import datetime
 from getpass import getuser
@@ -111,11 +110,19 @@ def _construct_endpoint(endpoint, endpoint_data):
     moss Device object containing netmiko SSH object
     '''
 
-    username_sources = [endpoint['username'], endpoint_data['global_username'], getpass.getuser()]
-    password_sources = [endpoint['password'], endpoint_data['global_password']]
+    username_sources = [endpoint.get('username'), endpoint_data.get('global_username')]
+    password_sources = [endpoint.get('password'), endpoint_data.get('global_password')]
 
-    username = next(username for username in username_sources if username is not '')
-    password = next(password for password in password_sources if username is not '')
+    username = None
+    password = None
+
+    for element in username_sources:
+        if element != None:
+            username = element
+
+    for element in password_sources:
+        if element != None:
+            password = element
 
     device = Endpoint(
         device_type = endpoint.get('os') if endpoint.get('os') else endpoint_data.get('global_os'),
@@ -154,7 +161,7 @@ def _construct_stdout(start_data):
     title = 'output/{}-{}-{}-{}.json'.format(end_data['uuid'], end_data['start_date_time'], end_data['start_user'], end_data['endpoint']).replace(' ', '-')
     write_json_to_file(end_data, title)
 
-    log_operation_to_redis_database(end_data['uuid'], end_data)
+    #log_operation_to_redis_database(end_data['uuid'], end_data)
 
     os.remove('output/.stdout.json')
     os.remove('output/.links.json')

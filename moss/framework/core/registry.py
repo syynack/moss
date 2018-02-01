@@ -77,7 +77,8 @@ def _run_registered_device_operation(platform, operation, connection, **kwargs):
     device_operation_result = registered_operations['devops'][platform][operation](connection, **kwargs)
     log('Successfully ran device operation {}'.format(operation))
 
-    device_operation_result.update({'uuid': str(uuid.uuid4())})
+    if isinstance(device_operation_result, dict):
+        device_operation_result.update({'uuid': str(uuid.uuid4())})
 
     _log_operation_to_file(platform, operation, device_operation_result)
 

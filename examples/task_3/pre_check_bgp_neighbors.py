@@ -43,10 +43,23 @@ from moss import ModuleResult, execute_device_operation, run, register, diagnose
 #
 # diagnose_interfaces can be used when executing get_interfaces_statistics to check if any interface is erroring or discarding
 
-PLATFORM = 'linux'
+PLATFORM = 'juniper'
 
 @register(platform = PLATFORM)
-def check_device_for_reboot(connection, context):
-    device_uptime = execute_device_operation('linux_get_system_uptime', connection)
+def pre_check_bgp_neighbors(connection, context):
+    ''' Module to count the number of current established BGP peers '''
 
-    print float(device_uptime['stdout']['uptime'])
+    current_bgp_neighbors = execute_device_operation('juniper_get_bgp_neighbors', connection)
+
+    if current_bgp_neighbors['result'] != 'success':
+        return ModuleResult.fail
+
+    bgp_neighbor_count = 0
+
+    for peer in pre_check_bgp_peers['stdout']:
+        if peer['state'] == 'Established':
+            bgp_neighbor_count += 1
+
+    context['pre_bgp_neighbor_count'] = bgp_neighbor_count
+
+    return ModuleResult.success

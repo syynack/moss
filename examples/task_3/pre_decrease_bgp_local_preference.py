@@ -47,4 +47,15 @@ PLATFORM = 'juniper'
 
 @register(platform = PLATFORM)
 def pre_decrease_bgp_local_preference(connection, context):
+    ''' Module to decrease BGP LOCAL_PREF to a less prefered value, for traffic engineering '''
+
+    set_bgp_local_preference_result = execute_device_operation(
+        'juniper_set_bgp_local_preference',
+        connection,
+        group = 'FABRIC-BGP'
+    )
+
+    if set_bgp_local_preference_result['result'] != 'success':
+        return ModuleResult.fail
+
     return ModuleResult.success

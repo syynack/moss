@@ -23,7 +23,6 @@ def register(platform = None, group = 'modules'):
                 registry('devops', platform, func)
             else:
                 registry(group, platform, func)
-
         elif isinstance(platform, list):
             for element in platform:
                 if 'moss.framework.devops.' in str(func.__module__):

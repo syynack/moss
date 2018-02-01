@@ -1,14 +1,28 @@
-2017-09-01 20:38:19,809 moss INFO Attempting to run module check_device_for_reboot
-2017-09-01 20:38:19,809 moss INFO Attempting to run device operation linux_get_system_uptime
-2017-09-01 20:38:20,420 moss INFO Successfully ran device operation linux_get_system_uptime
-2017-09-01 20:38:20,447 moss INFO Successfully ran module check_device_for_reboot
-2017-09-01 20:38:48,278 moss INFO Attempting to run module check_device_for_reboot
-2017-09-01 20:38:48,278 moss INFO Attempting to run device operation linux_get_system_uptime
-2017-09-01 20:38:48,892 moss INFO Successfully ran device operation linux_get_system_uptime
-2017-09-01 20:38:48,922 moss INFO Successfully ran module check_device_for_reboot
-2017-09-01 20:39:47,167 moss INFO Attempting to run module check_device_for_reboot
-2017-09-01 20:39:47,168 moss INFO Attempting to run device operation linux_get_system_uptime
-2017-09-01 20:39:47,786 moss INFO Successfully ran device operation linux_get_system_uptime
-2017-09-01 20:39:59,312 moss INFO Attempting to run module check_device_for_reboot
-2017-09-01 20:39:59,312 moss INFO Attempting to run device operation linux_get_system_uptime
-2017-09-01 20:39:59,932 moss INFO Successfully ran device operation linux_get_system_uptime
+2018-02-01 19:47:37,470 moss INFO Attempting to run module present_facts
+2018-02-01 19:47:37,471 moss INFO Attempting to run device operation cisco_ios_get_facts
+2018-02-01 19:47:38,209 moss INFO Successfully ran device operation cisco_ios_get_facts
+2018-02-01 19:47:38,209 moss INFO Successfully ran module present_facts
+2018-02-01 19:48:27,454 moss INFO Attempting to run module present_facts
+2018-02-01 19:48:27,455 moss INFO Attempting to run device operation cisco_ios_get_facts
+2018-02-01 19:48:28,177 moss INFO Successfully ran device operation cisco_ios_get_facts
+2018-02-01 19:48:28,177 moss INFO Successfully ran module present_facts
+2018-02-01 19:49:05,301 moss INFO Attempting to run module present_facts
+2018-02-01 19:49:05,301 moss INFO Attempting to run device operation cisco_ios_get_facts
+2018-02-01 19:49:06,029 moss INFO Successfully ran device operation cisco_ios_get_facts
+2018-02-01 19:49:06,030 moss INFO Successfully ran module present_facts
+2018-02-01 19:51:46,530 moss INFO Attempting to run module present_facts
+2018-02-01 19:51:46,530 moss INFO Attempting to run device operation cisco_ios_get_facts
+2018-02-01 19:51:47,251 moss INFO Successfully ran device operation cisco_ios_get_facts
+2018-02-01 19:51:47,299 moss INFO Successfully ran module present_facts
+2018-02-01 19:53:49,515 moss INFO Attempting to run module present_facts
+2018-02-01 19:53:49,515 moss INFO Attempting to run device operation cisco_ios_get_facts
+2018-02-01 19:53:50,255 moss INFO Successfully ran device operation cisco_ios_get_facts
+2018-02-01 19:53:50,303 moss INFO Successfully ran module present_facts
+2018-02-01 19:54:30,916 moss INFO Attempting to run module present_facts
+2018-02-01 19:54:30,916 moss INFO Attempting to run device operation cisco_ios_get_facts
+2018-02-01 19:54:31,653 moss INFO Successfully ran device operation cisco_ios_get_facts
+2018-02-01 19:54:31,696 moss INFO Successfully ran module present_facts
+2018-02-01 19:54:57,947 moss INFO Attempting to run module present_facts
+2018-02-01 19:54:57,948 moss INFO Attempting to run device operation cisco_ios_get_facts
+2018-02-01 19:54:58,682 moss INFO Successfully ran device operation cisco_ios_get_facts
+2018-02-01 19:54:58,728 moss INFO Successfully ran module present_facts

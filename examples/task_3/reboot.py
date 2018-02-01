@@ -47,4 +47,11 @@ PLATFORM = 'juniper'
 
 @register(platform = PLATFORM)
 def reboot(connection, context):
-    return ModuleResult.success
+    ''' Module to reboot a Juniper endpoint via shell command '''
+
+    reboot_result = execute_device_operation('run_shell_command', connection, command = 'request system reboot')
+
+    if reboot_result['result'] != 'success':
+        return ModuleResult.fail
+
+    return ModuleResult.success(delay = 60)

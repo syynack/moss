@@ -55,10 +55,6 @@ class Endpoint(object):
                 timeout = self.timeout,
                 session_timeout = self.session_timeout
             )
-        except ValueError as e:
-            print '\n{} is not a currently supported device. Currently supported devices are: \n{}' \
-                .format(self.device_type, ', '.join(str(e).split()[6:]))
-            sys.exit(1)
         except NetMikoTimeoutException as e:
             print str(e)
             sys.exit(1)

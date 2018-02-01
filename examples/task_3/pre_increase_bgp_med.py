@@ -47,4 +47,16 @@ PLATFORM = 'juniper'
 
 @register(platform = PLATFORM)
 def pre_increase_bgp_med(connection, context):
+    ''' Module to increase BGP MED to a less prefered value, for traffic engineering '''
+
+    set_bgp_med_result = execute_device_operation(
+        'juniper_set_bgp_med',
+        connection,
+        group = 'FABRIC-BGP',
+        policy_statement = 'max-med'
+    )
+
+    if set_bgp_med_result['result'] != 'success':
+        return ModuleResult.fail
+
     return ModuleResult.success

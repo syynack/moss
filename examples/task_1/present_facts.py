@@ -43,8 +43,8 @@ from moss import ModuleResult, execute_device_operation, run, register, diagnose
 #
 # diagnose_interfaces can be used when executing get_interfaces_statistics to check if any interface is erroring or discarding
 
-PLATFORM = 'juniper'
+PLATFORM = 'cisco_ios'
 
 @register(platform = PLATFORM)
-def pre_check_ospf_and_bgp_neighbors(connection, context):
-    return ModuleResult.success
+def present_facts(connection, context):
+    execute_device_operation('cisco_ios_get_facts', connection)

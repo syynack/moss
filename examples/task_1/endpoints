@@ -5,21 +5,18 @@
 
 # Authentication
 # Define a global password to be used for all device connections
-global_password: ''
+global_password: 'framework_test'
 
 # Define a global username to be used for all device connections
-global_username: ''
+global_username: 'framework_test'
 
 
 # Endpoints
 # Define a global os if all the endpoints run the same operating system
-global_os: ''
+global_os: 'cisco_ios'
 
 # Define endpoint information
 endpoints:
 
 # Example
-- os: 'linux'
-  ip: '127.0.0.1'
-  username: 'root'
-  password: 'moss-test'
+- ip: '192.168.1.191'

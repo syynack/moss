@@ -4,4 +4,5 @@
 task:
 
 # Example
-- 'check_device_for_reboot'
+- 'present_facts'
+

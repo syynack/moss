@@ -2,3 +2,27 @@
 2017-09-02 16:03:54,348 moss INFO Attempting to run device operation linux_get_interfaces_statistics
 2017-09-02 16:03:54,966 moss INFO Successfully ran device operation linux_get_interfaces_statistics
 2017-09-02 16:03:54,997 moss INFO Successfully ran module check_for_offending_interfaces
+2017-10-06 13:03:13,259 moss INFO Attempting to run module check_for_offending_interfaces
+2017-10-06 13:03:13,266 moss INFO Attempting to run device operation linux_get_interfaces_statistics
+2017-10-06 13:03:13,893 moss INFO Successfully ran device operation linux_get_interfaces_statistics
+2017-10-06 13:03:13,937 moss INFO Successfully ran module check_for_offending_interfaces
+2017-10-06 13:03:45,349 moss INFO Attempting to run module check_for_offending_interfaces
+2017-10-06 13:03:45,349 moss INFO Attempting to run device operation linux_get_interfaces_statistics
+2017-10-06 13:03:45,963 moss INFO Successfully ran device operation linux_get_interfaces_statistics
+2017-10-06 13:03:45,998 moss INFO Successfully ran module check_for_offending_interfaces
+2017-10-06 13:09:04,379 moss INFO Attempting to run module check_for_offending_interfaces
+2017-10-06 13:09:04,379 moss INFO Attempting to run device operation linux_get_interfaces_statistics
+2017-10-06 13:09:04,994 moss INFO Successfully ran device operation linux_get_interfaces_statistics
+2017-10-06 13:09:05,031 moss INFO Successfully ran module check_for_offending_interfaces
+2017-10-06 13:12:03,333 moss INFO Attempting to run module check_for_offending_interfaces
+2017-10-06 13:12:03,333 moss INFO Attempting to run device operation linux_get_interfaces_statistics
+2017-10-06 13:12:03,950 moss INFO Successfully ran device operation linux_get_interfaces_statistics
+2017-10-06 13:12:03,983 moss INFO Successfully ran module check_for_offending_interfaces
+2017-10-06 13:12:26,655 moss INFO Attempting to run module check_for_offending_interfaces
+2017-10-06 13:12:26,656 moss INFO Attempting to run device operation linux_get_interfaces_statistics
+2017-10-06 13:12:27,275 moss INFO Successfully ran device operation linux_get_interfaces_statistics
+2017-10-06 13:12:27,307 moss INFO Successfully ran module check_for_offending_interfaces
+2017-10-06 13:13:05,533 moss INFO Attempting to run module check_for_offending_interfaces
+2017-10-06 13:13:05,533 moss INFO Attempting to run device operation linux_get_interfaces_statistics
+2017-10-06 13:13:06,156 moss INFO Successfully ran device operation linux_get_interfaces_statistics
+2017-10-06 13:13:06,193 moss INFO Successfully ran module check_for_offending_interfaces
