@@ -1,7 +1,7 @@
 import sys
 import os
 
-from moss.framework.core.endpoint import Endpoint
+from moss.framework.core.connection import Connection
 from moss.framework.core.module import ModuleResult, execute_device_operation
 from moss.framework.decorators import register, run
 from moss.framework.core.etc import diagnose_interfaces

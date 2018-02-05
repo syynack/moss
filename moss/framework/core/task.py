@@ -9,7 +9,7 @@ import getpass
 import uuid
 import json
 
-from moss.framework.core.endpoint import Endpoint
+from moss.framework.core.connection import Connection
 from moss.framework.core.module import Module
 from moss.framework.utils import start_banner, start_header, timer, end_banner, write_json_to_file, create_task_start_temp_file, create_task_links_temp_file, post_device
 from datetime import datetime
@@ -124,7 +124,7 @@ def _construct_endpoint(endpoint, endpoint_data):
         if element != None:
             password = element
 
-    device = Endpoint(
+    device = Connection(
         device_type = endpoint.get('os') if endpoint.get('os') else endpoint_data.get('global_os'),
         ip = endpoint.get('ip'),
         username = username,
@@ -197,7 +197,6 @@ def _run_task(connection, module_order):
 
         if next_module != '':
             module_index = [index for index, module in enumerate(module_order) if next_module == module['module']]
-
             if not module_index:
                 next_module = ''
             else:

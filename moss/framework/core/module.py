@@ -29,17 +29,7 @@ def execute_device_operation(operation, connection, **kwargs):
     dict
     '''
 
-    try:
-        return _run_registered_device_operation(connection.device_type, operation, connection, **kwargs)
-    except:
-        if 'takes exactly' in str(sys.exc_info()[1]):
-            func = registered_operations['devops'][connection.device_type][operation]
-            print 'Error: {} takes args: {}'.format(func.__name__, ', '.join(inspect.getargspec(func)[0])),
-
-        return {
-            'result': 'fail',
-            'reason': str(sys.exc_info())
-        }
+    return _run_registered_device_operation(connection.device_type, operation, connection, **kwargs)
 
 
 class ModuleResult():

@@ -6,7 +6,7 @@ from moss.framework.utils import colour
 from netmiko import ConnectHandler
 from netmiko.ssh_exception import NetMikoTimeoutException
 
-class Endpoint(object):
+class Connection(object):
     '''
     Summary:
     Returns netmiko SSH connection to device using variables as defined
@@ -22,7 +22,7 @@ class Endpoint(object):
     session_timeout:    int, timeout for parallel requests
 
     Returns:
-    Endpoint object
+    Connection object
 
     '''
 
