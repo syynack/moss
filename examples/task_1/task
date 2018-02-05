@@ -5,4 +5,3 @@ task:
 
 # Example
 - 'present_facts'
-

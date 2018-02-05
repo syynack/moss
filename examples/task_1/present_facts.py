@@ -48,3 +48,24 @@ PLATFORM = 'cisco_ios'
 @register(platform = PLATFORM)
 def present_facts(connection, context):
     execute_device_operation('cisco_ios_get_facts', connection)
+
+
+
+
+#! /usr/bin/env python
+
+# Created by framework-cli.
+# This file should be used as a template for any user created modules.
+
+from framework import ModuleResult, execute_device_operation
+
+# ModuleResult can be used to influence the outcome of a task.
+#    ModuleResult.success            Module will be marked as a success and will continue (this is implicit)
+#    ModuleResult.fail               Module will be marked as a failure and task will not continue
+#    ModuleResult.branch             Module will branch to another module
+#    ModuleResult.retry              Module will be retried
+#    ModuleResult.end                Module will be marked as successful but task will not continue
+
+@register(vendor = '')
+def module_template(connection, store):
+    return ModuleResult.success

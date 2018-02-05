@@ -1,28 +1,8 @@
-2018-02-01 19:47:37,470 moss INFO Attempting to run module present_facts
-2018-02-01 19:47:37,471 moss INFO Attempting to run device operation cisco_ios_get_facts
-2018-02-01 19:47:38,209 moss INFO Successfully ran device operation cisco_ios_get_facts
-2018-02-01 19:47:38,209 moss INFO Successfully ran module present_facts
-2018-02-01 19:48:27,454 moss INFO Attempting to run module present_facts
-2018-02-01 19:48:27,455 moss INFO Attempting to run device operation cisco_ios_get_facts
-2018-02-01 19:48:28,177 moss INFO Successfully ran device operation cisco_ios_get_facts
-2018-02-01 19:48:28,177 moss INFO Successfully ran module present_facts
-2018-02-01 19:49:05,301 moss INFO Attempting to run module present_facts
-2018-02-01 19:49:05,301 moss INFO Attempting to run device operation cisco_ios_get_facts
-2018-02-01 19:49:06,029 moss INFO Successfully ran device operation cisco_ios_get_facts
-2018-02-01 19:49:06,030 moss INFO Successfully ran module present_facts
-2018-02-01 19:51:46,530 moss INFO Attempting to run module present_facts
-2018-02-01 19:51:46,530 moss INFO Attempting to run device operation cisco_ios_get_facts
-2018-02-01 19:51:47,251 moss INFO Successfully ran device operation cisco_ios_get_facts
-2018-02-01 19:51:47,299 moss INFO Successfully ran module present_facts
-2018-02-01 19:53:49,515 moss INFO Attempting to run module present_facts
-2018-02-01 19:53:49,515 moss INFO Attempting to run device operation cisco_ios_get_facts
-2018-02-01 19:53:50,255 moss INFO Successfully ran device operation cisco_ios_get_facts
-2018-02-01 19:53:50,303 moss INFO Successfully ran module present_facts
-2018-02-01 19:54:30,916 moss INFO Attempting to run module present_facts
-2018-02-01 19:54:30,916 moss INFO Attempting to run device operation cisco_ios_get_facts
-2018-02-01 19:54:31,653 moss INFO Successfully ran device operation cisco_ios_get_facts
-2018-02-01 19:54:31,696 moss INFO Successfully ran module present_facts
-2018-02-01 19:54:57,947 moss INFO Attempting to run module present_facts
-2018-02-01 19:54:57,948 moss INFO Attempting to run device operation cisco_ios_get_facts
-2018-02-01 19:54:58,682 moss INFO Successfully ran device operation cisco_ios_get_facts
-2018-02-01 19:54:58,728 moss INFO Successfully ran module present_facts
+2018-02-05 14:10:20,221 moss INFO Attempting to run module present_facts
+2018-02-05 14:10:20,222 moss INFO Attempting to run device operation cisco_ios_get_facts
+2018-02-05 14:10:20,995 moss INFO Successfully ran device operation cisco_ios_get_facts
+2018-02-05 14:10:21,033 moss INFO Successfully ran module present_facts
+2018-02-05 14:10:25,882 moss INFO Attempting to run module present_facts
+2018-02-05 14:10:25,882 moss INFO Attempting to run device operation cisco_ios_get_facts
+2018-02-05 14:10:26,651 moss INFO Successfully ran device operation cisco_ios_get_facts
+2018-02-05 14:10:26,653 moss INFO Successfully ran module present_facts

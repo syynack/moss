@@ -1,0 +1,60 @@
+{
+    "end_date_time": "2018-02-05 14:10:26.655065",
+    "end_time": 1517839826.655063,
+    "endpoint": "192.168.1.193",
+    "results": {
+        "modules": [
+            {
+                "cisco_ios_get_facts": {
+                    "result": "success",
+                    "stdout": {
+                        "bytes_of_memory": "249856K/12288K",
+                        "compiled": "Wed 18-Aug-10 08:18",
+                        "cpu": "R7000",
+                        "cpu_clock": "350MHz",
+                        "dram_configuration": "64 bits",
+                        "hostname": "R2",
+                        "interfaces": [
+                            {
+                                "count": "18",
+                                "interface_type": "FastEthernet"
+                            },
+                            {
+                                "count": "4",
+                                "interface_type": "Serial"
+                            }
+                        ],
+                        "model": "Cisco 3745",
+                        "nvram": "151K",
+                        "parity": "enabled",
+                        "processor_board_id": "FTX0945W0MY",
+                        "release_software": "fc1",
+                        "software": "3700",
+                        "software_package": "C3745-ADVIPSERVICESK9-M",
+                        "software_version": "12.4(25d)",
+                        "uptime": {
+                            "minutes": "12"
+                        }
+                    },
+                    "uuid": "6a4ebfc9-0b7b-48a6-8fe1-f617046832c3"
+                },
+                "context": {},
+                "end_date_time": "2018-02-05 14:10:26.654724",
+                "end_time": 1517839826.65472,
+                "module": "present_facts",
+                "next_module": "",
+                "result": "success",
+                "run_time": 0.7724649906158447,
+                "start_date_time": "2018-02-05 14:10:25.882259",
+                "start_time": 1517839825.882256,
+                "uuid": "e19540d3-dd17-4a6d-927a-2fde81802995"
+            }
+        ]
+    },
+    "run_time": 0.7729611396789551,
+    "start_date_time": "2018-02-05 14:10:25.882120",
+    "start_hostname": "MacBook-Pro.home",
+    "start_time": 1517839825.882114,
+    "start_user": "matt",
+    "uuid": "89745340-69e7-437c-80ff-b27b89e7140c"
+}
