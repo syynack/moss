@@ -8,6 +8,9 @@ import json
 import sys
 import os
 import subprocess
+import moss
+
+from netmiko.ssh_dispatcher import platforms
 
 
 def colour(text, colour, bold=False):
@@ -37,47 +40,167 @@ def start_banner():
     header = '[ Task Start ]'
     banner = '=' * ((terminal_width - len(header)) / 2) + header + '=' * ((terminal_width - len(header)) / 2)
 
-    print colour(banner, 'white', bold=True)
+    if moss.framework._global.WEB == True:
+        print "<br/><p class='start-banner'>" + banner + "</p><br/>"
+    else:
+        print colour(banner, 'white', bold=True)
+
+
+def module_not_found_error(module, vendor):
+    if moss.framework._global.WEB == True:
+        print "<br/>" + ' Module {} not found for vendor {}. Exiting.'.format(module, vendor)
+    else:
+        print colour(' Module {} not found for vendor {}. Exiting.'.format(module, vendor), 'red', bold=True)
+
+
+def device_operation_not_found_error(operation, vendor):
+    if moss.framework._global.WEB == True:
+        print "<br/>" + ' Device operation {} not found for vendor {}. Exiting.'.format(operation, vendor)
+    else:
+        print colour(' Device operation {} not found for vendor {}. Exiting.'.format(operation, vendor), 'red', bold=True)
+
+
+def module_doesnt_have_correct_parameters(module):
+    if moss.framework._global.WEB == True:
+        print "<br/>" + ' {} takes connection and store as parameters. Exiting.'.format(module)
+    else:
+        print colour(' {} takes connection and store as parameters. Exiting.'.format(module), 'red', bold=True)
+
+
+def username_or_password_not_found_error():
+    if moss.framework._global.WEB == True:
+        print "<br/>" + ' Username or password for device not found. Exiting.'
+    else:
+        print colour(' Username or password for device not found. Exiting.', 'red', bold=True)
+
+
+def vendor_not_found_error():
+    if moss.framework._global.WEB == True:
+        print "<br/>" + ' Vendor for device not found. Exiting. Supported vendors are: {}'.format(', '.join(platforms))
+    else:
+        print colour(' Vendor for device not found. Exiting. Supported vendors are: {}'.format(', '.join(platforms)), 'red', bold=True)
+
+
+def ip_not_found_error():
+    if moss.framework._global.WEB == True:
+        print "<br/>" + ' IP for device not found. Exiting.'
+    else:
+        print colour(' IP for device not found. Exiting.', 'red', bold=True)
+
+
+def targets_list_not_found_error():
+    if moss.framework._global.WEB == True:
+        print "<br/>" + ' Targets list not found. Exiting.'
+    else:
+        print colour(' Targets list not found. Exiting.', 'red', bold=True)
+
+
+def task_list_not_found_error():
+    if moss.framework._global.WEB == True:
+        print "<br/>" + ' Task list not found. Exiting.'
+    else:
+        print colour(' Task list not found. Exiting.', 'red', bold=True)
 
 
 def start_header(module_order):
     first_module = module_order[0]['module']
-    print colour(' :: Modules to be executed: ', 'white', bold=True)
+    if moss.framework._global.WEB == True:
+        print "<br/><h6 class='start-header'>" + ' : : Modules to be executed:  </h6>'
+    else:
+        print colour(' :: Modules to be executed: ', 'white', bold=True)
 
     for module in module_order:
-        print colour('\t{}'.format(module['module']), 'white')
+        if moss.framework._global.WEB == True:
+            print "<br/><h6 class='start-header-names'>" + '\t{}</h6>'.format(module['module'])
+        else:
+            print colour('\t{}'.format(module['module']), 'white')
 
-    print colour('\n :: First module: {}'.format(first_module), 'white', bold=True)
+    if moss.framework._global.WEB == True:
+        print "<br/><br/><h6 class='start-header'>" + '\n : : First module: {}</h6></br>'.format(first_module)
+    else:
+        print colour('\n :: First module: {}'.format(first_module), 'white', bold=True)
 
 
-def post_device(name):
-    print colour('\n :: Endpoint: {}'.format(name), 'white', bold=True)
+def put_output_file_location(output_file):
+    if moss.framework._global.WEB == True:
+        print "<br/><br/><h6 class='start-header'> : : Output file location: {}</h6><br/><br/><br/>".format(output_file)
+    else:
+        print colour(' :: Output file location: {}'.format(output_file), 'white', bold=True)
+
+
+def post_device(name, no_ssh=False):
+    if no_ssh == True:
+        if moss.framework._global.WEB == True:
+            print "<br/><h6 class='start-header'>" + "\n : : Target: {} <h6 class='post-device'>(No SSH)</h6></h6>".format(name) 
+        else:
+            print colour('\n :: Target: {}'.format(name), 'white', bold=True) + colour(' (No SSH)', 'blue', bold=True)
+    else:
+        if moss.framework._global.WEB == True:
+            print "<br/><h6 class='start-header'>" + '\n : : Target: {}</h6>'.format(name)
+        else:
+            print colour('\n :: Target: {}'.format(name), 'white', bold=True)
 
 
 def module_start_header(task):
-    print colour('\t :: {}'.format(task), 'white'),
+    if moss.framework._global.WEB == True:
+        print "<br/><h6 class='module-start-header'>" + '\t : : {}</h6><b>'.format(task)
+    else:
+        print colour('\t :: {}'.format(task), 'white'),
 
 
 def module_success(delay):
-    print colour('success', 'green')
-    time.sleep(delay)
+    if delay > 0:
+        if moss.framework._global.WEB == True:
+            print "</b><h6 class='success'>success</h6>" + " <h6 class='delay'>(delay = {})</h6>".format(delay)
+        else:
+            print colour('success', 'green') + colour(' (delay = {})'.format(delay), 'white', bold=True)
+        time.sleep(delay)
+    else:
+        if moss.framework._global.WEB == True:
+            print "</b><h6 class='success'>success</h6>"
+        else:
+            print colour('success', 'green')
 
 
 def module_branch(next_module, delay):
-    print colour('branching to {}'.format(next_module), 'blue')
+    if delay > 0:
+        if moss.framework._global.WEB == True:
+            print "</b><h6 class='branch'>branching to {}</h6>".format(next_module) + " <h6 class='delay'>(delay = {})</h6>".format(delay)
+        else:
+            print colour('branching to {}'.format(next_module), 'blue') + colour(' (delay = {})'.format(delay), 'white', bold=True)
+    else:
+        if moss.framework._global.WEB == True:
+            print "</b><h6 class='branch'>branching to {}</h6>".format(next_module)
+        else:
+            print colour('branching to {}'.format(next_module), 'blue')
     time.sleep(delay)
 
 
 def module_end():
-    print colour('end', 'green')
+    if moss.framework._global.WEB == True:
+        print "</b><h6 class='success'>end</h6>"
+    else:
+        print colour('end', 'green')
 
 
 def module_fail():
-    print colour('fail', 'red')
+    if moss.framework._global.WEB == True:
+        print "</b><h6 class='fail'>fail</h6>"
+    else:
+        print colour('fail', 'red')
 
 
 def module_retry(delay):
-    print colour('retry', 'magenta')
+    if delay > 0:
+        if moss.framework._global.WEB == True:
+            print "</b><h6 class='retry'>retry</h6> <h6 class='delay'>(delay = {})</h6>".format(delay)
+        else:
+            print colour('retry', 'magenta') + colour(' (delay = {})'.format(delay), 'white', bold=True)
+    else:
+        if moss.framework._global.WEB == True:
+            print "</b><h6 class='retry'>retry</h6>"
+        else:
+            print colour('retry', 'magenta')
     time.sleep(delay)
 
 
@@ -85,7 +208,11 @@ def end_banner():
     terminal_width = get_terminal_width()
     header = '[ Task End ]'
     banner = '=' * ((terminal_width - len(header)) / 2) + header + '=' * ((terminal_width - len(header)) / 2)
-    print colour(banner, 'white')
+
+    if moss.framework._global.WEB == True:
+        print "<p class='start-banner'>" + banner + "</p>"
+    else:
+        print colour(banner, 'white')
 
 
 def timer():
@@ -123,5 +250,9 @@ def create_task_start_temp_file():
 
 def create_task_links_temp_file():
     with open('output/.links.json', 'w') as temp_output_file:
-        start_skeleton = {"links": {}}
+        start_skeleton = {"links": {"_run_task": [], "original_modules": []}}
         temp_output_file.write(json.dumps(start_skeleton, indent = 4))
+
+
+def make_it_look_important():
+    print('.'),

@@ -4,22 +4,19 @@ from codecs import open
 from setuptools import setup, find_packages
 
 setup(
-	name='moss',
+	name='framework',
 
 	# Versions should comply with PEP440.  For a discussion on single-sourcing
 	# the version across setup.py and the project code, see
 	# https://packaging.python.org/en/latest/single_source_version.html
 
-	version='0.3',
+	version='0.1',
 	description='An open source network device automation framework',
 	long_description='An open source network device automation framework to perform operations and retrieve information from networking devices',
 
-	# The project's main homepage.
-	url='https://github.com/syynack/moss',
-
 	# Author details
 	author='Matthew Lovatt',
-	author_email='mlovatt96@gmail.com',
+	author_email='l013020e@student.staffs.ac.uk',
 
 	# Choose your license
 	license='MIT',
@@ -49,13 +46,13 @@ setup(
 
 	# You can just specify the packages manually here if your project is
 	# simple. Or you can use find_packages().
-	packages=find_packages(),
+	packages=find_packages(exclude=("tests",)),
 
 	# List run-time dependencies here.  These will be installed by pip when
 	# your project is installed. For an analysis of "install_requires" vs pip's
 	# requirements files see:
 	# https://packaging.python.org/en/latest/requirements.html
-	install_requires=['netmiko>=1.4.1', 'click>=6.7', 'pycrypto>=2.6.1', 'jinja2>=2.9.6', 'redis>=2.10.6'],
+	install_requires=['netmiko>=1.4.1', 'click>=6.7', 'pycrypto>=2.6.1', 'jinja2>=2.9.6', 'django>=1.11.3'],
 
 
 	# List additional groups of dependencies here (e.g. development
@@ -81,8 +78,8 @@ setup(
 	# To provide executable scripts, use entry points in preference to the
 	# "scripts" keyword. Entry points provide cross-platform support and allow
 	# pip to create the appropriate form of executable for the target platform.
-	scripts=['moss/bin/moss-ctrl.py'],
+	scripts=['moss/bin/mcli.py'],
 	entry_points={'console_scripts': [
-		'moss-ctrl = moss.cli:main'
+		'mcli = moss.cli:main'
 	]}
 )

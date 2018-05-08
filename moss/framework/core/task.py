@@ -8,14 +8,21 @@ import yaml
 import getpass
 import uuid
 import json
+import moss
 
-from moss.framework.core.connection import Connection
+from moss.framework.core.connection import Connection, NoSSHMockObject
+from moss.framework.core.registry import _run_registered_device_operation
 from moss.framework.core.module import Module
-from moss.framework.utils import start_banner, start_header, timer, end_banner, write_json_to_file, create_task_start_temp_file, create_task_links_temp_file, post_device
+from moss.framework.utils import start_banner, start_header, timer, end_banner, write_json_to_file, \
+                                 create_task_start_temp_file, create_task_links_temp_file, post_device, \
+                                 print_data_in_json, put_output_file_location, username_or_password_not_found_error, \
+                                 vendor_not_found_error, ip_not_found_error, targets_list_not_found_error, \
+                                 task_list_not_found_error, make_it_look_important
+from moss.framework._global import WEB
 from datetime import datetime
 from getpass import getuser
 
-CONTEXT = {}
+STORE = {}
 
 
 def _task_start_signals(module_order):
@@ -46,7 +53,7 @@ def _task_end_signals(start_data):
 def _parse_yaml_data(*args):
     '''
     Summary:
-    Takes YAML data from endpoint and task files and returns as list of dicts
+    Takes YAML data from target and task files and returns as list of dicts
 
     Arguments:
     *args           filenames to be parsed
@@ -93,45 +100,66 @@ def _construct_task_order(task_data):
         module['next_module'] = module_order[index + 1]['module']
 
     module_order[-1]['next_module'] = ''
-
     return module_order
 
 
-def _construct_endpoint(endpoint, endpoint_data):
+def _construct_target(target, target_data, no_ssh=False):
     '''
     Summary:
-    Parses dict from endpoints file to construct an endpoints obj with the correct information.
+    Parses dict from targets file to construct an targets obj with the correct information.
 
     Arguments:
-    endpoint        dict, data from the endpoints file containing connection information
-    endpoint_data   dict, entire endpoint data
+    target        dict, data from the targets file containing connection information
+    target_data   dict, entire target data
 
     Return:
     moss Device object containing netmiko SSH object
     '''
 
-    username_sources = [endpoint.get('username'), endpoint_data.get('global_username')]
-    password_sources = [endpoint.get('password'), endpoint_data.get('global_password')]
+    username_sources = [target.get('username'), target_data.get('global_username')]
+    password_sources = [target.get('password'), target_data.get('global_password')]
 
     username = None
     password = None
 
     for element in username_sources:
-        if element != None:
+        if element != '':
             username = element
 
     for element in password_sources:
-        if element != None:
+        if element != '':
             password = element
 
+    if username is None or password is None:
+        username_or_password_not_found_error()
+        end_banner()
+        sys.exit(1)
+
+    if target.get('vendor') == '' and target.get('global_vendor') is None:
+        vendor_not_found_error()
+        end_banner()
+        sys.exit(1)
+
+    if target.get('ip') == '':
+        ip_not_found_error()
+        end_banner()
+        sys.exit(1)
+
+    if no_ssh:
+        device = NoSSHMockObject(
+            vendor = target.get('vendor') if target.get('vendor') else target_data.get('global_vendor')
+        )
+
+        return device
+
     device = Connection(
-        device_type = endpoint.get('os') if endpoint.get('os') else endpoint_data.get('global_os'),
-        ip = endpoint.get('ip'),
+        vendor = target.get('vendor') if target.get('vendor') else target_data.get('global_vendor'),
+        ip = target.get('ip'),
         username = username,
-        password = '' if endpoint_data.get('key_file') else password,
-        port = 22 if endpoint.get('port') is None else endpoint['port'],
-        timeout = 8 if endpoint.get('timeout') is None else endpoint['timeout'],
-        session_timeout = 60 if endpoint.get('session_timeout') is None else endpoint['session_timeout']
+        password = '' if target_data.get('key_file') else password,
+        port = 22 if target.get('port') is None else target['port'],
+        timeout = 8 if target.get('timeout') is None else target['timeout'],
+        session_timeout = 60 if target.get('session_timeout') is None else target['session_timeout']
     )
 
     return device
@@ -144,27 +172,34 @@ def _construct_stdout(start_data):
     with open('output/.links.json', 'r') as links:
         links_data = json.load(links)
 
-    links_keys = []
+    for index, module in enumerate(links_data["links"]["_run_task"]):
+        module_data = {}
+        module_data["web_module"] = module
+        module_data[module] = stdout_data["module_results"][module]
+        module_data[module]["device_operations"] = []
+        try:
+            for device_operation in links_data["links"][module]:
+                oper_dict = {"name": device_operation}
+                oper_dict.update(stdout_data["module_results"][device_operation])
+                module_data[module]["device_operations"].append(oper_dict)
+        except KeyError:
+            pass
 
-    for item in links_data['links']:
-        links_keys.append(item)
-
-    for module_key, module_value in stdout_data['module_results'].iteritems():
-        if module_key in links_keys:
-            for index, module in enumerate(start_data['results']['modules']):
-                if module['module'] == module_key:
-                    golden_key = links_data['links'][module_key]
-                    start_data['results']['modules'][index][golden_key] = stdout_data['module_results'].get(golden_key)
+        try:
+            start_data["results"]["modules"][index].update(module_data[module])
+        except IndexError:
+            pass
 
     end_data = _task_end_signals(start_data)
     end_data.update({'uuid': str(uuid.uuid4())})
-    title = 'output/{}-{}-{}-{}.json'.format(end_data['uuid'], end_data['start_date_time'], end_data['start_user'], end_data['endpoint']).replace(' ', '-')
+    title = 'output/{}-{}-{}-{}.json'.format(end_data['uuid'], end_data['start_date_time'], end_data['start_user'], end_data['target']).replace(' ', '-')
     write_json_to_file(end_data, title)
-
-    #log_operation_to_redis_database(end_data['uuid'], end_data)
 
     os.remove('output/.stdout.json')
     os.remove('output/.links.json')
+
+    with open(title, 'r') as output_file:
+        return os.path.abspath(output_file.name)
 
 
 def _run_task(connection, module_order):
@@ -179,40 +214,58 @@ def _run_task(connection, module_order):
 
     next_module = module_order[0]
     start_data = _task_start_signals(module_order)
-    context = CONTEXT
+    store = STORE
+    if not isinstance(connection, Connection):
+        device_facts = _run_registered_device_operation(connection.device_type, connection.device_type + '_get_facts', connection)
+    else:
+        device_facts = {}
 
-    while next_module != '':
-        module = Module(
-            connection = connection,
-            module = next_module['module'],
-            next_module = next_module['next_module'],
-            context = context
-        )
+    start_data.update({
+        "device_facts": device_facts
+    })
 
-        result = module.run()
-        next_module = result['next_module']
-        context = result['context']
-        start_data['results']['modules'].append(result)
-        start_data['endpoint'] = connection.ip
+    try:
+        while next_module != '':
+            module = Module(
+                connection = connection,
+                module = next_module['module'],
+                next_module = next_module['next_module'],
+                store = store
+            )
 
-        if next_module != '':
-            module_index = [index for index, module in enumerate(module_order) if next_module == module['module']]
-            if not module_index:
-                next_module = ''
-            else:
-                next_module = module_order[module_index[0]]
+            result = module.run()
+            next_module = result['next_module']
+            store = result['store']
+            start_data['results']['modules'].append(result)
+            start_data['target'] = connection.ip
 
-    _construct_stdout(start_data)
+            if next_module != '':
+                module_index = [index for index, module in enumerate(module_order) if next_module == module['module']]
+                if not module_index:
+                    next_module = ''
+                else:
+                    next_module = module_order[module_index[0]]
+    except KeyboardInterrupt:
+        output_file = _construct_stdout(start_data)
+        put_output_file_location(output_file)
+        end_banner()
+        sys.exit(1)
+
+    start_data["result"] = start_data["results"]["modules"][-1]["result"]
+    output_file = _construct_stdout(start_data)
+    start_data.update({"output_file": output_file})
+    put_output_file_location(output_file)
+    return start_data
 
 
-def task_control(endpoints, output_file, print_output, task):
+def task_control(targets, output_file, print_output, task, web, arguments):
     '''
     Summary:
     Controlling for the overall execution of the task, controls running each
-    module for each endpoints
+    module for each targets
 
     Arguments:
-    endpoints           file, containing endpoint information
+    targets             file, containing target information
     output_file         file, optional output file
     print_output        option, print the output in JSON
     task                file, containing task information
@@ -221,24 +274,49 @@ def task_control(endpoints, output_file, print_output, task):
     file or JSON output
     '''
 
-    endpoint_data, task_data = _parse_yaml_data(endpoints, task)
+    if web:
+        moss.framework._global.WEB = True
+
+    target_data, task_data = _parse_yaml_data(targets, task)
+
+    if task_data.get('task') is None:
+        task_list_not_found_error()
+        sys.exit(1)
+
     module_order = _construct_task_order(task_data['task'])
 
     start_banner()
     start_header(module_order)
 
-    for endpoint in endpoint_data['endpoints']:
-        post_device(endpoint['ip'])
-        endpoint_obj = _construct_endpoint(endpoint, endpoint_data)
-        endpoint_connection = endpoint_obj.get_connection()
-        result = _run_task(endpoint_connection, module_order)
+    if target_data.get('targets') is None:
+        targets_list_not_found_error()
+        end_banner()
+        sys.exit(1)
 
-        endpoint_obj.close(endpoint_connection)
+    STORE.update({"arguments": arguments})
 
-        if print_output:
-            print_data_in_json(result)
+    try:
+        for target in target_data['targets']:
+            if task_data.get('no_ssh') == True:
+                post_device(target['ip'], no_ssh=True)
+                target_connection = _construct_target(target, target_data)
+            else:
+                post_device(target['ip'])
+                target_obj = _construct_target(target, target_data)
+                target_connection = target_obj.get_connection()
 
-        if output_file:
-            write_json_to_file(result, output_file)
+            result = _run_task(target_connection, module_order)
+
+            if not task_data.get('no_ssh'):
+                target_obj.close(target_connection)
+
+            if print_output:
+                print_data_in_json(result)
+
+            if output_file:
+                write_json_to_file(result, output_file)
+    except KeyboardInterrupt:
+        end_banner()
+        sys.exit(1)
 
     end_banner()

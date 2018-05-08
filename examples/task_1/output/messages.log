@@ -1,8 +1,0 @@
-2018-02-05 14:10:20,221 moss INFO Attempting to run module present_facts
-2018-02-05 14:10:20,222 moss INFO Attempting to run device operation cisco_ios_get_facts
-2018-02-05 14:10:20,995 moss INFO Successfully ran device operation cisco_ios_get_facts
-2018-02-05 14:10:21,033 moss INFO Successfully ran module present_facts
-2018-02-05 14:10:25,882 moss INFO Attempting to run module present_facts
-2018-02-05 14:10:25,882 moss INFO Attempting to run device operation cisco_ios_get_facts
-2018-02-05 14:10:26,651 moss INFO Successfully ran device operation cisco_ios_get_facts
-2018-02-05 14:10:26,653 moss INFO Successfully ran module present_facts

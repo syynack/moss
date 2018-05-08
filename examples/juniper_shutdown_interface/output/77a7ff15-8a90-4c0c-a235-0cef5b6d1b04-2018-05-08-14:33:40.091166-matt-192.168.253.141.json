@@ -1,0 +1,164 @@
+{
+    "device_facts": {
+        "uuid": "b6fd0b9a-4228-47cd-bd1c-7fd49f2ebbf0"
+    },
+    "end_date_time": "2018-05-08 14:33:56.702204",
+    "end_time": 1525786436.702202,
+    "result": "success",
+    "results": {
+        "modules": [
+            {
+                "branching_module": "apply_disable_statement",
+                "delay": 0,
+                "device_operations": [
+                    {
+                        "name": "pre_check_interface_status_0_juniper_show_interfaces_terse_0",
+                        "result": "success",
+                        "stdout": {
+                            "interfaces": [
+                                {
+                                    "admin_status": "up",
+                                    "link_status": "up",
+                                    "name": "em0"
+                                },
+                                {
+                                    "admin_status": "up",
+                                    "link_status": "up",
+                                    "local": "10.0.0.1/31",
+                                    "name": "em0.0"
+                                }
+                            ]
+                        },
+                        "uuid": "8f87c3e8-2165-414f-a189-e5b3483a989b"
+                    }
+                ],
+                "end_date_time": "2018-05-08 14:33:42.455791",
+                "end_time": 1525786422.455788,
+                "module": "pre_check_interface_status",
+                "next_module": "apply_disable_statement",
+                "result": "branch",
+                "run_time": 2.3260838985443115,
+                "start_date_time": "2018-05-08 14:33:40.129705",
+                "start_time": 1525786420.129704,
+                "store": {
+                    "arguments": {
+                        "interface": "em0"
+                    }
+                },
+                "uuid": "824441a8-faff-41a8-abeb-51b764ba5358"
+            },
+            {
+                "delay": 5,
+                "device_operations": [
+                    {
+                        "committed": true,
+                        "name": "apply_disable_statement_0_juniper_apply_configuration_0",
+                        "result": "success",
+                        "stdout": [
+                            "set interfaces em0 disable ",
+                            "",
+                            "[edit]",
+                            "framework_test@junos2# exit configuration-mode ",
+                            "The configuration has been changed but not committed",
+                            "Exiting configuration mode",
+                            "",
+                            "framework_test@junos2> "
+                        ],
+                        "uuid": "1b2dc5da-f81f-48bd-969a-a41a3886e52c"
+                    }
+                ],
+                "end_date_time": "2018-05-08 14:33:48.749064",
+                "end_time": 1525786428.74906,
+                "module": "apply_disable_statement",
+                "next_module": "post_check_disable_statement",
+                "result": "success",
+                "run_time": 6.293186187744141,
+                "start_date_time": "2018-05-08 14:33:42.455876",
+                "start_time": 1525786422.455875,
+                "store": {
+                    "arguments": {
+                        "interface": "em0"
+                    }
+                },
+                "uuid": "567924e5-18a2-42b5-a81a-edc682c9d619"
+            },
+            {
+                "delay": 0,
+                "device_operations": [
+                    {
+                        "name": "post_check_disable_statement_0_juniper_check_configuration_0",
+                        "result": "success",
+                        "stdout": {
+                            "area": "interfaces em0",
+                            "output": "\ndisable;\nlink-mode full-duplex;\nencapsulation ethernet-ccc;\nunit 0 {\n    family inet {\n        address 10.0.0.1/31;\n    }\n}\n",
+                            "present_config_statements": [
+                                "disable;"
+                            ]
+                        },
+                        "uuid": "55a04706-85e9-40eb-bc26-ec87e8cbac6d"
+                    }
+                ],
+                "end_date_time": "2018-05-08 14:33:54.380613",
+                "end_time": 1525786434.380609,
+                "module": "post_check_disable_statement",
+                "next_module": "post_check_interface_status",
+                "result": "success",
+                "run_time": 0.6263000965118408,
+                "start_date_time": "2018-05-08 14:33:53.754316",
+                "start_time": 1525786433.75431,
+                "store": {
+                    "arguments": {
+                        "interface": "em0"
+                    }
+                },
+                "uuid": "3195ade4-c6db-4599-9fbf-da234bbda475"
+            },
+            {
+                "delay": 0,
+                "device_operations": [
+                    {
+                        "name": "post_check_interface_status_0_juniper_show_interfaces_terse_0",
+                        "result": "success",
+                        "stdout": {
+                            "interfaces": [
+                                {
+                                    "admin_status": "down",
+                                    "link_status": "down",
+                                    "name": "em0"
+                                },
+                                {
+                                    "admin_status": "down",
+                                    "link_status": "down",
+                                    "local": "10.0.0.1/31",
+                                    "name": "em0.0"
+                                }
+                            ]
+                        },
+                        "uuid": "ddfac57a-c2be-42a1-9420-f2c9ecdfad62"
+                    }
+                ],
+                "end_date_time": "2018-05-08 14:33:56.701815",
+                "end_time": 1525786436.701811,
+                "module": "post_check_interface_status",
+                "next_module": "",
+                "result": "success",
+                "run_time": 2.3211281299591064,
+                "start_date_time": "2018-05-08 14:33:54.380685",
+                "start_time": 1525786434.380684,
+                "store": {
+                    "arguments": {
+                        "interface": "em0"
+                    }
+                },
+                "uuid": "899e1cf5-715f-4cbc-9d29-2e05a336b8d9"
+            }
+        ]
+    },
+    "run_time": 16.61104917526245,
+    "start_date_time": "2018-05-08 14:33:40.091166",
+    "start_hostname": "MacBook-Pro.local",
+    "start_time": 1525786420.091163,
+    "start_user": "matt",
+    "target": "192.168.253.141",
+    "uuid": "77a7ff15-8a90-4c0c-a235-0cef5b6d1b04"
+}

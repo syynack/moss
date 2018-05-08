@@ -2,15 +2,15 @@
 
 from moss.framework.core.registry import registry, _run_registered_device_operation
 
-def register(platform = None, group = 'modules'):
+def register(vendor, group = 'modules'):
     '''
     Summary:
     Takes modules registered with the @register decorator. Aim is to only allow
     registered modules to be executed. The modules are appended to a list
-    which is ordered by platform.
+    which is ordered by vendor.
 
     Arguments:
-    platform        string, platform module is intended to be used for
+    vendor          string, vendor module is intended to be used for
     group           string, group where the module should be stored in the registry
 
     Returns:
@@ -18,13 +18,13 @@ def register(platform = None, group = 'modules'):
     '''
 
     def decorator(func):
-        if isinstance(platform, str):
+        if isinstance(vendor, str):
             if 'moss.framework.devops.' in str(func.__module__):
-                registry('devops', platform, func)
+                registry('devops', vendor, func)
             else:
-                registry(group, platform, func)
-        elif isinstance(platform, list):
-            for element in platform:
+                registry(group, vendor, func)
+        elif isinstance(vendor, list):
+            for element in vendor:
                 if 'moss.framework.devops.' in str(func.__module__):
                     registry('devops', element, func)
                 else:

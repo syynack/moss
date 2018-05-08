@@ -12,7 +12,7 @@ import moss.framework.devops
 from datetime import datetime
 from moss.framework.core.registry import registered_operations, _run_registered_module, _run_registered_device_operation
 from moss.framework.core.exceptions import ModuleResultError
-from moss.framework.utils import timer, module_start_header, module_success, module_branch, module_end, module_fail, module_retry
+from moss.framework.utils import timer, module_start_header, module_success, module_branch, module_end, module_fail, module_retry, make_it_look_important
 
 
 def execute_device_operation(operation, connection, **kwargs):
@@ -86,11 +86,11 @@ class Module():
     with the ability to run the module through the registry, and print information.
     '''
 
-    def __init__(self, connection = None, module = '', next_module = '', context = {}):
+    def __init__(self, connection = None, module = '', next_module = '', store = {}):
         self.connection = connection
         self.module = module
         self.next_module = next_module
-        self.context = context
+        self.store = store
 
 
     def run(self):
@@ -102,12 +102,9 @@ class Module():
         '''
 
         self.module_start_data = self._module_start_signals(self.module)
-
-        try:
-            module_result = _run_registered_module(self.connection.device_type, self.module, self.connection, self.context)
-        except AttributeError as e:
-            raise ModuleResultError, e
-
+        make_it_look_important()
+        module_result = _run_registered_module(self.connection.device_type, self.module, self.connection, self.store)
+        make_it_look_important()
         return self._module_result(module_result)
 
 
@@ -122,19 +119,22 @@ class Module():
 
     def _module_result(self, module_result):
         result = module_result['result']
-        context = module_result['context']
+        store = module_result['store']
+        make_it_look_important()
 
         result_dict = {
             'result': result,
-            'context': context,
+            'store': store,
             'end_time': timer(),
             'run_time': timer() - self.module_start_data['start_time'],
             'end_date_time': str(datetime.now())
         }
 
+        make_it_look_important()
         result_dict.update(self.module_start_data)
         result_dict.update({'module': self.module})
         result_dict.update({'uuid': str(uuid.uuid4())})
+        make_it_look_important()
 
         if result == 'success':
             result_dict.update({'next_module': self.next_module})

@@ -1,0 +1,290 @@
+{
+    "device_facts": {
+        "uuid": "ff5d765e-4bd0-408e-ba23-3757ea8d4b19"
+    },
+    "end_date_time": "2018-05-08 13:38:18.639549",
+    "end_time": 1525783098.639546,
+    "results": {
+        "modules": [
+            {
+                "delay": 10,
+                "device_operations": [
+                    {
+                        "name": "get_bgp_peer_states_0_juniper_get_bgp_peers_0",
+                        "result": "success",
+                        "stdout": {
+                            "peers": [
+                                {
+                                    "flaps": "0",
+                                    "holdtime": "90",
+                                    "last_error": "None",
+                                    "last_event": "RecvKeepAlive",
+                                    "last_state": "OpenConfirm",
+                                    "local_as": "100",
+                                    "local_ip": "10.0.0.0",
+                                    "local_port": "179",
+                                    "options": "Preference PeerAS LocalAS Refresh",
+                                    "peer_as": "100",
+                                    "peer_ip": "10.0.0.1",
+                                    "peer_port": "61250",
+                                    "peering_flags": "<ImportEval Sync>",
+                                    "peering_state": "Established",
+                                    "peering_type": "Internal",
+                                    "route_preference": "170"
+                                },
+                                {
+                                    "flaps": "0",
+                                    "holdtime": "90",
+                                    "last_error": "None",
+                                    "last_event": "RecvKeepAlive",
+                                    "last_state": "OpenConfirm",
+                                    "local_as": "100",
+                                    "local_ip": "10.0.0.7",
+                                    "local_port": "63634",
+                                    "options": "Preference PeerAS LocalAS Refresh",
+                                    "peer_as": "100",
+                                    "peer_ip": "10.0.0.6",
+                                    "peer_port": "179",
+                                    "peering_flags": "<ImportEval Sync>",
+                                    "peering_state": "Established",
+                                    "peering_type": "Internal",
+                                    "route_preference": "170"
+                                },
+                                {
+                                    "flaps": "0",
+                                    "holdtime": "90",
+                                    "last_error": "None",
+                                    "last_event": "RecvKeepAlive",
+                                    "last_state": "OpenConfirm",
+                                    "local_as": "100",
+                                    "local_ip": "10.0.0.8",
+                                    "local_port": "58435",
+                                    "options": "Preference PeerAS LocalAS Refresh",
+                                    "peer_as": "100",
+                                    "peer_ip": "10.0.0.9",
+                                    "peer_port": "179",
+                                    "peering_flags": "<ImportEval Sync>",
+                                    "peering_state": "Established",
+                                    "peering_type": "Internal",
+                                    "route_preference": "170"
+                                }
+                            ]
+                        },
+                        "uuid": "2cda362c-083c-4bfb-81ea-5bbda357fc1c"
+                    }
+                ],
+                "end_date_time": "2018-05-08 13:37:52.930579",
+                "end_time": 1525783072.930574,
+                "module": "get_bgp_peer_states",
+                "next_module": "compare_bgp_peer_states",
+                "result": "success",
+                "run_time": 2.32987380027771,
+                "start_date_time": "2018-05-08 13:37:50.600704",
+                "start_time": 1525783070.600701,
+                "store": {
+                    "arguments": {},
+                    "previous_bgp_peer_state": [
+                        {
+                            "flaps": "0",
+                            "holdtime": "90",
+                            "last_error": "None",
+                            "last_event": "RecvKeepAlive",
+                            "last_state": "OpenConfirm",
+                            "local_as": "100",
+                            "local_ip": "10.0.0.0",
+                            "local_port": "179",
+                            "options": "Preference PeerAS LocalAS Refresh",
+                            "peer_as": "100",
+                            "peer_ip": "10.0.0.1",
+                            "peer_port": "61250",
+                            "peering_flags": "<ImportEval Sync>",
+                            "peering_state": "Established",
+                            "peering_type": "Internal",
+                            "route_preference": "170"
+                        },
+                        {
+                            "flaps": "0",
+                            "holdtime": "90",
+                            "last_error": "None",
+                            "last_event": "RecvKeepAlive",
+                            "last_state": "OpenConfirm",
+                            "local_as": "100",
+                            "local_ip": "10.0.0.7",
+                            "local_port": "63634",
+                            "options": "Preference PeerAS LocalAS Refresh",
+                            "peer_as": "100",
+                            "peer_ip": "10.0.0.6",
+                            "peer_port": "179",
+                            "peering_flags": "<ImportEval Sync>",
+                            "peering_state": "Established",
+                            "peering_type": "Internal",
+                            "route_preference": "170"
+                        },
+                        {
+                            "flaps": "0",
+                            "holdtime": "90",
+                            "last_error": "None",
+                            "last_event": "RecvKeepAlive",
+                            "last_state": "OpenConfirm",
+                            "local_as": "100",
+                            "local_ip": "10.0.0.8",
+                            "local_port": "58435",
+                            "options": "Preference PeerAS LocalAS Refresh",
+                            "peer_as": "100",
+                            "peer_ip": "10.0.0.9",
+                            "peer_port": "179",
+                            "peering_flags": "<ImportEval Sync>",
+                            "peering_state": "Established",
+                            "peering_type": "Internal",
+                            "route_preference": "170"
+                        }
+                    ]
+                },
+                "uuid": "312df66d-c1ff-44c9-a009-8d9a16e93fe0"
+            },
+            {
+                "delay": 10,
+                "device_operations": [
+                    {
+                        "name": "compare_bgp_peer_states_0_juniper_get_bgp_peers_0",
+                        "result": "success",
+                        "stdout": {
+                            "peers": [
+                                {
+                                    "flaps": "0",
+                                    "holdtime": "90",
+                                    "last_error": "None",
+                                    "last_event": "RecvKeepAlive",
+                                    "last_state": "OpenConfirm",
+                                    "local_as": "100",
+                                    "local_ip": "10.0.0.0",
+                                    "local_port": "179",
+                                    "options": "Preference PeerAS LocalAS Refresh",
+                                    "peer_as": "100",
+                                    "peer_ip": "10.0.0.1",
+                                    "peer_port": "61250",
+                                    "peering_flags": "<ImportEval Sync>",
+                                    "peering_state": "Established",
+                                    "peering_type": "Internal",
+                                    "route_preference": "170"
+                                },
+                                {
+                                    "flaps": "0",
+                                    "holdtime": "90",
+                                    "last_error": "None",
+                                    "last_event": "RecvKeepAlive",
+                                    "last_state": "OpenConfirm",
+                                    "local_as": "100",
+                                    "local_ip": "10.0.0.7",
+                                    "local_port": "63634",
+                                    "options": "Preference PeerAS LocalAS Refresh",
+                                    "peer_as": "100",
+                                    "peer_ip": "10.0.0.6",
+                                    "peer_port": "179",
+                                    "peering_flags": "<ImportEval Sync>",
+                                    "peering_state": "Established",
+                                    "peering_type": "Internal",
+                                    "route_preference": "170"
+                                },
+                                {
+                                    "flaps": "0",
+                                    "holdtime": "90",
+                                    "last_error": "None",
+                                    "last_event": "RecvKeepAlive",
+                                    "last_state": "OpenConfirm",
+                                    "local_as": "100",
+                                    "local_ip": "10.0.0.8",
+                                    "local_port": "58435",
+                                    "options": "Preference PeerAS LocalAS Refresh",
+                                    "peer_as": "100",
+                                    "peer_ip": "10.0.0.9",
+                                    "peer_port": "179",
+                                    "peering_flags": "<ImportEval Sync>",
+                                    "peering_state": "Established",
+                                    "peering_type": "Internal",
+                                    "route_preference": "170"
+                                }
+                            ]
+                        },
+                        "uuid": "678d05b7-4f59-40e1-bd2e-8db515c6b7b0"
+                    }
+                ],
+                "end_date_time": "2018-05-08 13:38:05.256314",
+                "end_time": 1525783085.25631,
+                "module": "compare_bgp_peer_states",
+                "next_module": "compare_bgp_peer_states",
+                "result": "retry",
+                "run_time": 2.3228700160980225,
+                "start_date_time": "2018-05-08 13:38:02.933444",
+                "start_time": 1525783082.933441,
+                "store": {
+                    "arguments": {},
+                    "previous_bgp_peer_state": [
+                        {
+                            "flaps": "0",
+                            "holdtime": "90",
+                            "last_error": "None",
+                            "last_event": "RecvKeepAlive",
+                            "last_state": "OpenConfirm",
+                            "local_as": "100",
+                            "local_ip": "10.0.0.0",
+                            "local_port": "179",
+                            "options": "Preference PeerAS LocalAS Refresh",
+                            "peer_as": "100",
+                            "peer_ip": "10.0.0.1",
+                            "peer_port": "61250",
+                            "peering_flags": "<ImportEval Sync>",
+                            "peering_state": "Established",
+                            "peering_type": "Internal",
+                            "route_preference": "170"
+                        },
+                        {
+                            "flaps": "0",
+                            "holdtime": "90",
+                            "last_error": "None",
+                            "last_event": "RecvKeepAlive",
+                            "last_state": "OpenConfirm",
+                            "local_as": "100",
+                            "local_ip": "10.0.0.7",
+                            "local_port": "63634",
+                            "options": "Preference PeerAS LocalAS Refresh",
+                            "peer_as": "100",
+                            "peer_ip": "10.0.0.6",
+                            "peer_port": "179",
+                            "peering_flags": "<ImportEval Sync>",
+                            "peering_state": "Established",
+                            "peering_type": "Internal",
+                            "route_preference": "170"
+                        },
+                        {
+                            "flaps": "0",
+                            "holdtime": "90",
+                            "last_error": "None",
+                            "last_event": "RecvKeepAlive",
+                            "last_state": "OpenConfirm",
+                            "local_as": "100",
+                            "local_ip": "10.0.0.8",
+                            "local_port": "58435",
+                            "options": "Preference PeerAS LocalAS Refresh",
+                            "peer_as": "100",
+                            "peer_ip": "10.0.0.9",
+                            "peer_port": "179",
+                            "peering_flags": "<ImportEval Sync>",
+                            "peering_state": "Established",
+                            "peering_type": "Internal",
+                            "route_preference": "170"
+                        }
+                    ]
+                },
+                "uuid": "64ce1436-d099-42e6-817b-92c4b95c7534"
+            }
+        ]
+    },
+    "run_time": 28.089818000793457,
+    "start_date_time": "2018-05-08 13:37:50.549747",
+    "start_hostname": "MacBook-Pro.local",
+    "start_time": 1525783070.549743,
+    "start_user": "matt",
+    "target": "192.168.253.140",
+    "uuid": "29ed0d9a-5962-4af1-bfb1-0025065931d4"
+}

@@ -1,0 +1,9 @@
+# This file is used to define task stages to be executed within the task.
+
+# Task
+task:
+- 'get_operational_interfaces'
+- 'precheck_configured_ospf_cost'
+- 'apply_new_ospf_cost'
+- 'postcheck_configured_ospf_cost'
+

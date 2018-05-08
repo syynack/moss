@@ -1,8 +1,0 @@
-# This file is used to define task stages to be executed within the task.
-
-# Task
-task:
-
-# Example
-- 'check_for_offending_interfaces'
-- 'shut_offending_interface'
